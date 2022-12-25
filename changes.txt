@@ -1,0 +1,206 @@
+Добавить в табличку Kartochka поле Place_work_dolzhn
+Поменяла тип дата открытия карты на Дата/Время
+Дата рождения на Дата/Время
+
+    
+and Date_open > :dateOpenFrom and Date_open< :dateOpenTo
+
+в Psz добавлено поле "Code"
+Индексация без совпадений по полю название
+Обновить данные по полю Zabolev (Гепатит на 1, Аллергия 2 и т.д.)
+В PSZ_Pac изменен тип Zabolev на числовой
+Связь с таблицей PSZ_pac по полю Code_zab
+
+В таблицу Sotr добавлено поле Rights
+
+Создана таблица Dict 
+Поля:
+DictId  - Id записи
+Name - Название
+ShortName - Краткое название (если нужно)
+Description - описание
+
+Добавлены записи:
+DictId	ParentDictId	 Name	              ShortName	  Description
+100		         Пользователи, роли		  Ветка прав пользователей, описания
+101	  100	         Доктор		                  Права на ввод приемов, просмотр карточек
+
+
+Добавлена свзяь DictId - ParentDictId
+Добавлена связь Sotr.Rights - Dict.DictId
+
+
+В таблице Spr_diag оставляется только первое поле
+Добавляется
+
+Name Text
+St_zhal Memo
+St_An_Vital Memo
+St_An_morbi Memo
+St_obno Memo
+St_slizist Memo
+St_Rsnimok Memo
+St_lech_kr Memo
+
+в схеме данных убираем связь Spr_diag - Diag_lech
+
+Spr_diag.Diag - Number
+
+Добавлена табличка Zub_priem
+Поля:
+
+Zub_code Number -PK
+Priem_code Number -PK
+Diagnoz_kr Number - PK
+Zhaloby Memo
+An_Vital Memo
+An_morbi Memo
+Obno Memo
+Slizist Memo
+RSnimok Memo
+Lechenie Text
+Lechenie_id Number
+Code_zap AutoNumber
+
+Поле в таблице Diag новое - ParentDiagId
+Связь Diag - ParentDiagId
+В Priem diagnoz Number
+Связь Priem.Diagnoz с Spr_diag.Diag
+Поле Kod_karty в Priem Text
+Связь Priem.Kod_karty с Kartochka.Num_fam2
+
+
+------Отдана сборка с заполнением дерева диагнозов
+
+
+---- Новые (от 30.04.08)
+
+В таблице Diag_lech
+Diag - Number
+St_lech - Number
+
+Создана таблица Lech
+Поля:
+LechId - Number (PK)
+Name - Text
+ShortName - Text
+Description - Text
+
+Связь Spr_diag.Diag - Diag_lech.Diag
+Связь Diag_lech.LechId - Lech.LechId
+
+Убираем связь Priem.Code_zap - Priem_lek.Kod_priem
+Priem.Code_zap Number
+Priem.Code_zap переименовываем в Priem.PriemId
+Priem.PriemId - PK
+
+
+Spr_diag.St_An_Vital переименовываем в ShortName и р-р Text
+
+
+Kartochka.Num_fam2 - Priem.Kod_karty
+Spr_diag.Name - 120 знаков
+
+
+
+-------------Новые
+Добавлены поля в Spr_diag
+UseParentZhal - Number
+UseParentAnMorbi - Number
+UseParentObno - Number
+UseParentSlizist - Number
+UseParentXRay - Number
+
+B Dict добавлены записи
+
+DictId	ParentDictId	Name	ShortName	Description
+200		Буквы для схемы		
+201	200	Отсутствует	О	
+202	200	Корень	R	
+203	200	Кариес	C	
+204	200	Пульпит	Р	
+205	200	Периодонтит	Pt	
+206	200	Пломбированный	П	
+207	200	Пародонтоз	А	
+208	200	Подвижность I степень	I	
+209	200	Подвижность II степень	II	
+210	200	Подвижность III степень	III	
+211	200	Коронка	К	
+212	200	Иск. зуб	И	
+
+В Lech добавлено поле LetterId (Default - '')
+B Spr_diag добавлено поле LetterID (Default - '')
+Связь Lech.LetterId c Dict.DictId
+Связь Spr_diag.LetterId c Dict.DictId
+
+Создана таблица Price
+PriceId - Number, PK
+ParentPriceId - Number (Default - '')
+Name Text
+ShortName - Text
+Description - Memo
+Cost - Number
+
+создана таблица Lech_price
+LechId - Number, PK 
+PriceId - Number, PK
+Num - Number
+
+Связи
+Lech.LechId - Price_lech.LechId
+Price.PriceId - Price_lech.PriceId
+Price.PriceId - Price.ParentPriceId
+
+Добавлены поля в Lech - Reccs (Memo) и Nazn (Memo)
+
+
+
+------ После 1го июня
+
+Добавлена таблица ZubCard 
+
+ZubCardId - Number (PK)
+CardId - Text
+ZubId - Number
+LetterId - Number (DV - )
+OrderNumber - Number
+ZubPriemId - Number (DV - )
+
+
+связь ZubCard.CardId - Kartochka.Num_fam2
+связь ZubCard.ZubId - Dict.DictId
+связь ZubCard.LetterId - Dict.DictId
+
+Zub_priem.Code_zap -> zub_priem.ZubPriemId
+ZubPriemId - Number, PK
+
+Связь ZubCard.ZubPriemId - Priem.PriemId
+
+------новые----------
+Kartochka.Prikus - Memo
+Добавлено поле в Kartochka Psz
+
+Dict. ParentDictId DefValue - ''
+Добавлено поле Dict.NumValue Number
+Добавлено поле Kartochka.OthCities Number
+Priem.Sanus - Number
+
+Dict.Desc - Text 255
+Новое поле в Spr_diag IsOrt - Number
+Priem.Svedeni(50) -> Priem.FileName(255)
+Из Spr_diag удалено поле IsOrt
+В Lech добавлено поле IsOrt
+
+Создана таблица Files
+FileId Number
+FileName Text(255)
+CardId Text
+FileDate Date/Time
+LoadDate Date/Time
+Name Text(255)
+Description Memo
+
+Связь Files.CardId с Kartochka.Num_fam2
+
+
+-----------Новые-------------
