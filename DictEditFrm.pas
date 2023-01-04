@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, ExtCtrls, ToolWin, Buttons, ADODB, Grids,
-  DBGrids, DBCtrls;
+  DBGrids, DBCtrls, Data.DB;
 
 type
   TDictEditForm = class(TForm)
@@ -43,8 +43,6 @@ type
     ToolBar2: TToolBar;
     pnlDz: TPanel;
     btnNewDiagnoz: TToolButton;
-    ToolButton12: TToolButton;
-    ToolButton13: TToolButton;
     btnNewSubDiagnoz: TToolButton;
     Splitter1: TSplitter;
     Panel2: TPanel;
@@ -65,14 +63,7 @@ type
     Label8: TLabel;
     chkIsDiag: TCheckBox;
     btnSave: TBitBtn;
-    ToolButton11: TToolButton;
-    ToolButton14: TToolButton;
     btnDelete: TToolButton;
-    ToolButton15: TToolButton;
-    ToolButton16: TToolButton;
-    ToolButton17: TToolButton;
-    ToolButton18: TToolButton;
-    ToolButton19: TToolButton;
     Panel1: TPanel;
     treeDiagnozesForLech: TTreeView;
     Panel4: TPanel;
@@ -141,6 +132,8 @@ type
     DBNavigator1: TDBNavigator;
     DBGrid1: TDBGrid;
     chkOrt: TCheckBox;
+    Label19: TLabel;
+    Label20: TLabel;
     procedure FormShow(Sender: TObject);
     procedure cbBranchesChange(Sender: TObject);
     procedure makeTree(parentId:integer);
@@ -280,7 +273,7 @@ var
   ListPriceNodesForLech:Tlist;
 implementation
 
-uses MAIN, dataModule, DB, Constants;
+uses MAIN, dataModule, Constants;
 
 {$R *.dfm}
 

@@ -27,8 +27,8 @@ type
     memInvPriem: TMemo;
     chkSanus: TCheckBox;
     Button1: TButton;
-    WordApp: _Application;
-    WordDoc: _Document;
+  //  WordApp: OleVariant;
+//    WordDoc: _Document;
     edtShortDiag: TEdit;
     edtShortLech: TEdit;
     procedure btnDelPriemClick(Sender: TObject);
@@ -368,15 +368,16 @@ end;
 
 procedure THistForm.makeWord(index:integer);
 var Shablon,FileName,oldStr,newStr,cell,replace,ext,row,forw:OleVariant;i:integer;
-    findRSnimok:boolean; sdoctor, desc:string;datePriem:TDateTime;
+    findRSnimok:boolean; sdoctor, desc:string;datePriem:TDateTime; WordApp: OleVariant;
 begin
 forw:=true;
 FileName:='c:\veda\Priem.doc';
+WordApp := CreateOleObject('Word.Application');
 if(index=2) then
   begin
   shablon:='c:\veda\CardAll.doc';
   WordApp.Documents.Open(Shablon,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  WordDoc := WordApp.ActiveDocument;
+  // WordDoc := WordApp.ActiveDocument;
   with mainDataModule.dataSetPacient do
     begin
     Active:=false;
@@ -384,34 +385,34 @@ if(index=2) then
     Active:=true;
     First;
     replace:=wdReplaceOne;  oldStr:='$$num';  newStr:=FieldByName('NewNum2').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
     replace:=wdReplaceOne;  oldStr:='$$year';  newStr:=DateToStr(FieldByName('Date_open').AsDateTime);
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
     replace:=wdReplaceOne;  oldStr:='$$date_bir';  newStr:=DateToStr(FieldByName('Date_birth').AsDateTime);
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$Pol';  newStr:=FieldByName('Sex').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$Profession';  newStr:=FieldByName('Profession_pl_w').AsString + '('+FieldByName('Place_work_dolzhn').AsString+')';
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$Address';  newStr:=FieldByName('Adress').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$psz';  newStr:=FieldByName('Psz').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$prikus';  newStr:=FieldByName('Prikus').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     with mainDataModule.dataSetPriemsByDates do
       begin
@@ -428,38 +429,38 @@ if(index=2) then
       begin
       if StrPos(PChar(memInvPriem.Lines[i]), PChar('Диагноз:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne; oldStr:='$$diag';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-9);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Жалобы:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne;  oldStr:='$$zhal';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-8);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('An. morbi:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne;  oldStr:='$$anm';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-11);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Объективно:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne;  oldStr:='$$obno';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-12);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Слизистая:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         oldStr:='$$sliz';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-11);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Снимок:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         oldStr:='$$RSnimok';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-8);
         findRSnimok:=true;
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Лечение:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         oldStr:='$$lech';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-9);
         end
       else
@@ -467,13 +468,13 @@ if(index=2) then
         newStr:=newStr+memInvPriem.Lines[i];
         end;
       end;
-    Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+    Functions.ReplaceInWord(wordApp,oldStr,newStr);
     if(not(findRSnimok)) then
       begin
       oldStr:='$$Rsnimok';  newStr:=' ';
-      Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+      Functions.ReplaceInWord(wordApp,oldStr,newStr);
       end;
-    WordDoc.Tables.Item(3).Rows.Item(3).Cells.Item(2).Select;
+    WordApp.Tables.Item(3).Rows.Item(3).Cells.Item(2).Select;
     row:=1;
     with mainDataModule.dataSetPriemsByDates do
       begin
@@ -521,8 +522,8 @@ if(index=2) then
 
 
     end;
-    WordDoc.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-    wordDoc.Close(true,EmptyParam,EmptyParam);
+    WordApp.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+    wordApp.Close(true,EmptyParam,EmptyParam);
     wordApp.Visible:=true;
     WordApp.Documents.Open(FileName,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,
@@ -535,19 +536,19 @@ else if((index=3)or(index=1)) then
   if (index=3) then shablon:='c:\veda\withSecond.doc';
   if (index=1) then shablon:='c:\veda\withoutSecond.doc';
   WordApp.Documents.Open(Shablon,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  WordDoc := WordApp.ActiveDocument;
+  // WordDoc := WordApp.ActiveDocument;
 
   with mainDataModule.dataSetPriemsByDates do
   begin
   Formatsettings.ShortDateFormat := 'dd MMMM yyyy';
   replace:=wdReplaceOne;  oldStr:='$$date';  newStr:=DateToStr(FieldByName('Date_priem').AsDateTime);
-  WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
   oldStr:='$$hist';  newStr:='';replace:=wdReplaceNone;
-  Functions.typeToWordHist(wordApp,WordDoc,oldStr,FieldByName('Description').AsString,true);
+  Functions.typeToWordHist(wordApp,oldStr,FieldByName('Description').AsString,true);
 
   oldStr:='$$Doc';  newStr:=fieldByName('FIO').AsString; replace:=wdReplaceOne;
-  WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam,
+  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,
                 EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
   end;
@@ -566,7 +567,7 @@ else if((index=3)or(index=1)) then
         Formatsettings.ShortDateFormat := 'dd MMMM yyyy';
         WordApp.Selection.TypeText(DateToStr(datePriem));
         WordApp.Selection.MoveRight(cell,row,EmptyParam);
-        functions.typeToWordHist(WordApp,WordDoc,'',desc,false);
+        functions.typeToWordHist(WordApp,'',desc,false);
         //WordApp.Selection.TypeText(desc);
         WordApp.Selection.MoveRight(cell,row,EmptyParam);
         WordApp.Selection.TypeText(sdoctor);
@@ -598,8 +599,8 @@ else if((index=3)or(index=1)) then
     EmptyParam,EmptyParam,EmptyParam,forw,
                 EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
-  WordDoc.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  wordDoc.Close(true,EmptyParam,EmptyParam);
+  WordApp.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  wordApp.Close(true,EmptyParam,EmptyParam);
   wordApp.Visible:=true;
   WordApp.Documents.Open(FileName,EmptyParam,
   EmptyParam,EmptyParam,EmptyParam,EmptyParam,
@@ -611,13 +612,14 @@ end;
 
 procedure THistForm.makeWordAll;
 var Shablon,FileName,oldStr,newStr,cell,replace,ext,row, forw:OleVariant;i:integer;
-    findRSnimok:boolean; sdoctor, desc:string;datePriem:TDateTime;
+    findRSnimok:boolean; sdoctor, desc:string;datePriem:TDateTime; WordApp: OleVariant;
 begin
 forw:=true;
+WordApp := CreateOleObject('Word.Application');
 shablon:='c:\veda\CardAll.doc';
 FileName:='c:\veda\Priem.doc';
   WordApp.Documents.Open(Shablon,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  WordDoc := WordApp.ActiveDocument;
+ // WordDoc := WordApp.ActiveDocument;
   with mainDataModule.dataSetPacient do
     begin
     Active:=false;
@@ -625,33 +627,33 @@ FileName:='c:\veda\Priem.doc';
     Active:=true;
     First;
     replace:=wdReplaceOne;  oldStr:='$$num';  newStr:=FieldByName('NewNum2').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
     replace:=wdReplaceOne;  oldStr:='$$year';  newStr:=DateToStr(FieldByName('Date_open').AsDateTime);
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
     replace:=wdReplaceOne;  oldStr:='$$date_bir';  newStr:=DateToStr(FieldByName('Date_birth').AsDateTime);
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$Pol';  newStr:=FieldByName('Sex').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$Profession';  newStr:=FieldByName('Profession_pl_w').AsString + '('+FieldByName('Place_work_dolzhn').AsString+')';
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$Address';  newStr:=FieldByName('Adress').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$psz';  newStr:=FieldByName('Psz').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$prikus';  newStr:=FieldByName('Prikus').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
   Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[0])),mainDataModule.dataSetPriemByIdWithSotr);
   with mainDataModule.dataSetPriemByIdWithSotr do
@@ -668,38 +670,38 @@ FileName:='c:\veda\Priem.doc';
      begin
       if StrPos(PChar(memInvPriem.Lines[i]), PChar('Диагноз:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne; oldStr:='$$diag';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-9);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Жалобы:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne;  oldStr:='$$zhal';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-8);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('An. morbi:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne;  oldStr:='$$anm';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-11);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Объективно:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne;  oldStr:='$$obno';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-12);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Слизистая:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         oldStr:='$$sliz';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-11);
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Снимок:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         oldStr:='$$RSnimok';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-8);
         findRSnimok:=true;
         end
       else if StrPos(PChar(memInvPriem.Lines[i]), PChar('Лечение:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         oldStr:='$$lech';  newStr:=RightStr(PChar(memInvPriem.Lines[i]),StrLen(PChar(memInvPriem.Lines[i]))-9);
         end
       else
@@ -707,13 +709,13 @@ FileName:='c:\veda\Priem.doc';
         newStr:=newStr+memInvPriem.Lines[i];
         end;
       end;
-    Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+    Functions.ReplaceInWord(wordApp,oldStr,newStr);
     if(not(findRSnimok)) then
       begin
       oldStr:='$$Rsnimok';  newStr:=' ';
-      Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+      Functions.ReplaceInWord(wordApp,oldStr,newStr);
       end;
-    WordDoc.Tables.Item(3).Rows.Item(3).Cells.Item(2).Select;
+    WordApp.Tables.Item(3).Rows.Item(3).Cells.Item(2).Select;
     row:=1;
     for i:=1 to lbPriems.Count-1 do
       begin
@@ -729,7 +731,7 @@ FileName:='c:\veda\Priem.doc';
       WordApp.Selection.MoveLeft(cell,row,EmptyParam);
       WordApp.Selection.TypeText(DateToStr(datePriem));
       WordApp.Selection.MoveRight(cell,row,EmptyParam);
-      Functions.typeToWordHist(wordApp,WordDoc,'',desc,false);
+      Functions.typeToWordHist(wordApp,'',desc,false);
      // WordApp.Selection.TypeText(desc);
       WordApp.Selection.MoveRight(cell,row,EmptyParam);
       WordApp.Selection.TypeText(sdoctor);
@@ -764,8 +766,8 @@ FileName:='c:\veda\Priem.doc';
 
   
     end;
-    WordDoc.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-    wordDoc.Close(true,EmptyParam,EmptyParam);
+    WordApp.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+    wordApp.Close(true,EmptyParam,EmptyParam);
     wordApp.Visible:=true;
     WordApp.Documents.Open(FileName,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,

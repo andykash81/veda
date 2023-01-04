@@ -23,15 +23,16 @@ object MainForm: TMainForm
     Width = 808
     Height = 49
     BorderWidth = 1
-    ButtonHeight = 34
+    ButtonHeight = 30
     ButtonWidth = 34
-    Color = clGradientActiveCaption
+    Color = clBtnFace
     Images = ImageList1
     Indent = 5
     ParentColor = False
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
+    Transparent = False
     Wrapable = False
     OnMouseMove = ToolBar2MouseMove
     object mnuCard: TToolButton
@@ -43,16 +44,17 @@ object MainForm: TMainForm
       OnClick = mnuCardClick
       OnMouseMove = mnuCardMouseMove
     end
-    object ToolButton3: TToolButton
+    object Label4: TLabel
       Left = 39
       Top = 0
-      Width = 16
-      Caption = 'ToolButton3'
-      ImageIndex = 2
-      Style = tbsSeparator
+      Width = 22
+      Height = 30
+      Color = clBtnFace
+      ParentColor = False
+      Transparent = False
     end
     object mnuJournal: TToolButton
-      Left = 55
+      Left = 61
       Top = 0
       Caption = 'mnuJournal'
       ImageIndex = 4
@@ -60,117 +62,116 @@ object MainForm: TMainForm
       OnClick = mnuJournalClick
       OnMouseMove = mnuJournalMouseMove
     end
-    object ToolButton4: TToolButton
-      Left = 89
+    object Label5: TLabel
+      Left = 95
       Top = 0
-      Width = 8
-      Caption = 'ToolButton4'
-      ImageIndex = 22
-      Style = tbsSeparator
+      Width = 22
+      Height = 30
+      Color = clBtnFace
+      ParentColor = False
+      Transparent = False
     end
     object mnuJournal2: TToolButton
-      Left = 97
+      Left = 117
       Top = 0
       Caption = 'mnuJournal2'
       ImageIndex = 58
       OnClick = mnuJournal2Click
       OnMouseMove = mnuJournal2MouseMove
     end
-    object ToolButton5: TToolButton
-      Left = 131
+    object Label7: TLabel
+      Left = 151
       Top = 0
-      Width = 16
-      Caption = 'ToolButton5'
-      ImageIndex = 21
-      Style = tbsSeparator
+      Width = 29
+      Height = 30
+      Color = clBtnFace
+      ParentColor = False
+      Transparent = False
     end
     object mnuSklad: TToolButton
-      Left = 147
+      Left = 180
       Top = 0
       Caption = 'mnuSklad'
       ImageIndex = 22
       Visible = False
     end
-    object ToolButton7: TToolButton
-      Left = 181
+    object Label8: TLabel
+      Left = 214
       Top = 0
-      Width = 20
-      Caption = 'ToolButton7'
-      ImageIndex = 23
-      Style = tbsSeparator
+      Width = 26
+      Height = 30
+      Color = clBtnFace
+      ParentColor = False
+      Transparent = False
     end
     object mnuMedicine: TToolButton
-      Left = 201
+      Left = 240
       Top = 0
       Caption = 'mnuMedicine'
       ImageIndex = 26
       Visible = False
     end
-    object ToolButton10: TToolButton
-      Left = 235
+    object Label9: TLabel
+      Left = 274
       Top = 0
       Width = 8
-      Caption = 'ToolButton10'
-      ImageIndex = 27
-      Style = tbsSeparator
+      Height = 30
+      Color = clBtnFace
+      ParentColor = False
+      Transparent = False
     end
     object mnuReports: TToolButton
-      Left = 243
+      Left = 282
       Top = 0
       Caption = 'mnuReports'
       ImageIndex = 27
       Visible = False
     end
-    object ToolButton12: TToolButton
-      Left = 277
+    object Label10: TLabel
+      Left = 316
       Top = 0
-      Width = 8
-      Caption = 'ToolButton12'
-      ImageIndex = 28
-      Style = tbsSeparator
+      Width = 10
+      Height = 30
+      Color = clBtnFace
+      ParentColor = False
+      Transparent = False
     end
     object mnuAnalize: TToolButton
-      Left = 285
+      Left = 326
       Top = 0
       Caption = 'mnuAnalize'
       ImageIndex = 28
       Visible = False
       OnClick = mnuAnalizeClick
     end
-    object ToolButton14: TToolButton
-      Left = 319
+    object Label11: TLabel
+      Left = 360
       Top = 0
       Width = 8
-      Caption = 'ToolButton14'
-      ImageIndex = 29
-      Style = tbsSeparator
+      Height = 30
+      Color = clBtnFace
+      ParentColor = False
+      Transparent = False
     end
     object mnuSettings: TToolButton
-      Left = 327
+      Left = 368
       Top = 0
       Caption = 'mnuSettings'
       ImageIndex = 29
       Visible = False
       OnMouseMove = mnuSettingsMouseMove
     end
-    object ToolButton1: TToolButton
-      Left = 361
+    object Label3: TLabel
+      Left = 402
       Top = 0
       Width = 8
-      Caption = 'ToolButton1'
-      ImageIndex = 30
-      Style = tbsSeparator
-    end
-    object ToolButton2: TToolButton
-      Left = 369
-      Top = 0
-      Width = 8
-      Caption = 'ToolButton2'
-      ImageIndex = 31
-      Style = tbsSeparator
+      Height = 30
+      Color = clBtnFace
+      ParentColor = False
+      Transparent = False
     end
     object mnuDictEdit: TToolButton
-      Left = 377
+      Left = 410
       Top = 0
       Caption = 'mnuDictEdit'
       ImageIndex = 52
@@ -3988,8 +3989,8 @@ object MainForm: TMainForm
         444B8425894200033CD74D0A0A92E5899CE6E4EECFFFD9}
       Stretch = True
       OnMouseMove = Image1MouseMove
-      ExplicitWidth = 1280
-      ExplicitHeight = 1024
+      ExplicitLeft = 2
+      ExplicitTop = -4
     end
     object Label1: TLabel
       Left = 240

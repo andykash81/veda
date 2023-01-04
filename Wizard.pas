@@ -167,6 +167,8 @@ type
     procedure lwAddedTeethInfoTip(Sender: TObject; Item: TListItem;
       var InfoTip: String);
     procedure btnLoadFilesClick(Sender: TObject);
+    function WordStringReplace(SearchString, ReplaceString:string;
+WordApp, Word: Variant):boolean;
 
   private
   wasOnTeeth:bool;
@@ -491,7 +493,7 @@ end;
 
 procedure TWizardForm.calDateClick(Sender: TObject);
 begin
-Formatsettings.ShortDateFormat:='dd.MM.yyyy';
+Formatsettings.ShortDateFormat:='dd.mm.yyyy';
 edtDate.Text:= DateToStr(calDate.Date);
 end;
 
@@ -697,29 +699,53 @@ if(letterId<>0) then
   end;
 end;
 
-function TWizardForm.makeWord(index:integer; PriemDesc:TMemo;sdoctor:string;datePriem:TDateTime;isVisible:boolean;dirName:wideString; FileName:string):string;
-var Shablon,oldStr,newStr,replace,ext,forw, saveFileName:OleVariant;i:integer;
-    findRSnimok:boolean;
-    WordApp: Variant;
-    WordDoc: Variant;
+function TWizardForm.WordStringReplace(SearchString, ReplaceString:string;
+WordApp, Word: Variant): Boolean;
+const
+  wdFindContinue = 1;
+  wdReplaceOne = 1;
+  wdReplaceAll = 2;
+  wdDoNotSaveChanges = 0;
 begin
+    Word.Selection.Find.ClearFormatting;
+    Word.Selection.Find.Text := SearchString;
+    Word.Selection.Find.Replacement.Text := ReplaceString;
+    Word.Selection.Find.Forward := True;
+    Word.Selection.Find.Wrap := wdFindContinue;
+    Word.Selection.Find.Format := False;
+    Word.Selection.Find.MatchWholeWord := False;
+    Word.Selection.Find.MatchSoundsLike := False;
+    Word.Selection.Find.MatchAllWordForms := False;
+    Word.Selection.Find.Execute(Replace := wdReplaceOne);
+end;
+
+function TWizardForm.makeWord(index:integer; PriemDesc:TMemo;sdoctor:string;datePriem:TDateTime;isVisible:boolean;dirName:wideString; FileName:string):string;
+var replace,ext,saveFileName:OleVariant;i:integer;
+    findRSnimok:boolean; WordApp, Word: Variant; oldStr,newStr,forw,Shablon: Variant;
+    //WordDoc: Variant;
+begin
+WordApp:=CreateOleObject('Word.Application');
+//Word:=CreateOleObject('Word.Application');
 forw:=true;
+//Word.Visible := True;
+//Word.Documents.Open('f:\veda\priem.doc');
+//Word := Unassigned;
   if((dirName='')and(FileName=''))then
     begin
-    FileName:='c:\veda\priem.doc';
+    FileName:='f:\veda\priem.doc';
     end;
   //wordApp:=CoWordApplication.Create;
-  wordApp:=CreateOleObject('Word.Application');
+
 
 if(index<>2) then
   begin
   if(index=1)then
     begin
-    shablon:='c:\veda\withoutSecond.doc';
+    shablon:='f:\veda\withoutSecond.doc';
     end
   else if(index=3) then
     begin
-    shablon:='c:\veda\withSecond.doc';
+    shablon:='f:\veda\withSecond.doc';
     end;
   functions.ActivateDataSetWithParam('pacientId_',PacientId,mainDataModule.dataSetFIOById);
   if((dirName<>'')and(FileName=''))then
@@ -734,26 +760,23 @@ if(index<>2) then
       FileName:=dirName+FileName;
       end;
   WordApp.Documents.Open(Shablon);
-  WordDoc := WordApp.ActiveDocument;
+  // WordApp.Visible := True;
+  //WordDoc := WordApp.ActiveDocument;
   Formatsettings.ShortDateFormat := 'dd MMMM yyyy';
   replace:=wdReplaceOne;  oldStr:='$$date';  newStr:=DateToStr(datePriem);
-  WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,EmptyParam,
-                EmptyParam,EmptyParam,newStr,replace, Shablon,EmptyParam,EmptyParam,EmptyParam);
+  WordStringReplace(oldStr, newStr, WordApp, WordApp);
 
   oldStr:='$$hist';  newStr:='';replace:=wdReplaceNone;
-  Functions.typeToWordHist(WordApp,WordDoc,oldStr,PriemDesc.Text,true);
+  Functions.typeToWordHist(WordApp,oldStr,PriemDesc.Text,true);
 
   oldStr:='$$Doc';  newStr:=sDoctor; replace:=wdReplaceOne;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,forw,EmptyParam,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  WordStringReplace(oldStr, newStr, WordApp, WordApp);
 
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
    {WordApp.Selection.ClearFormatting;
    WordApp.Selection.Find.Replacement.ClearFormatting;}
   oldStr:='$$num';  newStr:=mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString; replace:=wdReplaceAll;
-  WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam,
+  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,forw,
                 EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
@@ -761,7 +784,7 @@ if(index<>2) then
    {WordApp.Selection.ClearFormatting;
       WordApp.Selection.Find.Replacement.ClearFormatting;}
   oldStr:='$$num';  newStr:=mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString; replace:=wdReplaceAll;
-  WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam,
+  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,forw,
                 EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
@@ -769,7 +792,7 @@ if(index<>2) then
    {WordApp.Selection.ClearFormatting;
    WordApp.Selection.Find.Replacement.ClearFormatting;}
   oldStr:='$$FIO';  newStr:=mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
-  WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam,
+  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,forw,
                 EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
@@ -777,15 +800,16 @@ if(index<>2) then
   // WordApp.Selection.ClearFormatting;
   // WordApp.Selection.Find.Replacement.ClearFormatting;
   oldStr:='$$FIO';  newStr:=mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
-  WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam,
+  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,forw,
                 EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
 
   FileName:=getFileName(FileName);
   saveFileName:=FileName;
-  WordDoc.SaveAs(saveFileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  wordDoc.Close(true,EmptyParam,EmptyParam);
+  WordApp.ActiveDocument.SaveAs(saveFileName);
+//  WordApp.SaveAs(saveFileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  WordApp.ActiveDocument.Close(true,EmptyParam,EmptyParam);
   if(isVisible) then
     begin
     wordApp.Visible:=true;
@@ -794,9 +818,10 @@ if(index<>2) then
   end
 else
   begin
-  shablon:='c:\veda\Card.doc';
+  shablon:='f:\veda\Card.doc';
   WordApp.Documents.Open(Shablon);
-  WordDoc := WordApp.ActiveDocument;
+  WordApp.Visible := True;
+  // WordDoc := WordApp.ActiveDocument;
   with mainDataModule.dataSetPacient do
     begin
     Active:=false;
@@ -804,14 +829,14 @@ else
     Active:=true;
     First;
     replace:=wdReplaceAll;  oldStr:='$$num';  newStr:=FieldByName('NewNum2').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
     replace:=wdReplaceOne;  oldStr:='$$year';  newStr:=DateToStr(FieldByName('Date_open').AsDateTime);
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
       if((dirName<>'')and(FileName=''))then
         begin
         FileName:=dirName+'\'+FieldByName('newNum2').AsString+' - '+newStr;
@@ -823,22 +848,22 @@ else
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
     replace:=wdReplaceOne;  oldStr:='$$date_bir';  newStr:=DateToStr(FieldByName('Date_birth').AsDateTime);
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$Pol';  newStr:=FieldByName('Sex').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$Profession';  newStr:=FieldByName('Profession_pl_w').AsString + '('+FieldByName('Place_work_dolzhn').AsString+')';
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$Address';  newStr:=FieldByName('Adress').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$psz';  newStr:=FieldByName('Psz').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
     replace:=wdReplaceOne;  oldStr:='$$prikus';  newStr:=FieldByName('Prikus').AsString;
-    WordDoc.Content.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
 
     findRSnimok:=false;
@@ -847,38 +872,38 @@ else
      begin
       if StrPos(PChar(PriemDesc.Lines[i]), PChar('Диагноз:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne; oldStr:='$$diag';  newStr:=RightStr(PChar(PriemDesc.Lines[i]),StrLen(PChar(PriemDesc.Lines[i]))-9);
         end
       else if StrPos(PChar(PriemDesc.Lines[i]), PChar('Жалобы:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp, WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne;  oldStr:='$$zhal';  newStr:=RightStr(PChar(PriemDesc.Lines[i]),StrLen(PChar(PriemDesc.Lines[i]))-8);
         end
       else if StrPos(PChar(PriemDesc.Lines[i]), PChar('An. morbi:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne;  oldStr:='$$anm';  newStr:=RightStr(PChar(PriemDesc.Lines[i]),StrLen(PChar(PriemDesc.Lines[i]))-11);
         end
       else if StrPos(PChar(PriemDesc.Lines[i]), PChar('Объективно:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         replace:=wdReplaceOne;  oldStr:='$$obno';  newStr:=RightStr(PChar(PriemDesc.Lines[i]),StrLen(PChar(PriemDesc.Lines[i]))-12);
         end
       else if StrPos(PChar(PriemDesc.Lines[i]), PChar('Слизистая:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         oldStr:='$$sliz';  newStr:=RightStr(PChar(PriemDesc.Lines[i]),StrLen(PChar(PriemDesc.Lines[i]))-11);
         end
       else if StrPos(PChar(PriemDesc.Lines[i]), PChar('Снимок:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         oldStr:='$$RSnimok';  newStr:=RightStr(PChar(PriemDesc.Lines[i]),StrLen(PChar(PriemDesc.Lines[i]))-8);
         findRSnimok:=true;
         end
       else if StrPos(PChar(PriemDesc.Lines[i]), PChar('Лечение:')) <> nil then
         begin
-        Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+        Functions.ReplaceInWord(wordApp,oldStr,newStr);
         oldStr:='$$lech';  newStr:=RightStr(PChar(PriemDesc.Lines[i]),StrLen(PChar(PriemDesc.Lines[i]))-9);
         end
       else
@@ -886,11 +911,11 @@ else
         newStr:=newStr+PriemDesc.Lines[i];
         end;
       end;
-    Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+    Functions.ReplaceInWord(wordApp,oldStr,newStr);
     if(not(findRSnimok)) then
       begin
       oldStr:='$$Rsnimok';  newStr:=' ';
-      Functions.ReplaceInWord(wordApp,WordDoc,oldStr,newStr);
+      Functions.ReplaceInWord(wordApp,oldStr,newStr);
       end;
       WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
   oldStr:='$$num';  newStr:=FieldByName('newNum2').AsString; replace:=wdReplaceAll;
@@ -914,13 +939,13 @@ else
   oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
   WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,forw,
-                WordDoc.Content,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+                WordApp.Content,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
 
     end;
   saveFileName:=FileName;
-  WordDoc.SaveAs(saveFileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  wordDoc.Close(true,EmptyParam,EmptyParam);
+  WordApp.SaveAs(saveFileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  wordApp.Close(true,EmptyParam,EmptyParam);
   if(isVisible)then
     begin
     wordApp.Visible:=true;

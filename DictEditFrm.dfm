@@ -1,9 +1,9 @@
 object DictEditForm: TDictEditForm
   Left = -56
   Top = 95
-  Width = 1024
-  Height = 630
   Caption = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1085#1080#1077' '#1089#1087#1088#1072#1074#1086#1095#1085#1080#1082#1086#1074
+  ClientHeight = 591
+  ClientWidth = 1008
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,9 +20,9 @@ object DictEditForm: TDictEditForm
   object pControl: TPageControl
     Left = 0
     Top = 0
-    Width = 1016
-    Height = 602
-    ActivePage = pageLech
+    Width = 1008
+    Height = 591
+    ActivePage = pageDiagnozes
     Align = alClient
     TabOrder = 0
     OnMouseMove = pControlMouseMove
@@ -31,105 +31,59 @@ object DictEditForm: TDictEditForm
       object ToolBar2: TToolBar
         Left = 0
         Top = 0
-        Width = 1008
+        Width = 1000
         Height = 41
         ButtonHeight = 30
         ButtonWidth = 31
         Caption = 'ToolBar2'
+        Color = clHighlightText
+        Customizable = True
         Images = MainForm.ImageList1
+        ParentColor = False
         TabOrder = 0
+        StyleElements = [seFont, seClient]
         OnMouseMove = ToolBar2MouseMove
         object btnNewDiagnoz: TToolButton
           Left = 0
-          Top = 2
+          Top = 0
           Caption = 'btnNewDiagnoz'
           ImageIndex = 51
           OnClick = btnNewDiagnozClick
           OnMouseMove = btnNewDiagnozMouseMove
         end
-        object ToolButton12: TToolButton
+        object Label20: TLabel
           Left = 31
-          Top = 2
-          Width = 8
-          Caption = 'ToolButton12'
-          ImageIndex = 1
-          Style = tbsSeparator
-        end
-        object ToolButton13: TToolButton
-          Left = 39
-          Top = 2
-          Width = 8
-          Caption = 'ToolButton13'
-          ImageIndex = 2
-          Style = tbsSeparator
+          Top = 0
+          Width = 33
+          Height = 30
+          Align = alTop
+          Anchors = [akLeft, akRight]
+          AutoSize = False
+          Transparent = False
         end
         object btnNewSubDiagnoz: TToolButton
-          Left = 47
-          Top = 2
+          Left = 64
+          Top = 0
           Caption = 'btnNewSubDiagnoz'
           ImageIndex = 49
           OnClick = btnNewSubDiagnozClick
           OnMouseMove = btnNewSubDiagnozMouseMove
         end
-        object ToolButton11: TToolButton
-          Left = 78
-          Top = 2
-          Width = 8
-          Caption = 'ToolButton11'
-          ImageIndex = 48
-          Style = tbsSeparator
-        end
-        object ToolButton14: TToolButton
-          Left = 86
-          Top = 2
-          Width = 8
-          Caption = 'ToolButton14'
-          ImageIndex = 49
-          Style = tbsSeparator
-        end
-        object ToolButton15: TToolButton
-          Left = 94
-          Top = 2
-          Width = 8
-          Caption = 'ToolButton15'
-          ImageIndex = 40
-          Style = tbsSeparator
-        end
-        object ToolButton16: TToolButton
-          Left = 102
-          Top = 2
-          Width = 8
-          Caption = 'ToolButton16'
-          ImageIndex = 41
-          Style = tbsSeparator
-        end
-        object ToolButton17: TToolButton
-          Left = 110
-          Top = 2
-          Width = 8
-          Caption = 'ToolButton17'
-          ImageIndex = 42
-          Style = tbsSeparator
-        end
-        object ToolButton18: TToolButton
-          Left = 118
-          Top = 2
-          Width = 8
-          Caption = 'ToolButton18'
-          ImageIndex = 43
-          Style = tbsSeparator
-        end
-        object ToolButton19: TToolButton
-          Left = 126
-          Top = 2
-          Width = 8
-          Caption = 'ToolButton19'
-          ImageIndex = 44
-          Style = tbsSeparator
+        object Label19: TLabel
+          Left = 95
+          Top = 0
+          Width = 113
+          Height = 30
+          Align = alTop
+          Anchors = [akLeft, akRight]
+          AutoSize = False
+          Transparent = False
         end
         object btnDelete: TToolButton
-          Left = 134
-          Top = 2
+          AlignWithMargins = True
+          Left = 208
+          Top = 0
+          Margins.Left = 50
           Caption = 'btnDelete'
           ImageIndex = 50
           OnClick = btnDeleteClick
@@ -139,32 +93,34 @@ object DictEditForm: TDictEditForm
       object pnlDz: TPanel
         Left = 0
         Top = 41
-        Width = 1008
-        Height = 526
+        Width = 1000
+        Height = 515
         Align = alClient
         TabOrder = 1
         object Splitter1: TSplitter
-          Left = 230
+          Left = 222
           Top = 1
           Width = 8
-          Height = 524
+          Height = 513
           Align = alRight
           Color = clBackground
           ParentColor = False
           ResizeStyle = rsLine
+          ExplicitLeft = 230
+          ExplicitHeight = 524
         end
         object Panel2: TPanel
           Left = 1
           Top = 1
-          Width = 229
-          Height = 524
+          Width = 221
+          Height = 513
           Align = alClient
           TabOrder = 0
           object treeDiagnozes: TTreeView
             Left = 1
             Top = 1
-            Width = 227
-            Height = 522
+            Width = 219
+            Height = 511
             Align = alClient
             Indent = 19
             ParentShowHint = False
@@ -178,16 +134,16 @@ object DictEditForm: TDictEditForm
           end
         end
         object Panel3: TPanel
-          Left = 238
+          Left = 230
           Top = 1
           Width = 769
-          Height = 524
+          Height = 513
           Align = alRight
           TabOrder = 1
           OnMouseMove = Panel3MouseMove
           DesignSize = (
             769
-            524)
+            513)
           object Label2: TLabel
             Left = 3
             Top = 8
@@ -321,9 +277,6 @@ object DictEditForm: TDictEditForm
             Cursor = crHandPoint
             Anchors = [akLeft, akTop, akRight]
             Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1080#1079#1084#1077#1085#1077#1085#1080#1103
-            TabOrder = 8
-            OnClick = btnSaveClick
-            OnMouseMove = btnSaveMouseMove
             Glyph.Data = {
               36090000424D3609000000000000360000002800000018000000180000000100
               20000000000000090000C40E0000C40E00000000000000000000000000000000
@@ -399,6 +352,9 @@ object DictEditForm: TDictEditForm
               6FFF6F6F6FFF6F6F6FFF000000006F6F6FFF6F6F6FFF707070FF757575FF7070
               70FF6F6F6FFF727272FF707070FF6F6F6FFF6F6F6FFF6F6F6FFF6F6F6FFF6F6F
               6FFF6F6F6FFF6F6F6FFF6F6F6FFF000000000000000000000000}
+            TabOrder = 8
+            OnClick = btnSaveClick
+            OnMouseMove = btnSaveMouseMove
           end
           object edtDiagShortName: TEdit
             Left = 168
@@ -454,7 +410,6 @@ object DictEditForm: TDictEditForm
             Width = 201
             Height = 28
             Style = csDropDownList
-            ItemHeight = 0
             ParentShowHint = False
             ShowHint = True
             TabOrder = 14
@@ -468,50 +423,54 @@ object DictEditForm: TDictEditForm
       object Panel1: TPanel
         Left = 0
         Top = 0
-        Width = 1008
-        Height = 567
+        Width = 1000
+        Height = 556
         Align = alClient
         TabOrder = 0
         object Splitter3: TSplitter
           Left = 297
           Top = 1
           Width = 8
-          Height = 565
+          Height = 554
           Color = clBackground
           ParentColor = False
+          ExplicitHeight = 565
         end
         object Panel5: TPanel
           Left = 305
           Top = 1
-          Width = 702
-          Height = 565
+          Width = 694
+          Height = 554
           Align = alClient
           Caption = 'Panel5'
           TabOrder = 0
           object Splitter7: TSplitter
             Left = 1
-            Top = 241
-            Width = 700
+            Top = 230
+            Width = 692
             Height = 7
             Cursor = crVSplit
             Align = alBottom
             Color = clBackground
             ParentColor = False
+            ExplicitTop = 241
+            ExplicitWidth = 700
           end
           object Splitter5: TSplitter
             Left = 1
             Top = 121
-            Width = 700
+            Width = 692
             Height = 7
             Cursor = crVSplit
             Align = alTop
             Color = clBackground
             ParentColor = False
+            ExplicitWidth = 700
           end
           object Panel4: TPanel
             Left = 1
-            Top = 248
-            Width = 700
+            Top = 237
+            Width = 692
             Height = 316
             Align = alBottom
             TabOrder = 0
@@ -591,9 +550,6 @@ object DictEditForm: TDictEditForm
               Width = 219
               Height = 41
               Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1080#1079#1084#1077#1085#1077#1085#1080#1103
-              TabOrder = 3
-              OnClick = btnSaveLechClick
-              OnMouseMove = btnSaveLechMouseMove
               Glyph.Data = {
                 36090000424D3609000000000000360000002800000018000000180000000100
                 20000000000000090000C40E0000C40E00000000000000000000000000000000
@@ -669,6 +625,9 @@ object DictEditForm: TDictEditForm
                 6FFF6F6F6FFF6F6F6FFF000000006F6F6FFF6F6F6FFF707070FF757575FF7070
                 70FF6F6F6FFF727272FF707070FF6F6F6FFF6F6F6FFF6F6F6FFF6F6F6FFF6F6F
                 6FFF6F6F6FFF6F6F6FFF6F6F6FFF000000000000000000000000}
+              TabOrder = 3
+              OnClick = btnSaveLechClick
+              OnMouseMove = btnSaveLechMouseMove
             end
             object cbLetterLech: TComboBox
               Left = 464
@@ -676,7 +635,6 @@ object DictEditForm: TDictEditForm
               Width = 225
               Height = 28
               Style = csDropDownList
-              ItemHeight = 20
               ParentShowHint = False
               ShowHint = True
               TabOrder = 4
@@ -713,23 +671,24 @@ object DictEditForm: TDictEditForm
           object Panel6: TPanel
             Left = 1
             Top = 128
-            Width = 700
-            Height = 113
+            Width = 692
+            Height = 102
             Align = alClient
             TabOrder = 1
             object Splitter4: TSplitter
               Left = 313
               Top = 1
               Width = 8
-              Height = 111
+              Height = 100
               Color = clBackground
               ParentColor = False
+              ExplicitHeight = 111
             end
             object treeDiagnozesForLech: TTreeView
               Left = 1
               Top = 1
               Width = 312
-              Height = 111
+              Height = 100
               Align = alLeft
               Indent = 19
               ParentShowHint = False
@@ -744,7 +703,7 @@ object DictEditForm: TDictEditForm
               Left = 321
               Top = 1
               Width = 64
-              Height = 111
+              Height = 100
               Align = alLeft
               TabOrder = 1
               OnMouseMove = Panel7MouseMove
@@ -753,9 +712,6 @@ object DictEditForm: TDictEditForm
                 Top = 8
                 Width = 49
                 Height = 49
-                TabOrder = 0
-                OnClick = btnDiagToRightClick
-                OnMouseMove = btnDiagToRightMouseMove
                 Glyph.Data = {
                   7E120000424D7E12000000000000360000002800000027000000270000000100
                   18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -906,15 +862,15 @@ object DictEditForm: TDictEditForm
                   C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
                   C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
                   0000}
+                TabOrder = 0
+                OnClick = btnDiagToRightClick
+                OnMouseMove = btnDiagToRightMouseMove
               end
               object btnDiagToLeft: TBitBtn
                 Left = 8
                 Top = 64
                 Width = 49
                 Height = 49
-                TabOrder = 1
-                OnClick = btnDiagToLeftClick
-                OnMouseMove = btnDiagToLeftMouseMove
                 Glyph.Data = {
                   7E120000424D7E12000000000000360000002800000027000000270000000100
                   18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -1065,13 +1021,16 @@ object DictEditForm: TDictEditForm
                   BFC0C0BFC0C0BFC0C0BFC0C0BFC0C0BFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
                   C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
                   0000}
+                TabOrder = 1
+                OnClick = btnDiagToLeftClick
+                OnMouseMove = btnDiagToLeftMouseMove
               end
             end
             object lbLechDiags: TListBox
               Left = 385
               Top = 1
-              Width = 314
-              Height = 111
+              Width = 306
+              Height = 100
               Align = alClient
               ItemHeight = 20
               TabOrder = 2
@@ -1081,7 +1040,7 @@ object DictEditForm: TDictEditForm
           object Panel13: TPanel
             Left = 1
             Top = 1
-            Width = 700
+            Width = 692
             Height = 120
             Align = alTop
             TabOrder = 2
@@ -1115,8 +1074,6 @@ object DictEditForm: TDictEditForm
                 Top = 8
                 Width = 49
                 Height = 49
-                TabOrder = 0
-                OnClick = btnPriceToRightClick
                 Glyph.Data = {
                   7E120000424D7E12000000000000360000002800000027000000270000000100
                   18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -1267,14 +1224,14 @@ object DictEditForm: TDictEditForm
                   C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
                   C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
                   0000}
+                TabOrder = 0
+                OnClick = btnPriceToRightClick
               end
               object btnPriceToLeft: TBitBtn
                 Left = 8
                 Top = 64
                 Width = 49
                 Height = 49
-                TabOrder = 1
-                OnClick = btnPriceToLeftClick
                 Glyph.Data = {
                   7E120000424D7E12000000000000360000002800000027000000270000000100
                   18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -1425,12 +1382,14 @@ object DictEditForm: TDictEditForm
                   BFC0C0BFC0C0BFC0C0BFC0C0BFC0C0BFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
                   C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
                   0000}
+                TabOrder = 1
+                OnClick = btnPriceToLeftClick
               end
             end
             object lbLechPrices: TListBox
               Left = 385
               Top = 1
-              Width = 314
+              Width = 306
               Height = 118
               Align = alClient
               ItemHeight = 20
@@ -1442,7 +1401,7 @@ object DictEditForm: TDictEditForm
           Left = 1
           Top = 1
           Width = 296
-          Height = 565
+          Height = 554
           Align = alLeft
           Caption = 'Panel8'
           TabOrder = 1
@@ -1450,7 +1409,7 @@ object DictEditForm: TDictEditForm
             Left = 1
             Top = 65
             Width = 294
-            Height = 499
+            Height = 488
             Align = alClient
             ItemHeight = 20
             TabOrder = 0
@@ -1470,9 +1429,6 @@ object DictEditForm: TDictEditForm
               Top = 8
               Width = 49
               Height = 49
-              TabOrder = 0
-              OnClick = btnNewLechClick
-              OnMouseMove = btnNewLechMouseMove
               Glyph.Data = {
                 7E120000424D7E12000000000000360000002800000027000000270000000100
                 18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -1623,15 +1579,15 @@ object DictEditForm: TDictEditForm
                 C0C0BFC0C0BFC0C0BFC0BFBFC0BFBFC0C0BFC0C0C0C0C0C0C0C0C0C0C0C0C0C0
                 C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
                 0000}
+              TabOrder = 0
+              OnClick = btnNewLechClick
+              OnMouseMove = btnNewLechMouseMove
             end
             object btnDelLech: TBitBtn
               Left = 208
               Top = 8
               Width = 49
               Height = 49
-              TabOrder = 1
-              OnClick = btnDelLechClick
-              OnMouseMove = btnDelLechMouseMove
               Glyph.Data = {
                 7E120000424D7E12000000000000360000002800000027000000270000000100
                 18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -1782,6 +1738,9 @@ object DictEditForm: TDictEditForm
                 BFBFC0BFBFC0BFBFC0BFBFC0BFBFC0BFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
                 C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
                 0000}
+              TabOrder = 1
+              OnClick = btnDelLechClick
+              OnMouseMove = btnDelLechMouseMove
             end
           end
         end
@@ -1794,30 +1753,32 @@ object DictEditForm: TDictEditForm
       object pnlData: TPanel
         Left = 0
         Top = 37
-        Width = 1008
-        Height = 530
+        Width = 1000
+        Height = 519
         Align = alClient
         TabOrder = 0
         object Splitter2: TSplitter
-          Left = 513
+          Left = 505
           Top = 41
           Width = 8
-          Height = 488
+          Height = 477
           Align = alRight
           ResizeStyle = rsLine
+          ExplicitLeft = 513
+          ExplicitHeight = 488
         end
         object pnlTree: TPanel
           Left = 1
           Top = 41
-          Width = 512
-          Height = 488
+          Width = 504
+          Height = 477
           Align = alClient
           TabOrder = 0
           object treeElements: TTreeView
             Left = 1
             Top = 1
-            Width = 510
-            Height = 486
+            Width = 502
+            Height = 475
             Align = alClient
             Indent = 19
             RowSelect = True
@@ -1825,15 +1786,15 @@ object DictEditForm: TDictEditForm
           end
         end
         object pnlDataTree: TPanel
-          Left = 521
+          Left = 513
           Top = 41
           Width = 486
-          Height = 488
+          Height = 477
           Align = alRight
           TabOrder = 1
           DesignSize = (
             486
-            488)
+            477)
           object lblName: TLabel
             Left = 11
             Top = 16
@@ -1883,7 +1844,7 @@ object DictEditForm: TDictEditForm
         object pnlBtns: TPanel
           Left = 1
           Top = 1
-          Width = 1006
+          Width = 998
           Height = 40
           Align = alTop
           TabOrder = 2
@@ -1900,7 +1861,7 @@ object DictEditForm: TDictEditForm
       object ToolBar1: TToolBar
         Left = 0
         Top = 0
-        Width = 1008
+        Width = 1000
         Height = 37
         ButtonHeight = 30
         ButtonWidth = 31
@@ -1910,25 +1871,24 @@ object DictEditForm: TDictEditForm
         TabOrder = 1
         object Label1: TLabel
           Left = 0
-          Top = 2
+          Top = 0
           Width = 227
-          Height = 20
+          Height = 30
           Caption = #1042#1099#1073#1077#1088#1080#1090#1077' '#1074#1077#1090#1082#1091' '#1089#1087#1088#1072#1074#1086#1095#1085#1080#1082#1072':'
         end
         object cbBranches: TComboBox
           Left = 227
-          Top = 2
+          Top = 0
           Width = 337
           Height = 28
           Style = csDropDownList
-          ItemHeight = 0
           Sorted = True
           TabOrder = 0
           OnChange = cbBranchesChange
         end
         object ToolButton1: TToolButton
           Left = 564
-          Top = 2
+          Top = 0
           Width = 8
           Caption = 'ToolButton1'
           ImageIndex = 45
@@ -1936,13 +1896,13 @@ object DictEditForm: TDictEditForm
         end
         object btnNew: TToolButton
           Left = 572
-          Top = 2
+          Top = 0
           Caption = 'btnNew'
           ImageIndex = 44
         end
         object ToolButton2: TToolButton
           Left = 603
-          Top = 2
+          Top = 0
           Width = 8
           Caption = 'ToolButton2'
           ImageIndex = 45
@@ -1950,13 +1910,13 @@ object DictEditForm: TDictEditForm
         end
         object ToolButton3: TToolButton
           Left = 611
-          Top = 2
+          Top = 0
           Caption = 'ToolButton3'
           ImageIndex = 46
         end
         object ToolButton4: TToolButton
           Left = 642
-          Top = 2
+          Top = 0
           Width = 8
           Caption = 'ToolButton4'
           ImageIndex = 47
@@ -1964,7 +1924,7 @@ object DictEditForm: TDictEditForm
         end
         object ToolButton5: TToolButton
           Left = 650
-          Top = 2
+          Top = 0
           Width = 8
           Caption = 'ToolButton5'
           ImageIndex = 48
@@ -1972,7 +1932,7 @@ object DictEditForm: TDictEditForm
         end
         object ToolButton6: TToolButton
           Left = 658
-          Top = 2
+          Top = 0
           Width = 8
           Caption = 'ToolButton6'
           ImageIndex = 49
@@ -1980,7 +1940,7 @@ object DictEditForm: TDictEditForm
         end
         object ToolButton7: TToolButton
           Left = 666
-          Top = 2
+          Top = 0
           Width = 8
           Caption = 'ToolButton7'
           ImageIndex = 50
@@ -1988,7 +1948,7 @@ object DictEditForm: TDictEditForm
         end
         object ToolButton8: TToolButton
           Left = 674
-          Top = 2
+          Top = 0
           Width = 8
           Caption = 'ToolButton8'
           ImageIndex = 51
@@ -1996,7 +1956,7 @@ object DictEditForm: TDictEditForm
         end
         object ToolButton9: TToolButton
           Left = 682
-          Top = 2
+          Top = 0
           Width = 8
           Caption = 'ToolButton9'
           ImageIndex = 52
@@ -2004,7 +1964,7 @@ object DictEditForm: TDictEditForm
         end
         object ToolButton10: TToolButton
           Left = 690
-          Top = 2
+          Top = 0
           Caption = 'ToolButton10'
           ImageIndex = 39
         end
@@ -2017,15 +1977,16 @@ object DictEditForm: TDictEditForm
         Left = 289
         Top = 0
         Width = 8
-        Height = 567
+        Height = 556
         Color = clBackground
         ParentColor = False
+        ExplicitHeight = 567
       end
       object Panel12: TPanel
         Left = 0
         Top = 0
         Width = 289
-        Height = 567
+        Height = 556
         Align = alLeft
         Caption = 'Panel12'
         TabOrder = 0
@@ -2033,7 +1994,7 @@ object DictEditForm: TDictEditForm
           Left = 1
           Top = 65
           Width = 287
-          Height = 501
+          Height = 490
           Align = alClient
           Indent = 19
           TabOrder = 0
@@ -2053,9 +2014,6 @@ object DictEditForm: TDictEditForm
             Top = 8
             Width = 49
             Height = 49
-            TabOrder = 0
-            OnClick = btnNewPriceClick
-            OnMouseMove = btnNewPriceMouseMove
             Glyph.Data = {
               7E120000424D7E12000000000000360000002800000027000000270000000100
               18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -2206,15 +2164,15 @@ object DictEditForm: TDictEditForm
               C0C0BFC0C0BFC0C0BFC0BFBFC0BFBFC0C0BFC0C0C0C0C0C0C0C0C0C0C0C0C0C0
               C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
               0000}
+            TabOrder = 0
+            OnClick = btnNewPriceClick
+            OnMouseMove = btnNewPriceMouseMove
           end
           object btnDelPrice: TBitBtn
             Left = 176
             Top = 8
             Width = 49
             Height = 49
-            TabOrder = 1
-            OnClick = btnDelPriceClick
-            OnMouseMove = btnDelPriceMouseMove
             Glyph.Data = {
               7E120000424D7E12000000000000360000002800000027000000270000000100
               18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -2365,15 +2323,15 @@ object DictEditForm: TDictEditForm
               BFBFC0BFBFC0BFBFC0BFBFC0BFBFC0BFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
               C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
               0000}
+            TabOrder = 1
+            OnClick = btnDelPriceClick
+            OnMouseMove = btnDelPriceMouseMove
           end
           object BitBtn1: TBitBtn
             Left = 64
             Top = 8
             Width = 49
             Height = 49
-            TabOrder = 2
-            OnClick = BitBtn1Click
-            OnMouseMove = BitBtn1MouseMove
             Glyph.Data = {
               7E120000424D7E12000000000000360000002800000027000000270000000100
               18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -2524,14 +2482,17 @@ object DictEditForm: TDictEditForm
               C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
               C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
               0000}
+            TabOrder = 2
+            OnClick = BitBtn1Click
+            OnMouseMove = BitBtn1MouseMove
           end
         end
       end
       object Panel10: TPanel
         Left = 297
         Top = 0
-        Width = 711
-        Height = 567
+        Width = 703
+        Height = 556
         Align = alClient
         TabOrder = 1
         OnMouseMove = Panel10MouseMove
@@ -2604,9 +2565,6 @@ object DictEditForm: TDictEditForm
           Width = 209
           Height = 41
           Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1080#1079#1084#1077#1085#1077#1085#1080#1103
-          TabOrder = 4
-          OnClick = btnSavePriceClick
-          OnMouseMove = btnSavePriceMouseMove
           Glyph.Data = {
             36090000424D3609000000000000360000002800000018000000180000000100
             20000000000000090000C40E0000C40E00000000000000000000000000000000
@@ -2682,6 +2640,9 @@ object DictEditForm: TDictEditForm
             6FFF6F6F6FFF6F6F6FFF000000006F6F6FFF6F6F6FFF707070FF757575FF7070
             70FF6F6F6FFF727272FF707070FF6F6F6FFF6F6F6FFF6F6F6FFF6F6F6FFF6F6F
             6FFF6F6F6FFF6F6F6FFF6F6F6FFF000000000000000000000000}
+          TabOrder = 4
+          OnClick = btnSavePriceClick
+          OnMouseMove = btnSavePriceMouseMove
         end
       end
     end

@@ -5,8 +5,8 @@ uses   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, DBCtrls, Buttons, OleServer,
   Word_TLB, ADODB, ShellApi;
   procedure ActivateDataSetWithParam(param, paramValue:string; dataSet:TADODataSet);
-  procedure ReplaceInWord(wordApp:Variant;doc:Variant;oldStr,newStr:OleVariant);
-  procedure typeToWordHist(wordApp:Variant;doc:Variant;oldStr:string;newStr:String;find:boolean);
+  procedure ReplaceInWord(wordApp:OleVariant;oldStr,newStr:String);
+  procedure typeToWordHist(wordApp:OleVariant;oldStr,newStr:String;find:boolean);
   function getConectStr:string;
   function getDocsNumByPath(path:string):integer;
   function getFileName(fileName:string):string;
@@ -23,7 +23,7 @@ implementation
     end;
   end;
 
-  procedure ReplaceInWord(wordApp:Variant;doc:Variant;oldStr,newStr:OleVariant);
+  procedure ReplaceInWord(wordApp:OleVariant;oldStr,newStr:String);
   var replace,tmpStr,wstart,wend:OleVariant;
   begin
   replace:=wdReplaceNone;
@@ -36,7 +36,7 @@ implementation
   wordApp.Selection.TypeText(newStr);
   end;
 
-procedure typeToWordHist(wordApp:Variant;doc:Variant;oldStr:string;newStr:String; find:boolean);
+procedure typeToWordHist(wordApp:OleVariant;oldStr,newStr:String; find:boolean);
 var words,phrs:TStringList;i:integer;replace,tmpStr,wstart,wend:OleVariant;
 begin
   replace:=wdReplaceNone;

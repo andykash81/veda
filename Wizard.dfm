@@ -28,7 +28,7 @@ object WizardForm: TWizardForm
       Top = 1
       Width = 983
       Height = 592
-      ActivePage = sheetTeeth
+      ActivePage = sheetDoctor
       Align = alClient
       TabOrder = 0
       object sheetZubCard: TTabSheet
@@ -865,6 +865,7 @@ object WizardForm: TWizardForm
           Width = 209
           Height = 223
           Date = 39819.000000000000000000
+          MaxDate = 69399.999988425930000000
           TabOrder = 2
           OnClick = calDateClick
         end

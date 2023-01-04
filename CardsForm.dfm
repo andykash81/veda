@@ -1,9 +1,9 @@
 object CardsFrm: TCardsFrm
-  Left = -89
-  Top = 6
+  Left = 0
+  Top = 0
   Caption = #1050#1072#1088#1090#1086#1095#1082#1072
-  ClientHeight = 514
-  ClientWidth = 768
+  ClientHeight = 546
+  ClientWidth = 947
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,7 +13,7 @@ object CardsFrm: TCardsFrm
   FormStyle = fsMDIChild
   KeyPreview = True
   OldCreateOrder = False
-  Position = poDefault
+  Position = poDesigned
   Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
@@ -23,8 +23,8 @@ object CardsFrm: TCardsFrm
   object Panel2: TPanel
     Left = 0
     Top = 206
-    Width = 768
-    Height = 116
+    Width = 947
+    Height = 148
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -33,13 +33,11 @@ object CardsFrm: TCardsFrm
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 120
-    ExplicitHeight = 263
     object DBGrid1: TDBGrid
       Left = 1
       Top = 1
-      Width = 766
-      Height = 114
+      Width = 945
+      Height = 146
       Align = alClient
       Ctl3D = True
       DataSource = mainDataModule.dsPacList
@@ -116,15 +114,15 @@ object CardsFrm: TCardsFrm
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 768
+    Width = 947
     Height = 41
     ButtonHeight = 30
     ButtonWidth = 33
     Caption = 'ToolBar1'
     Images = MainForm.ImageList1
     TabOrder = 1
+    Transparent = False
     OnMouseMove = ToolBar1MouseMove
-    ExplicitWidth = 120
     object btnNew: TToolButton
       Left = 0
       Top = 0
@@ -133,16 +131,15 @@ object CardsFrm: TCardsFrm
       OnClick = btnNewClick
       OnMouseMove = btnNewMouseMove
     end
-    object ToolButton4: TToolButton
+    object Label31: TLabel
       Left = 33
       Top = 0
-      Width = 8
-      Caption = 'ToolButton4'
-      ImageIndex = 40
-      Style = tbsSeparator
+      Width = 17
+      Height = 30
+      Transparent = False
     end
     object btnEdit: TToolButton
-      Left = 41
+      Left = 50
       Top = 0
       Hint = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1082#1072#1088#1090#1091
       Caption = 'btnEdit'
@@ -150,40 +147,15 @@ object CardsFrm: TCardsFrm
       OnClick = btnEditClick
       OnMouseMove = btnEditMouseMove
     end
-    object ToolButton5: TToolButton
-      Left = 74
+    object Label27: TLabel
+      Left = 83
       Top = 0
-      Width = 8
-      Caption = 'ToolButton5'
-      ImageIndex = 40
-      Style = tbsSeparator
-    end
-    object ToolButton2: TToolButton
-      Left = 82
-      Top = 0
-      Width = 8
-      Caption = 'ToolButton2'
-      ImageIndex = 41
-      Style = tbsSeparator
-    end
-    object ToolButton3: TToolButton
-      Left = 90
-      Top = 0
-      Width = 8
-      Caption = 'ToolButton3'
-      ImageIndex = 41
-      Style = tbsSeparator
-    end
-    object ToolButton6: TToolButton
-      Left = 98
-      Top = 0
-      Width = 8
-      Caption = 'ToolButton6'
-      ImageIndex = 41
-      Style = tbsSeparator
+      Width = 40
+      Height = 30
+      Transparent = False
     end
     object btnSearch: TToolButton
-      Left = 106
+      Left = 123
       Top = 0
       Hint = #1055#1086#1080#1089#1082
       Caption = #1055#1086#1080#1089#1082
@@ -194,16 +166,15 @@ object CardsFrm: TCardsFrm
       OnClick = btnSearchClick
       OnMouseMove = btnSearchMouseMove
     end
-    object ToolButton1: TToolButton
-      Left = 139
+    object Label32: TLabel
+      Left = 156
       Top = 0
-      Width = 8
-      Caption = 'ToolButton1'
-      ImageIndex = 44
-      Style = tbsSeparator
+      Width = 13
+      Height = 30
+      Transparent = False
     end
     object btnWizard: TToolButton
-      Left = 147
+      Left = 169
       Top = 0
       Caption = 'btnWizard'
       ImageIndex = 24
@@ -211,72 +182,52 @@ object CardsFrm: TCardsFrm
       OnClick = btnWizardClick
       OnMouseMove = btnWizardMouseMove
     end
-    object ToolButton7: TToolButton
-      Left = 180
+    object Label28: TLabel
+      Left = 202
       Top = 0
-      Width = 8
-      Caption = 'ToolButton7'
-      ImageIndex = 45
-      Style = tbsSeparator
+      Width = 13
+      Height = 30
+      Transparent = False
     end
     object ToolButton38: TToolButton
-      Left = 188
+      Left = 215
       Top = 0
       Caption = 'ToolButton38'
       ImageIndex = 55
       OnClick = ToolButton38Click
       OnMouseMove = ToolButton38MouseMove
     end
-    object ToolButton8: TToolButton
-      Left = 221
+    object Label30: TLabel
+      Left = 248
       Top = 0
-      Width = 8
-      Caption = 'ToolButton8'
-      ImageIndex = 46
-      Style = tbsSeparator
+      Width = 17
+      Height = 30
+      Transparent = False
     end
     object btnFiles: TToolButton
-      Left = 229
+      Left = 265
       Top = 0
       ImageIndex = 57
       OnClick = btnFilesClick
     end
-    object ToolButton9: TToolButton
-      Left = 262
+    object Label29: TLabel
+      Left = 298
       Top = 0
-      Width = 8
-      Caption = 'ToolButton9'
-      ImageIndex = 47
-      Style = tbsSeparator
-    end
-    object ToolButton10: TToolButton
-      Left = 270
-      Top = 0
-      Width = 8
-      Caption = 'ToolButton10'
-      ImageIndex = 48
-      Style = tbsSeparator
-    end
-    object ToolButton11: TToolButton
-      Left = 0
-      Top = 0
-      Width = 8
-      Caption = 'ToolButton11'
-      ImageIndex = 49
-      Wrap = True
-      Style = tbsSeparator
+      Width = 15
+      Height = 30
+      Transparent = False
     end
     object ToolButton37: TToolButton
-      Left = 0
-      Top = 38
+      Left = 313
+      Top = 0
       Caption = 'btnHistory'
       ImageIndex = 56
       OnClick = ToolButton37Click
       OnMouseMove = ToolButton37MouseMove
     end
     object Label15: TLabel
-      Left = 33
-      Top = 38
+      Left = 346
+      Top = 0
       Width = 257
       Height = 30
       Align = alBottom
@@ -287,10 +238,11 @@ object CardsFrm: TCardsFrm
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
+      Transparent = False
     end
     object DBEdit1: TDBEdit
-      Left = 290
-      Top = 38
+      Left = 603
+      Top = 0
       Width = 121
       Height = 30
       DataField = 'newNum2'
@@ -304,8 +256,8 @@ object CardsFrm: TCardsFrm
       TabOrder = 0
     end
     object _edtCode: TDBEdit
-      Left = 411
-      Top = 38
+      Left = 724
+      Top = 0
       Width = 121
       Height = 30
       DataField = 'Num_fam2'
@@ -313,113 +265,16 @@ object CardsFrm: TCardsFrm
       TabOrder = 1
       Visible = False
     end
-    object ToolButton12: TToolButton
-      Left = 532
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton12'
-      ImageIndex = 40
-      Style = tbsSeparator
-    end
-    object ToolButton13: TToolButton
-      Left = 540
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton13'
-      ImageIndex = 40
-      Style = tbsSeparator
-    end
-    object ToolButton14: TToolButton
-      Left = 548
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton14'
-      ImageIndex = 41
-      Style = tbsSeparator
-    end
-    object ToolButton15: TToolButton
-      Left = 556
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton15'
-      ImageIndex = 42
-      Style = tbsSeparator
-    end
-    object ToolButton17: TToolButton
-      Left = 564
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton17'
-      ImageIndex = 44
-      Style = tbsSeparator
-    end
-    object ToolButton18: TToolButton
-      Left = 572
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton18'
-      ImageIndex = 45
-      Style = tbsSeparator
-    end
-    object ToolButton19: TToolButton
-      Left = 580
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton19'
-      ImageIndex = 46
-      Style = tbsSeparator
-    end
-    object ToolButton20: TToolButton
-      Left = 588
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton20'
-      ImageIndex = 40
-      Style = tbsSeparator
-    end
-    object ToolButton22: TToolButton
-      Left = 596
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton22'
-      ImageIndex = 42
-      Style = tbsSeparator
-    end
-    object ToolButton25: TToolButton
-      Left = 604
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton25'
-      ImageIndex = 45
-      Style = tbsSeparator
-    end
-    object ToolButton26: TToolButton
-      Left = 612
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton26'
-      ImageIndex = 46
-      Style = tbsSeparator
-    end
-    object ToolButton27: TToolButton
-      Left = 620
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton27'
-      ImageIndex = 47
-      Style = tbsSeparator
-    end
-    object ToolButton29: TToolButton
-      Left = 628
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton29'
-      ImageIndex = 41
-      Style = tbsSeparator
+    object Label26: TLabel
+      Left = 845
+      Top = 0
+      Width = 17
+      Height = 30
+      Transparent = False
     end
     object btnDelete: TToolButton
-      Left = 636
-      Top = 38
+      Left = 862
+      Top = 0
       Hint = #1059#1076#1072#1083#1080#1090#1100' '#1087#1072#1094#1080#1077#1085#1090#1072
       Caption = 'btnDelete'
       ImageIndex = 39
@@ -427,56 +282,15 @@ object CardsFrm: TCardsFrm
       OnClick = btnDeleteClick
       OnMouseMove = btnDeleteMouseMove
     end
-    object ToolButton30: TToolButton
-      Left = 669
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton30'
-      ImageIndex = 42
-      Style = tbsSeparator
-    end
-    object ToolButton35: TToolButton
-      Left = 677
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton35'
-      ImageIndex = 47
-      Style = tbsSeparator
-    end
-    object ToolButton36: TToolButton
-      Left = 685
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton36'
-      ImageIndex = 48
-      Style = tbsSeparator
-    end
-    object ToolButton16: TToolButton
-      Left = 693
-      Top = 38
-      Width = 40
-      Caption = 'ToolButton16'
-      ImageIndex = 43
-      Style = tbsSeparator
-    end
-    object ToolButton23: TToolButton
-      Left = 733
-      Top = 38
-      Width = 8
-      Caption = 'ToolButton23'
-      ImageIndex = 44
-      Style = tbsSeparator
-    end
   end
   object GroupBox1: TGroupBox
     Left = 0
     Top = 41
-    Width = 768
+    Width = 947
     Height = 165
     Align = alTop
     Caption = #1055#1086#1080#1089#1082
     TabOrder = 2
-    ExplicitWidth = 120
     object Label2: TLabel
       Left = 8
       Top = 56
@@ -573,6 +387,7 @@ object CardsFrm: TCardsFrm
         Top = 50
         Width = 121
         Height = 26
+        Date = 44925.000000000000000000
         Time = 0.805255254628718800
         TabOrder = 0
         OnChange = edtSurnameChange
@@ -739,14 +554,14 @@ object CardsFrm: TCardsFrm
   end
   object Panel1: TPanel
     Left = 0
-    Top = 322
-    Width = 768
+    Top = 354
+    Width = 947
     Height = 192
     Align = alBottom
     Color = 16573658
     TabOrder = 3
-    ExplicitTop = -192
-    ExplicitWidth = 120
+    ExplicitLeft = 1
+    ExplicitTop = 359
     object Label16: TLabel
       Left = 8
       Top = 32
