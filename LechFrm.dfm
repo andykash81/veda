@@ -1,22 +1,20 @@
 object lechForm: TlechForm
   Left = 193
   Top = 108
-  Width = 399
-  Height = 574
   Caption = #1057#1082#1086#1088#1088#1077#1082#1090#1080#1088#1091#1081#1090#1077' '#1083#1077#1095#1077#1085#1080#1077
+  ClientHeight = 535
+  ClientWidth = 383
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = False
   OnClose = FormClose
   OnShow = FormShow
   DesignSize = (
-    391
-    546)
-  PixelsPerInch = 96
+    383
+    535)
   TextHeight = 13
   object btnOk: TButton
     Left = 225

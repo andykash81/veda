@@ -9,9 +9,7 @@ object HistForm: THistForm
   Font.Height = -16
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = False
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 20
   object Panel1: TPanel
     Left = 0
@@ -20,6 +18,7 @@ object HistForm: THistForm
     Height = 73
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 1016
     object btnPrint: TBitBtn
       Left = 8
       Top = 4
@@ -581,6 +580,8 @@ object HistForm: THistForm
     Height = 532
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 1016
+    ExplicitHeight = 531
     object lbPriems: TListBox
       Left = 1
       Top = 1
@@ -590,6 +591,8 @@ object HistForm: THistForm
       ItemHeight = 20
       TabOrder = 0
       OnClick = lbPriemsClick
+      ExplicitWidth = 431
+      ExplicitHeight = 529
     end
     object Panel3: TPanel
       Left = 436
@@ -598,6 +601,8 @@ object HistForm: THistForm
       Height = 530
       Align = alRight
       TabOrder = 1
+      ExplicitLeft = 432
+      ExplicitHeight = 529
       DesignSize = (
         583
         530)

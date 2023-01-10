@@ -25,7 +25,7 @@ uses
   PrintFrm in 'PrintFrm.pas',
   OrtFrm in 'OrtFrm.pas' {OrtForm},
   FilesFrm in 'FilesFrm.pas' {FilesForm},
-  Word_TLB in 'C:\Users\k6313\OneDrive\Документы\Embarcadero\Studio\21.0\Imports\Word_TLB.pas';
+  Word_TLB in 'C:\Users\kashp\OneDrive\Документы\Embarcadero\Studio\21.0\Imports\Word_TLB.pas';
 
 {$R *.RES}
 

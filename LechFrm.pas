@@ -63,7 +63,7 @@ for i:=0 to ControlCount-1 do
   if(Controls[i] is TComboBox) then
     begin
     if(Controls[i].Name[1]='s') then
-      lechStr:=lechStr+RightStr(PChar(Controls[i].Name),StrLen(PAnsiChar(Controls[i].Name))-4)+','+IntTostr(Integer(TComboBox(Controls[i]).Items.Objects[TComboBox(Controls[i]).ItemIndex]))+',';
+      lechStr:=lechStr+RightStr(Controls[i].Name, Length(Controls[i].Name)-4)+','+IntTostr(Integer(TComboBox(Controls[i]).Items.Objects[TComboBox(Controls[i]).ItemIndex]))+',';
     end;
   end;
 ModalResult:=mrOk;

@@ -27,7 +27,7 @@ implementation
 
 procedure TLoginForm.btnOkClick(Sender: TObject);
 begin
-if(edtPass.Text='0973') then
+if(edtPass.Text='010203') then
   begin
   ModalResult := mrOk;
   end;

@@ -134,8 +134,8 @@ object CardsFrm: TCardsFrm
     object Label31: TLabel
       Left = 33
       Top = 0
-      Width = 17
-      Height = 30
+      Width = 4
+      Height = 20
       Transparent = False
     end
     object btnEdit: TToolButton
@@ -150,8 +150,8 @@ object CardsFrm: TCardsFrm
     object Label27: TLabel
       Left = 83
       Top = 0
-      Width = 40
-      Height = 30
+      Width = 4
+      Height = 20
       Transparent = False
     end
     object btnSearch: TToolButton
@@ -169,8 +169,8 @@ object CardsFrm: TCardsFrm
     object Label32: TLabel
       Left = 156
       Top = 0
-      Width = 13
-      Height = 30
+      Width = 4
+      Height = 20
       Transparent = False
     end
     object btnWizard: TToolButton
@@ -185,8 +185,8 @@ object CardsFrm: TCardsFrm
     object Label28: TLabel
       Left = 202
       Top = 0
-      Width = 13
-      Height = 30
+      Width = 4
+      Height = 20
       Transparent = False
     end
     object ToolButton38: TToolButton
@@ -200,8 +200,8 @@ object CardsFrm: TCardsFrm
     object Label30: TLabel
       Left = 248
       Top = 0
-      Width = 17
-      Height = 30
+      Width = 4
+      Height = 20
       Transparent = False
     end
     object btnFiles: TToolButton
@@ -213,8 +213,8 @@ object CardsFrm: TCardsFrm
     object Label29: TLabel
       Left = 298
       Top = 0
-      Width = 15
-      Height = 30
+      Width = 4
+      Height = 20
       Transparent = False
     end
     object ToolButton37: TToolButton
@@ -229,7 +229,7 @@ object CardsFrm: TCardsFrm
       Left = 346
       Top = 0
       Width = 257
-      Height = 30
+      Height = 20
       Align = alBottom
       Caption = #1055#1086#1089#1083#1077#1076#1085#1080#1081' '#1076#1086#1073#1072#1074#1083#1077#1085#1085#1099#1081' '#1082#1086#1076':'
       Font.Charset = DEFAULT_CHARSET
@@ -268,8 +268,8 @@ object CardsFrm: TCardsFrm
     object Label26: TLabel
       Left = 845
       Top = 0
-      Width = 17
-      Height = 30
+      Width = 4
+      Height = 20
       Transparent = False
     end
     object btnDelete: TToolButton

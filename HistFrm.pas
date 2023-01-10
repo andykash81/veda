@@ -599,14 +599,14 @@ else if((index=3)or(index=1)) then
     EmptyParam,EmptyParam,EmptyParam,forw,
                 EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
-  WordApp.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  wordApp.Close(true,EmptyParam,EmptyParam);
+  WordApp.ActiveDocument.SaveAs(FileName);
+  wordApp.ActiveDocument.CLose(true,EmptyParam,EmptyParam);
   wordApp.Visible:=true;
   WordApp.Documents.Open(FileName,EmptyParam,
   EmptyParam,EmptyParam,EmptyParam,EmptyParam,
   EmptyParam,EmptyParam,EmptyParam,EmptyParam,
   EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  wordApp.Quit(true,EmptyParam,EmptyParam);   //Disconnect;
+//  wordApp.Quit(true,EmptyParam,EmptyParam);   //Disconnect;
   end;
 end;
 
@@ -715,7 +715,7 @@ FileName:='c:\veda\Priem.doc';
       oldStr:='$$Rsnimok';  newStr:=' ';
       Functions.ReplaceInWord(wordApp,oldStr,newStr);
       end;
-    WordApp.Tables.Item(3).Rows.Item(3).Cells.Item(2).Select;
+    WordApp.ActiveDocument.Tables.Item(3).Rows.Item(3).Cells.Item(2).Select;
     row:=1;
     for i:=1 to lbPriems.Count-1 do
       begin
@@ -766,14 +766,14 @@ FileName:='c:\veda\Priem.doc';
 
   
     end;
-    WordApp.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-    wordApp.Close(true,EmptyParam,EmptyParam);
+    WordApp.ActiveDocument.SaveAs(FileName);
+    wordApp.ActiveDocument.Close(true,EmptyParam,EmptyParam);
     wordApp.Visible:=true;
     WordApp.Documents.Open(FileName,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  wordApp.Quit(true,EmptyParam,EmptyParam);      //Disconnect;
+//  wordApp.Quit(true,EmptyParam,EmptyParam);      //Disconnect;
 end;
 
 procedure THistForm.Button1Click(Sender: TObject);

@@ -732,7 +732,7 @@ forw:=true;
 //Word := Unassigned;
   if((dirName='')and(FileName=''))then
     begin
-    FileName:='f:\veda\priem.doc';
+    FileName:='c:\veda\priem.doc';
     end;
   //wordApp:=CoWordApplication.Create;
 
@@ -741,11 +741,11 @@ if(index<>2) then
   begin
   if(index=1)then
     begin
-    shablon:='f:\veda\withoutSecond.doc';
+    shablon:='c:\veda\withoutSecond.doc';
     end
   else if(index=3) then
     begin
-    shablon:='f:\veda\withSecond.doc';
+    shablon:='c:\veda\withSecond.doc';
     end;
   functions.ActivateDataSetWithParam('pacientId_',PacientId,mainDataModule.dataSetFIOById);
   if((dirName<>'')and(FileName=''))then
@@ -818,7 +818,7 @@ if(index<>2) then
   end
 else
   begin
-  shablon:='f:\veda\Card.doc';
+  shablon:='c:\veda\Card.doc';
   WordApp.Documents.Open(Shablon);
   WordApp.Visible := True;
   // WordDoc := WordApp.ActiveDocument;
@@ -859,11 +859,9 @@ else
     replace:=wdReplaceOne;  oldStr:='$$Address';  newStr:=FieldByName('Adress').AsString;
     WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
 
-    replace:=wdReplaceOne;  oldStr:='$$psz';  newStr:=FieldByName('Psz').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$psz', FieldByName('Psz').AsString);
 
-    replace:=wdReplaceOne;  oldStr:='$$prikus';  newStr:=FieldByName('Prikus').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$prikus', FieldByName('Prikus').AsString);
 
 
     findRSnimok:=false;
@@ -939,19 +937,18 @@ else
   oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
   WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,forw,
-                WordApp.Content,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
 
     end;
   saveFileName:=FileName;
-  WordApp.SaveAs(saveFileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  wordApp.Close(true,EmptyParam,EmptyParam);
+  WordApp.ActiveDocument.SaveAs(saveFileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  wordApp.ActiveDocument.Close(true,EmptyParam,EmptyParam);
   if(isVisible)then
     begin
     wordApp.Visible:=true;
     WordApp.Documents.Open(saveFileName);
     end;
-  wordApp.Quit(true,EmptyParam,EmptyParam); //Disconnect;
   end;
 Result:=ExtractFileName(FileName);
 end;
