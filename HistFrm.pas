@@ -27,8 +27,6 @@ type
     memInvPriem: TMemo;
     chkSanus: TCheckBox;
     Button1: TButton;
-  //  WordApp: OleVariant;
-//    WordDoc: _Document;
     edtShortDiag: TEdit;
     edtShortLech: TEdit;
     procedure btnDelPriemClick(Sender: TObject);
@@ -384,35 +382,25 @@ if(index=2) then
     Parameters.ParamValues['cardCode']:=PacientId;
     Active:=true;
     First;
-    replace:=wdReplaceOne;  oldStr:='$$num';  newStr:=FieldByName('NewNum2').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$num', FieldByName('NewNum2').AsString);
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
-    replace:=wdReplaceOne;  oldStr:='$$year';  newStr:=DateToStr(FieldByName('Date_open').AsDateTime);
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$year', DateToStr(FieldByName('Date_open').AsDateTime));
 
-    replace:=wdReplaceOne;  oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
-
+    Functions.ReplaceInWord(WordApp, '$$FIO', FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString);
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
-    replace:=wdReplaceOne;  oldStr:='$$date_bir';  newStr:=DateToStr(FieldByName('Date_birth').AsDateTime);
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$date_bir', DateToStr(FieldByName('Date_birth').AsDateTime));
 
-    replace:=wdReplaceOne;  oldStr:='$$Pol';  newStr:=FieldByName('Sex').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$Pol', FieldByName('Sex').AsString);
 
-    replace:=wdReplaceOne;  oldStr:='$$Profession';  newStr:=FieldByName('Profession_pl_w').AsString + '('+FieldByName('Place_work_dolzhn').AsString+')';
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$Profession', FieldByName('Profession_pl_w').AsString + '('+FieldByName('Place_work_dolzhn').AsString+')');
 
-    replace:=wdReplaceOne;  oldStr:='$$Address';  newStr:=FieldByName('Adress').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$Address', FieldByName('Adress').AsString);
 
-    replace:=wdReplaceOne;  oldStr:='$$psz';  newStr:=FieldByName('Psz').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$psz', FieldByName('Psz').AsString);
 
-    replace:=wdReplaceOne;  oldStr:='$$prikus';  newStr:=FieldByName('Prikus').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$prikus', FieldByName('Prikus').AsString);
 
     with mainDataModule.dataSetPriemsByDates do
       begin
@@ -496,30 +484,17 @@ if(index=2) then
         end;
       end;
        //колонтитулы
-     WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
-  oldStr:='$$num';  newStr:=FieldByName('newNum2').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+    WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
+    Functions.ReplaceInWord(WordApp, '$$num', FieldByName('newNum2').AsString);
 
-  WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
-  oldStr:='$$num';  newStr:=FieldByName('newNum2').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+    WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
+    Functions.ReplaceInWord(WordApp, '$$num', FieldByName('newNum2').AsString);
 
-   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
-  oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+    WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
+    Functions.ReplaceInWord(WordApp, '$$FIO', FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString);
 
-   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
-  oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-
+    WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
+    Functions.ReplaceInWord(WordApp, '$$FIO', FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString);
 
     end;
     WordApp.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
@@ -536,21 +511,15 @@ else if((index=3)or(index=1)) then
   if (index=3) then shablon:='c:\veda\withSecond.doc';
   if (index=1) then shablon:='c:\veda\withoutSecond.doc';
   WordApp.Documents.Open(Shablon,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  // WordDoc := WordApp.ActiveDocument;
 
   with mainDataModule.dataSetPriemsByDates do
   begin
   Formatsettings.ShortDateFormat := 'dd MMMM yyyy';
-  replace:=wdReplaceOne;  oldStr:='$$date';  newStr:=DateToStr(FieldByName('Date_priem').AsDateTime);
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+  Functions.ReplaceInWord(WordApp, '$$date', DateToStr(FieldByName('Date_priem').AsDateTime));
 
-  oldStr:='$$hist';  newStr:='';replace:=wdReplaceNone;
-  Functions.typeToWordHist(wordApp,oldStr,FieldByName('Description').AsString,true);
+  Functions.typeToWordHist(wordApp,'$$hist',FieldByName('Description').AsString,true);
 
-  oldStr:='$$Doc';  newStr:=fieldByName('FIO').AsString; replace:=wdReplaceOne;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,EmptyParam,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  Functions.ReplaceInWord(WordApp, '$$Doc', fieldByName('FIO').AsString);
   end;
   row:=1;
   with mainDataModule.dataSetPriemsByDates do
@@ -575,29 +544,16 @@ else if((index=3)or(index=1)) then
       end;
   functions.ActivateDataSetWithParam('pacientId_',PacientId,mainDataModule.dataSetFIOById);
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
-
-  oldStr:='$$num';  newStr:=mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString);
 
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
-  oldStr:='$$num';  newStr:=mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString);
 
-   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
-   oldStr:='$$FIO';  newStr:=mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
-   WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
+  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString);
 
-   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
-  oldStr:='$$FIO';  newStr:=mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+  WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
+  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString);
 
   WordApp.ActiveDocument.SaveAs(FileName);
   wordApp.ActiveDocument.CLose(true,EmptyParam,EmptyParam);
@@ -626,34 +582,26 @@ FileName:='c:\veda\Priem.doc';
     Parameters.ParamValues['cardCode']:=PacientId;
     Active:=true;
     First;
-    replace:=wdReplaceOne;  oldStr:='$$num';  newStr:=FieldByName('NewNum2').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$num', FieldByName('NewNum2').AsString);
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
-    replace:=wdReplaceOne;  oldStr:='$$year';  newStr:=DateToStr(FieldByName('Date_open').AsDateTime);
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$year', DateToStr(FieldByName('Date_open').AsDateTime));
 
-    replace:=wdReplaceOne;  oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$FIO', FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString);
 
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
-    replace:=wdReplaceOne;  oldStr:='$$date_bir';  newStr:=DateToStr(FieldByName('Date_birth').AsDateTime);
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$date_bir', DateToStr(FieldByName('Date_birth').AsDateTime));
 
-    replace:=wdReplaceOne;  oldStr:='$$Pol';  newStr:=FieldByName('Sex').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$Pol', FieldByName('Sex').AsString);
 
-    replace:=wdReplaceOne;  oldStr:='$$Profession';  newStr:=FieldByName('Profession_pl_w').AsString + '('+FieldByName('Place_work_dolzhn').AsString+')';
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$Profession', FieldByName('Profession_pl_w').AsString + '('+FieldByName('Place_work_dolzhn').AsString+')');
 
-    replace:=wdReplaceOne;  oldStr:='$$Address';  newStr:=FieldByName('Adress').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$Address', FieldByName('Adress').AsString);
 
-    replace:=wdReplaceOne;  oldStr:='$$psz';  newStr:=FieldByName('Psz').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$psz', FieldByName('Psz').AsString);
 
-    replace:=wdReplaceOne;  oldStr:='$$prikus';  newStr:=FieldByName('Prikus').AsString;
-    WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+    Functions.ReplaceInWord(WordApp, '$$prikus', FieldByName('Prikus').AsString);
+
 
   Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[0])),mainDataModule.dataSetPriemByIdWithSotr);
   with mainDataModule.dataSetPriemByIdWithSotr do
@@ -739,31 +687,17 @@ FileName:='c:\veda\Priem.doc';
       end;
        //колонтитулы
 
-     WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
-  oldStr:='$$num';  newStr:=FieldByName('newNum2').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+    WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
+    Functions.ReplaceInWord(WordApp, '$$num', FieldByName('newNum2').AsString);
 
-  WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
-  oldStr:='$$num';  newStr:=FieldByName('newNum2').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+    WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
+    Functions.ReplaceInWord(WordApp, '$$num', FieldByName('newNum2').AsString);
 
-   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
-  oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
+    WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
+    Functions.ReplaceInWord(WordApp, '$$FIO', FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString);
 
-   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
-  oldStr:='$$FIO';  newStr:=FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString; replace:=wdReplaceAll;
-  WordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam,
-    EmptyParam,EmptyParam,EmptyParam,forw,
-                EmptyParam,EmptyParam,newStr,replace, EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-
-
+    WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
+    Functions.ReplaceInWord(WordApp, '$$FIO', FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString);
   
     end;
     WordApp.ActiveDocument.SaveAs(FileName);
