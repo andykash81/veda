@@ -1,38 +1,39 @@
 object NewPacientFrm: TNewPacientFrm
   Left = 205
   Top = 50
-  Width = 806
-  Height = 583
   Caption = #1053#1086#1074#1099#1081' '#1087#1072#1094#1080#1077#1085#1090
+  ClientHeight = 545
+  ClientWidth = 794
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -16
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = False
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 20
   object Panel5: TPanel
     Left = 0
     Top = 0
-    Width = 790
+    Width = 794
     Height = 545
     Align = alClient
-    Caption = 'Panel5'
     TabOrder = 0
+    ExplicitWidth = 790
+    ExplicitHeight = 544
     object Panel3: TPanel
       Left = 425
       Top = 1
-      Width = 364
+      Width = 368
       Height = 543
       Align = alClient
       TabOrder = 0
+      ExplicitWidth = 364
+      ExplicitHeight = 542
       object GroupBox7: TGroupBox
         Left = 1
         Top = 1
-        Width = 362
+        Width = 366
         Height = 192
         Align = alTop
         Caption = #1058#1077#1083#1077#1092#1086#1085#1099
@@ -43,6 +44,7 @@ object NewPacientFrm: TNewPacientFrm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 362
         object Label4: TLabel
           Left = 16
           Top = 32
@@ -155,7 +157,7 @@ object NewPacientFrm: TNewPacientFrm
       object GroupBox8: TGroupBox
         Left = 1
         Top = 193
-        Width = 362
+        Width = 366
         Height = 120
         Align = alTop
         Caption = #1057#1074#1077#1076#1077#1085#1080#1103
@@ -166,6 +168,7 @@ object NewPacientFrm: TNewPacientFrm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 1
+        ExplicitWidth = 362
         object chkAllergy: TCheckBox
           Left = 8
           Top = 24
@@ -243,18 +246,19 @@ object NewPacientFrm: TNewPacientFrm
       object GroupBox9: TGroupBox
         Left = 1
         Top = 313
-        Width = 362
+        Width = 366
         Height = 80
         Align = alTop
         Caption = #1044#1072#1090#1072' '#1086#1090#1082#1088#1099#1090#1080#1103' '#1082#1072#1088#1090#1099
         TabOrder = 2
+        ExplicitWidth = 362
         object dateOpen: TDateTimePicker
           Left = 24
           Top = 32
           Width = 186
           Height = 28
-          Date = 39613.006979409720000000
-          Time = 39613.006979409720000000
+          Date = 39613.000000000000000000
+          Time = 0.006979409721679986
           TabOrder = 0
           OnKeyPress = dateOpenKeyPress
         end
@@ -275,8 +279,6 @@ object NewPacientFrm: TNewPacientFrm
         Width = 181
         Height = 33
         Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100
-        TabOrder = 4
-        OnClick = btnSaveClick
         Glyph.Data = {
           36090000424D3609000000000000360000002800000018000000180000000100
           20000000000000090000C40E0000C40E00000000000000000000000000000000
@@ -352,6 +354,8 @@ object NewPacientFrm: TNewPacientFrm
           6FFF6F6F6FFF6F6F6FFF000000006F6F6FFF6F6F6FFF707070FF757575FF7070
           70FF6F6F6FFF727272FF707070FF6F6F6FFF6F6F6FFF6F6F6FFF6F6F6FFF6F6F
           6FFF6F6F6FFF6F6F6FFF6F6F6FFF000000000000000000000000}
+        TabOrder = 4
+        OnClick = btnSaveClick
       end
       object btnCancel: TBitBtn
         Left = 204
@@ -365,7 +369,7 @@ object NewPacientFrm: TNewPacientFrm
       object GroupBox6: TGroupBox
         Left = 1
         Top = 393
-        Width = 362
+        Width = 366
         Height = 72
         Align = alTop
         Caption = #1055#1088#1080#1084#1077#1095#1072#1085#1080#1077
@@ -376,6 +380,7 @@ object NewPacientFrm: TNewPacientFrm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 6
+        ExplicitWidth = 362
         object edtRemarks: TEdit
           Left = 16
           Top = 24
@@ -398,8 +403,8 @@ object NewPacientFrm: TNewPacientFrm
       Width = 424
       Height = 543
       Align = alLeft
-      Caption = 'Panel2'
       TabOrder = 1
+      ExplicitHeight = 542
       object GroupBox4: TGroupBox
         Left = 1
         Top = 193
@@ -484,8 +489,8 @@ object NewPacientFrm: TNewPacientFrm
             Top = 32
             Width = 186
             Height = 28
-            Date = 22082.991508206020000000
-            Time = 22082.991508206020000000
+            Date = 22082.000000000000000000
+            Time = 0.991508206021535400
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -16
@@ -520,7 +525,6 @@ object NewPacientFrm: TNewPacientFrm
             Font.Height = -16
             Font.Name = 'MS Sans Serif'
             Font.Style = []
-            ItemHeight = 20
             ParentFont = False
             TabOrder = 0
             Text = #1046
@@ -627,13 +631,13 @@ object NewPacientFrm: TNewPacientFrm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 5
+        ExplicitHeight = 148
         object cbPsz: TComboBox
           Left = 29
           Top = 27
           Width = 265
           Height = 28
           Style = csDropDownList
-          ItemHeight = 20
           TabOrder = 0
         end
         object btnAddPsz: TButton

@@ -24,16 +24,19 @@ implementation
   end;
 
   procedure ReplaceInWord(wordApp:OleVariant;oldStr,newStr:String);
-  var replace,tmpStr,wstart,wend:OleVariant;
+  var replace,tmpStr,wstart,wend:OleVariant; found:boolean;
   begin
   replace:=wdReplaceNone;
-  tmpStr:='';
   wstart:=wdFindContinue;
   wend:=wdForward;
+  tmpStr:='';
 
-  wordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,wend, wstart,EmptyParam,tmpStr,replace,
+  found:=wordApp.Selection.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,wend, wstart,EmptyParam, tmpStr,replace,
   EmptyParam, EmptyParam, EmptyParam, EmptyParam);
-  wordApp.Selection.TypeText(newStr);
+  if(found) then
+    begin
+    wordApp.Selection.TypeText(newStr);
+    end;
   end;
 
 procedure typeToWordHist(wordApp:OleVariant;oldStr,newStr:String; find:boolean);

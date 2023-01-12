@@ -899,6 +899,7 @@ else
       oldStr:='$$Rsnimok';  newStr:=' ';
       Functions.ReplaceInWord(wordApp,oldStr,newStr);
       end;
+
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
   Functions.ReplaceInWord(WordApp, '$$num', FieldByName('newNum2').AsString);
 
