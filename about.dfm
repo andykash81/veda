@@ -5072,9 +5072,7 @@ object AboutBox: TAboutBox
     000000000000F80F0000F0030000E0010000C001000080000000800000008000
     000080000000800000008000000080000000C0010000E0010000F0030000F80F
     0000FFFF0000}
-  OldCreateOrder = False
   Position = poScreenCenter
-  PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 8
@@ -5086,7 +5084,7 @@ object AboutBox: TAboutBox
     object ProductName: TLabel
       Left = 8
       Top = 8
-      Width = 329
+      Width = 308
       Height = 48
       Alignment = taCenter
       Caption = #1040#1074#1090#1086#1084#1072#1090#1080#1079#1080#1088#1086#1074#1072#1085#1085#1072#1103' '#1089#1080#1089#1090#1077#1084#1072' "'#1042#1077#1076#1072'"'
@@ -5102,18 +5100,18 @@ object AboutBox: TAboutBox
       IsControl = True
     end
     object Version: TLabel
-      Left = 88
-      Top = 80
+      Left = 116
+      Top = 55
       Width = 85
       Height = 13
       Caption = #1042#1077#1088#1089#1080#1103' 1.0.2.215'
       IsControl = True
     end
     object Copyright: TLabel
-      Left = 8
-      Top = 72
-      Width = 329
-      Height = 39
+      Left = 19
+      Top = 70
+      Width = 297
+      Height = 43
       Alignment = taCenter
       Caption = 
         #1055#1088#1072#1074#1086#1086#1073#1083#1072#1076#1072#1090#1077#1083#1077#1084' '#1076#1072#1085#1085#1086#1075#1086' '#1087#1088#1086#1075#1088#1072#1084#1084#1085#1086#1075#1086' '#1087#1088#1086#1076#1091#1082#1090#1072' '#1103#1074#1083#1103#1077#1090#1089#1103' '#1057#1090#1086#1084#1072#1090#1086#1083 +
