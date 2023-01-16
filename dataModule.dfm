@@ -1,8 +1,7 @@
 object mainDataModule: TmainDataModule
-  OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 717
-  Width = 937
+  Height = 861
+  Width = 1107
   object mainConnection: TADOConnection
     Connected = True
     ConnectionString = 
@@ -2916,5 +2915,28 @@ object mainDataModule: TmainDataModule
         'desc_ where FileId=:FileId_')
     Left = 688
     Top = 520
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      'Database=veda_db'
+      'CharacterSet=WIN1251'
+      'LoginTimeout=30'
+      'Server=127.0.0.1'
+      'User_Name=admin'
+      'Password=8186'
+      'UnknownFormat=BYTEA'
+      'OidAsBlob=Yes'
+      'ExtendedMetadata=True'
+      'DriverID=PG')
+    Connected = True
+    Left = 24
+    Top = 720
+  end
+  object FDPhysPgDriverLink1: TFDPhysPgDriverLink
+    DriverID = 'PG'
+    VendorHome = 'C:\Program Files (x86)\psqlODBC\1302'
+    VendorLib = 'libpq.dll'
+    Left = 24
+    Top = 784
   end
 end

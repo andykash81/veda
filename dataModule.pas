@@ -3,7 +3,10 @@ unit dataModule;
 interface
 
 uses
-  SysUtils, Classes, DB, ADODB, Winapi.Windows;
+  SysUtils, Classes, DB, ADODB, Winapi.Windows, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf,
+  FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys,
+  FireDAC.Phys.PG, FireDAC.Phys.PGDef, FireDAC.VCLUI.Wait, FireDAC.Comp.Client;
 
 type
   TmainDataModule = class(TDataModule)
@@ -137,6 +140,8 @@ type
     dataSetFileNameById: TADODataSet;
     dataSetFileById: TADODataSet;
     queryUpdateFile: TADOQuery;
+    FDConnection1: TFDConnection;
+    FDPhysPgDriverLink1: TFDPhysPgDriverLink;
      procedure dsPacListDataChange(Sender: TObject; Field: TField);
     procedure DataModuleCreate(Sender: TObject);
   private
@@ -167,7 +172,7 @@ end;
 procedure TmainDataModule.DataModuleCreate(Sender: TObject);
 var conectStr:string; iFileHandle: Integer;
   iFileLength: Integer;
-  iBytesRead: Integer;
+//  iBytesRead: Integer;
   Buffer: PChar;
   i: Integer;
 begin
