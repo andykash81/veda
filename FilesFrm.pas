@@ -50,8 +50,8 @@ uses dataModule, Functions, ADODB, DateUtils, DB;
 procedure TFilesForm.FormShow(Sender: TObject);
 var i:integer;
 begin
-Functions.ActivateDataSetWithParam('pacientId_',pacientId,mainDataModule.dataSetFilesById);
-with mainDataModule.dataSetFilesById do
+Functions.ActivateDataSetWithParam('pacientId_', pacientId, mainDataModule.dataSetFilesById1);
+with mainDataModule.dataSetFilesById1 do
   begin
   lbFiles.Items.Clear;
   for i:=0 to RecordCount-1 do
@@ -68,14 +68,14 @@ begin
 OpenDialog.Execute;
 for i:=0 to OpenDialog.Files.Count-1 do
   begin
-  with mainDataModule.queryInsertFile do
+  with mainDataModule.queryInsertFile1 do
     begin
-    with Parameters do
+    with Params do
       begin
-      mainDataModule.dataSetMaxFileID.Active:=false;
-      mainDataModule.dataSetMaxFileID.Active:=true;
-      mainDataModule.dataSetMaxFileID.First;
-      id:=mainDataModule.dataSetMaxFileID.fieldByName('maxFileId').AsInteger+1;
+      mainDataModule.dataSetMaxFileID1.Active:=false;
+      mainDataModule.dataSetMaxFileID1.Active:=true;
+      mainDataModule.dataSetMaxFileID1.First;
+      id:=mainDataModule.dataSetMaxFileID1.fieldByName('maxFileId').AsInteger+1;
       fileName:=ExtractFileName(OpenDialog.Files[i]);
       cuttedFolderName:=getFileFolder+'\';
       folderName:=getConectStr+'\veda_files\'+cuttedFolderName;
@@ -111,8 +111,8 @@ procedure TFilesForm.btnOpenClick(Sender: TObject);
 begin
 if(lbFiles.ItemIndex<>-1) then
   begin
-  functions.ActivateDataSetWithParam('FileId_',IntToStr(Integer(lbFiles.Items.Objects[lbFiles.ItemIndex])), mainDataModule.dataSetFileNameById);
-  ShellExecute(0,'open',PChar(Functions.getConectStr+'\veda_files\'+mainDataModule.dataSetFileNameById.FieldByName('FileName').AsString),nil,nil,SW_SHOWNORMAL);
+  functions.ActivateDataSetWithParam('FileId_',IntToStr(Integer(lbFiles.Items.Objects[lbFiles.ItemIndex])), mainDataModule.dataSetFileNameById1);
+  ShellExecute(0,'open',PChar(Functions.getConectStr+'\veda_files\'+mainDataModule.dataSetFileNameById1.FieldByName('FileName').AsString),nil,nil,SW_SHOWNORMAL);
   end;
 end;
 
@@ -124,9 +124,9 @@ end;
 procedure TFilesForm.lbFilesClick(Sender: TObject);
 var i:integer;
 begin
-Functions.ActivateDataSetWithParam('FileId_',IntTOStr(Integer(lbFiles.Items.Objects[lbFiles.ItemIndex])),mainDataModule.dataSetFileById);
+Functions.ActivateDataSetWithParam('FileId_',IntTOStr(Integer(lbFiles.Items.Objects[lbFiles.ItemIndex])),mainDataModule.dataSetFileById1);
 i:=Integer(lbFiles.Items.Objects[lbFiles.ItemIndex]);
-with mainDataModule.dataSetFileById do
+with mainDataModule.dataSetFileById1 do
   begin
   edtFileName.Text:=FieldByName('Name').AsString;
   edtLoadDate.Text:=DateToStr(FieldByName('LoadDate').AsDateTime);
@@ -139,13 +139,13 @@ procedure TFilesForm.btnSaveClick(Sender: TObject);
 begin
 if (lbFiles.ItemIndex<>-1) then
   begin
-  with mainDataModule.queryUpdateFile do
+  with mainDataModule.queryUpdateFile1 do
     begin
-    with Parameters do
+    with Params do
       begin
-      ParamValues['Name_']:=edtFileName.Text;
-      ParamValues['FileDate_']:=edtCreateDate.DateTime;
-      ParamValues['Desc_']:=memDesc.Text;
+      ParamValues['name_']:=edtFileName.Text;
+      ParamValues['fileDate_']:=edtCreateDate.DateTime;
+      ParamValues['desc_']:=memDesc.Text;
       ParamValues['FileId_']:=Integer(lbFiles.Items.Objects[lbFiles.ItemIndex]);
       end;
     ExecSQL;

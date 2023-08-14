@@ -2,6 +2,8 @@ program Mdiapp;
 
 uses
   Forms,
+  Dialogs,
+  FireDAC.Phys.PGWrapper,
   SysUtils,
   MAIN in 'MAIN.PAS' {MainForm},
   CHILDWIN in 'CHILDWIN.PAS' {MDIChild},
@@ -30,10 +32,10 @@ uses
 {$R *.RES}
 
 begin
+try
   Application.Initialize;
   Application.Title := 'Автоматизированная система "Веда"';
   Application.HelpFile := 'C:\Documents and Settings\Marina\Мои документы\fgfgf.ico';
-
   Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TAboutBox, AboutBox);
   Application.CreateForm(TmainDataModule, mainDataModule);
@@ -50,4 +52,8 @@ begin
   Application.CreateForm(TOrtForm, OrtForm);
   Application.CreateForm(TFilesForm, FilesForm);
   Application.Run;
+except
+
+end;
+
 end.

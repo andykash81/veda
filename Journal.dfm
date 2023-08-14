@@ -2,8 +2,8 @@ object JournalForm: TJournalForm
   Left = 313
   Top = 130
   Caption = #1046#1091#1088#1085#1072#1083' '#1087#1088#1080#1077#1084#1072
-  ClientHeight = 502
-  ClientWidth = 1029
+  ClientHeight = 500
+  ClientWidth = 1021
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,27 +11,26 @@ object JournalForm: TJournalForm
   Font.Name = 'MS Sans Serif'
   Font.Style = [fsBold]
   FormStyle = fsMDIChild
-  OldCreateOrder = False
   Position = poDefault
   Visible = True
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 20
   object Splitter1: TSplitter
-    Left = 696
+    Left = 688
     Top = 153
     Width = 8
-    Height = 349
+    Height = 347
     Align = alRight
     Color = clNavy
     ParentColor = False
+    ExplicitLeft = 696
     ExplicitHeight = 350
   end
   object Splitter2: TSplitter
     Left = 297
     Top = 153
     Width = 8
-    Height = 349
+    Height = 347
     Color = clNavy
     ParentColor = False
     ExplicitHeight = 350
@@ -39,7 +38,7 @@ object JournalForm: TJournalForm
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1029
+    Width = 1021
     Height = 153
     Align = alTop
     TabOrder = 0
@@ -147,15 +146,14 @@ object JournalForm: TJournalForm
     Left = 0
     Top = 153
     Width = 297
-    Height = 349
+    Height = 347
     Align = alLeft
     TabOrder = 1
-    ExplicitHeight = 350
     object lbYesterday: TListBox
       Left = 1
       Top = 1
       Width = 295
-      Height = 348
+      Height = 346
       Align = alClient
       ItemHeight = 20
       PopupMenu = pMnu
@@ -164,18 +162,17 @@ object JournalForm: TJournalForm
     end
   end
   object Panel3: TPanel
-    Left = 704
+    Left = 696
     Top = 153
     Width = 325
-    Height = 349
+    Height = 347
     Align = alRight
     TabOrder = 2
-    ExplicitHeight = 350
     object lbTomorrow: TListBox
       Left = 1
       Top = 1
       Width = 323
-      Height = 348
+      Height = 346
       Align = alClient
       ItemHeight = 20
       PopupMenu = pMnu
@@ -186,16 +183,15 @@ object JournalForm: TJournalForm
   object Panel4: TPanel
     Left = 305
     Top = 153
-    Width = 391
-    Height = 349
+    Width = 383
+    Height = 347
     Align = alClient
     TabOrder = 3
-    ExplicitHeight = 350
     object lbToday: TListBox
       Left = 1
       Top = 1
-      Width = 389
-      Height = 348
+      Width = 385
+      Height = 346
       Align = alClient
       ItemHeight = 20
       PopupMenu = pMnu

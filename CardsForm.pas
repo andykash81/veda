@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, ExtCtrls, StdCtrls, ComCtrls, ToolWin, Buttons,
-  Mask, DBCtrls, DB, Types, ADOdb;
+  Mask, DBCtrls, DB, Types, ADOdb, FireDAC.Phys.PGWrapper;
 
 type
   TCardsFrm = class(TForm)
@@ -68,7 +68,6 @@ type
     DBText7: TDBText;
     DBText8: TDBText;
     Label25: TLabel;
-    DBText9: TDBText;
     DBText10: TDBText;
     DBText1: TDBText;
     shpAllergy: TShape;
@@ -161,21 +160,27 @@ end;
 
 procedure TCardsFrm.FormShow(Sender: TObject);
 begin
-CardsFrm.WindowState:=wsMaximized;
-DateTimePicker1.Date := Today;
-dateOpenTo.Date:=Today;
-dateOpenFrom.MaxDate:=dateOpenTo.Date;
-defDateOpenFrom:= dateOpenFrom.DateTime;
-birthdayFrom:=DateTimePicker2.DateTime;
-birthdayTo:=DateTimePicker1.DateTime;
-dateOpenTo.MinDate:=dateOpenFrom.Date;
-DateTimePicker2.MaxDate:= DateTimePicker1.Date;
-DateTimePicker1.MinDate:= DateTimePicker2.Date;
-redrawPanel;
-dateOpenFrom.DateTime:=Now;
-DateTimePicker2.DateTime:=Now;
-mainDataModule.DataSetLast.Active:=true;
-paramsChanged;
+  try
+  CardsFrm.WindowState:=wsMaximized;
+  DateTimePicker1.Date := Today;
+  dateOpenTo.Date:=Today;
+  dateOpenFrom.MaxDate:=dateOpenTo.Date;
+  defDateOpenFrom:= dateOpenFrom.DateTime;
+  birthdayFrom:=DateTimePicker2.DateTime;
+  birthdayTo:=DateTimePicker1.DateTime;
+  dateOpenTo.MinDate:=dateOpenFrom.Date;
+  DateTimePicker2.MaxDate:= DateTimePicker1.Date;
+  DateTimePicker1.MinDate:= DateTimePicker2.Date;
+  redrawPanel;
+  dateOpenFrom.DateTime:=Now;
+  DateTimePicker2.DateTime:=Now;
+  mainDataModule.DataSetLast1.Active:=true;
+  paramsChanged;
+  except
+  on E: EPgNativeException do
+    ShowMessage('Ошибка загрузки');
+  end;
+exit;
 end;
 
 procedure TCardsFrm.btnNewMouseMove(Sender: TObject;
@@ -213,10 +218,10 @@ begin
 NewPacientFrm.isNew:=true;
 NewPacientFrm.pacientId:='';
 NewPacientFrm.ShowModal;
-mainDataModule.dataSetPacList.Active:=false;
-mainDataModule.dataSetPacList.Active:=true;
-mainDataModule.DataSetLast.Active:=false;
-mainDataModule.dataSetLast.Active:=true;
+mainDataModule.PacListQuery.Active:=false;
+mainDataModule.PacListQuery.Active:=true;
+mainDataModule.DataSetLast1.Active:=false;
+mainDataModule.dataSetLast1.Active:=true;
 end;
 
 procedure TCardsFrm.btnSearchClick(Sender: TObject);
@@ -257,8 +262,10 @@ begin
 NewPacientFrm.isNew:=false;
 NewPacientFrm.pacientId:=_edtCode.Text;
 NewPacientFrm.ShowModal;
-mainDataModule.dataSetPacList.Active:=false;
-mainDataModule.dataSetPacList.Active:=true;
+mainDataModule.dataSetPacList1.Active:=false;
+mainDataModule.dataSetPacList1.Active:=true;
+mainDataModule.PacListQuery.Active:=false;
+mainDataModule.PacListQuery.Active:=true;
 end;
 
 procedure TCardsFrm.btnDeleteClick(Sender: TObject);
@@ -267,10 +274,10 @@ if MessageDlg( 'Удаление пациента. Продолжить?',    mtConfirmation, [mbYes, mbNo
     begin
     if MessageDlg('Подтвердите удаление выбранного пациента.',      mtConfirmation, [mbYes, mbNo],0) = mrYes then
         begin
-        mainDataModule.queryPacientDelete.Parameters.ParamValues['p']:= _edtCode.Text;
-        mainDataModule.queryPacientDelete.ExecSQL;
-        mainDataModule.dataSetPacList.Active:=false;
-        mainDataModule.dataSetPacList.Active:=true;
+        mainDataModule.queryPacientDelete1.Params.ParamValues['p']:= _edtCode.Text;
+        mainDataModule.queryPacientDelete1.ExecSQL;
+        mainDataModule.PacListQuery.Active:=false;
+        mainDataModule.PacListQuery.Active:=true;
         end;
     end;
 end;
@@ -280,8 +287,10 @@ begin
 NewPacientFrm.isNew:=false;
 NewPacientFrm.pacientId:=_edtCode.Text;
 NewPacientFrm.ShowModal;
-mainDataModule.dataSetPacList.Active:=false;
-mainDataModule.dataSetPacList.Active:=true;
+mainDataModule.dataSetPacList1.Active:=false;
+mainDataModule.dataSetPacList1.Active:=true;
+mainDataModule.PacListQuery.Active:=false;
+mainDataModule.PacListQuery.Active:=true;
 end;
 
 procedure TCardsFrm.btnWizardClick(Sender: TObject);
@@ -320,40 +329,40 @@ begin
         Panel1.Color :=$00FCE4DA;
   end;
 
-    mainDataModule.PSZByCode.Active:=false;
-    mainDataModule.PSZByCode.Parameters.ParamValues['code']:=_edtCode.Text;
-    mainDataModule.PSZByCode.Active:=true;
+    mainDataModule.PSZByCode1.Active:=false;
+    mainDataModule.PSZByCode1.Params.ParamValues['code']:=_edtCode.Text;
+    mainDataModule.PSZByCode1.Active:=true;
 
     shpAllergy.Visible:=false;
     shpGepatit.Visible:=false;
     shpDolzhn.Visible:=false;
     shpOther.Visible:=false;
 
-    if(mainDataModule.PSZByCode.RecordCount>0) then
+    if(mainDataModule.PSZByCode1.RecordCount>0) then
       begin
-          mainDataModule.PSZByCode.First;
-          for i:=0 to mainDataModule.PSZByCode.RecordCount do
+          mainDataModule.PSZByCode1.First;
+          for i:=0 to mainDataModule.PSZByCode1.RecordCount do
             begin
-            if(mainDataModule.PSZByCode.FieldByName('Zabolev').AsInteger=PSZ_GEPATIT) then
+            if(mainDataModule.PSZByCode1.FieldByName('Zabolev').AsInteger=PSZ_GEPATIT) then
               begin
                   shpGepatit.Visible:=true;
               end;
 
-            if(mainDataModule.PSZByCode.FieldByName('Zabolev').AsInteger=PSZ_ALLERGY) then
+            if(mainDataModule.PSZByCode1.FieldByName('Zabolev').AsInteger=PSZ_ALLERGY) then
               begin
                   shpAllergy.Visible:=true;
               end;
 
-            if(mainDataModule.PSZByCode.FieldByName('Zabolev').AsInteger=PSZ_DOLZHN) then
+            if(mainDataModule.PSZByCode1.FieldByName('Zabolev').AsInteger=PSZ_DOLZHN) then
               begin
                   shpDolzhn.Visible:=true;
               end;
 
-           if(mainDataModule.PSZByCode.FieldByName('Zabolev').AsInteger=PSZ_OTHER) then
+           if(mainDataModule.PSZByCode1.FieldByName('Zabolev').AsInteger=PSZ_OTHER) then
               begin
                   shpOther.Visible:=true;
               end;
-          mainDataModule.PSZByCode.Next;
+          mainDataModule.PSZByCode1.Next;
             end;
       end;
 end;
@@ -365,6 +374,7 @@ end;
 
 procedure TcardsFrm.paramsChanged();
 var query: string;
+txt1, txt2: string;
 begin
 query:='';
 if(Trim(edtSurname.Text)<>'') then
@@ -376,7 +386,7 @@ if(Trim(edtSurname.Text)<>'') then
     begin
     query:=query+' and ';
     end;
-  query:=query+ ' Surname like "' + edtSurname.Text+'%"';
+  query:=query+ ' "Kartochka"."Surname" ilike '+chr(39) + edtSurname.Text+'%'+chr(39);
   end;
 
 if(Trim(edtName.Text)<>'') then
@@ -388,7 +398,7 @@ if(Trim(edtName.Text)<>'') then
     begin
     query:=query+' and ';
     end;
-  query:=query+ ' Name like "' + edtName.Text+'%"';
+  query:=query+ ' "Kartochka"."Name" ilike '+chr(39) + edtName.Text+'%'+chr(39);
   end;
 
 if(Trim(edtPatronymic.Text)<>'') then
@@ -400,7 +410,7 @@ if(Trim(edtPatronymic.Text)<>'') then
     begin
     query:=query+' and ';
     end;
-  query:=query+ ' Sec_name like "' + edtPatronymic.Text+'%"';
+  query:=query+ ' "Kartochka"."Sec_name" ilike '+chr(39) + edtPatronymic.Text+'%'+chr(39);
   end;
 
 if(Trim(cbSex.Text)<>'') then
@@ -412,7 +422,7 @@ if(Trim(cbSex.Text)<>'') then
     begin
     query:=query+' and ';
     end;
-  query:=query+ ' Sex like "' + cbSex.Text+'%"';
+  query:=query+ ' "Kartochka"."Sex" ilike '+chr(39) + cbSex.Text+'%'+chr(39);
   end;
 
 
@@ -425,7 +435,7 @@ if(Trim(edtAdress.Text)<>'') then
     begin
     query:=query+' and ';
     end;
-  query:=query+ ' Adress like "' + edtAdress.Text+'%"';
+  query:=query+ ' "Kartochka"."Adress" ilike '+chr(39) + edtAdress.Text+'%'+chr(39);
   end;
 
 if(Trim(edtPlaceWork.Text)<>'') then
@@ -438,7 +448,7 @@ if(Trim(edtPlaceWork.Text)<>'') then
     query:=query+' and ';
     end;
 
-  query:=query+ ' Profession_pl_w like "' + edtPlaceWork.Text+'%"';
+  query:=query+ ' "Kartochka"."Profession_pl_w" ilike '+chr(39) + edtPlaceWork.Text+'%'+chr(39);
   end;
 
   if(Trim(edtProffession.Text)<>'') then
@@ -451,7 +461,7 @@ if(Trim(edtPlaceWork.Text)<>'') then
     query:=query+' and ';
     end;
 
-  query:=query+ ' Place_work_dolzhn like "' + edtProffession.Text+'%"';
+  query:=query+ ' "Kartochka"."Place_work_dolzhn" ilike '+chr(39) + edtProffession.Text+'%'+chr(39);
   end;
 
 if(Trim(edtCardNum.Text)<>'') then
@@ -463,7 +473,7 @@ if(Trim(edtCardNum.Text)<>'') then
     begin
     query:=query+' and ';
     end;
-  query:=query+ ' Num_fam2 like "' + edtCardNum.Text+'%"';
+  query:=query+ ' "Kartochka"."Num_fam2" ilike '+chr(39) + edtCardNum.Text+'%'+chr(39);
   end;
 
 if(Trim(edtNewCardNum.Text)<>'') then
@@ -475,7 +485,7 @@ if(Trim(edtNewCardNum.Text)<>'') then
     begin
     query:=query+' and ';
     end;
-  query:=query+ ' newNum2 like "' + edtNewCardNum.Text+'%"';
+  query:=query+ ' "Kartochka"."newNum2" ilike '+chr(39) + edtNewCardNum.Text+'%'+chr(39);
   end;
 
   if(Trim(edtNumPh.Text)<>'') then
@@ -487,7 +497,7 @@ if(Trim(edtNewCardNum.Text)<>'') then
     begin
     query:=query+' and ';
     end;
-  query:=query+ 'ph1 like "' + edtNumPh.Text+'%"';
+  query:=query+ '"Kartochka"."ph1" ilike '+chr(39) + edtNumPh.Text+'%'+chr(39);
   end;
 
   if(cbOnlyNew.Checked) then
@@ -499,7 +509,7 @@ if(Trim(edtNewCardNum.Text)<>'') then
     begin
     query:=query+' and ';
     end;
-  query:=query+ 'newNum2 is not null';
+  query:=query+ '"Kartochka"."newNum2" is not null';
   end;
 
 
@@ -514,17 +524,25 @@ begin
     end;
 query:=query+ ' Date_open > :dof and Date_open < :dot and Date_birth > :bdf and Date_birth < :bdt';
 end;
-mainDataModule.dataSetPacList.Active:=false;
-mainDataModule.dataSetPacList.CommandText:='select Num_fam2, NewNum2, Surname, Name, Sec_Name, Date_birth, Date_open, ph1, ph2, ph3, ph4, Place_work_dolzhn, Profession_pl_w, Sex, Svedenia, Adress from Kartochka ' + query+ ' order by Surname';
+mainDataModule.dataSetPacList1.Active:=false;
+txt1:='select "Kartochka"."Num_fam2","Kartochka"."newNum2","Kartochka"."Surname","Kartochka"."Name","Kartochka"."Sec_name","Kartochka"."Date_birth","Kartochka"."Date_open","Kartochka"."ph1","Kartochka"."ph2","Kartochka"."ph3",';
+txt2:='"Kartochka"."ph4","Kartochka"."Place_work_dolzhn","Kartochka"."Profession_pl_w","Kartochka"."Sex","Kartochka"."Svedenia","Kartochka"."Adress" from "Kartochka"';
+mainDataModule.dataSetPacList1.SQL.Text:=txt1 + txt2 + query + ' order by "Surname"';
 if((dateOpenFrom.DateTime<>0)and(DateTimePicker2.DateTime<>0)and(DateTimePicker1.DateTime<>Today)and(dateOpenTo.DateTime<>Today)) then
 begin
-mainDataModule.dataSetPacList.Parameters.ParamValues['dof'] := dateOpenFrom.DateTime;
-mainDataModule.dataSetPacList.Parameters.ParamValues['dot']:=dateOpenTo.DateTime;
-mainDataModule.dataSetPacList.Parameters.ParamValues['bdf']:=DateTimePicker2.DateTime;
-mainDataModule.dataSetPacList.Parameters.ParamValues['bdt']:= DateTimePicker1.DateTime;
+mainDataModule.dataSetPacList1.Params.ParamValues['dof'] := dateOpenFrom.DateTime;
+mainDataModule.dataSetPacList1.Params.ParamValues['dot']:=dateOpenTo.DateTime;
+mainDataModule.dataSetPacList1.Params.ParamValues['bdf']:=DateTimePicker2.DateTime;
+mainDataModule.dataSetPacList1.Params.ParamValues['bdt']:= DateTimePicker1.DateTime;
 end;
-mainDataModule.dataSetPacList.Active:=true;
+
+if query <> '' then
+begin
+ DBGrid1.DataSource.DataSet:=mainDataModule.dataSetPacList1;
 end;
+mainDataModule.dataSetPacList1.Active:=true;
+end;
+
 
 procedure TCardsFrm.ToolButton38Click(Sender: TObject);
 var pacientId:string;newId:double;
@@ -532,34 +550,34 @@ begin
 if(DBGrid1.Focused) then
   begin
   pacientId:=_edtCode.Text;
-  with mainDataModule.dataSetHaveNewNum do
+  with mainDataModule.dataSetHaveNewNum1 do
     begin
     Active:=false;
-    Parameters.ParamValues['numFam2_']:=pacientId;
+    Params.ParamValues['numFam2_']:=pacientId;
     Active:=true;
     First;
     if(Trim(FieldByName('NewNum2').AsString)='') then
       begin
-      with mainDataModule.dsMaxNum2 do
+      with mainDataModule.dsMaxNum2_1 do
         begin
         Active:=false;
-        Parameters.ParamValues['sur']:=pacientId[1]+'%';
+        Params.ParamValues['sur']:=pacientId[1]+'%';
         Active:=true;
         First;
         newId:=FieldByName('MaxNewNum').AsFloat+1;
         end;
-      with mainDataModule.queryGenerateNewNum do
+      with mainDataModule.queryGenerateNewNum1 do
         begin
-        mainDataModule.queryGenerateNewNum.Parameters.ParamValues['newNum_']:=newId;
-        mainDataModule.queryGenerateNewNum.Parameters.ParamValues['newNum2_']:=pacientId[1]+pacientId[1]+FloatToStr(newId);
-        mainDataModule.queryGenerateNewNum.parameters.ParamValues['num_fam2_']:=pacientId;
+        mainDataModule.queryGenerateNewNum1.Params.ParamValues['newNum_']:=newId;
+        mainDataModule.queryGenerateNewNum1.Params.ParamValues['newNum2_']:=pacientId[1]+pacientId[1]+FloatToStr(newId);
+        mainDataModule.queryGenerateNewNum1.Params.ParamValues['num_fam2_']:=pacientId;
         ExecSQL;
         ShowMessage('Сгенерирован номер: '+pacientId[1]+pacientId[1]+FloatToStr(newId));
-        mainDataModule.DataSetLast.Active:=false;
-        mainDataModule.DataSetLast.Active:=true;
-        mainDataModule.dataSetPacList.Active:=false;
-        mainDataModule.dataSetPacList.Active:=true;
-        mainDataModule.DataSetLast.First;
+        mainDataModule.DataSetLast1.Active:=false;
+        mainDataModule.DataSetLast1.Active:=true;
+        mainDataModule.PacListQuery.Active:=false;
+        mainDataModule.PacListQuery.Active:=true;
+        mainDataModule.DataSetLast1.First;
         end;
       end
     else

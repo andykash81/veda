@@ -61,8 +61,8 @@ uses CardsForm, dataModule, Functions, DB, Wizard, Constants, ADODB,
 
 procedure THistForm.FormShow(Sender: TObject);
 begin
-Functions.ActivateDataSetWithParam('pacientId_',pacientId,mainDataModule.dataSetPacientById);
-with mainDataModule.dataSetPacientById do
+Functions.ActivateDataSetWithParam('pacientId_',pacientId,mainDataModule.dataSetPacientById1);
+with mainDataModule.dataSetPacientById1 do
   begin
   Caption:='История болезни - '+FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString+' ';
   end;
@@ -73,22 +73,22 @@ procedure THistForm.refreshForm;
 var i, j:integer; priemKrList:TStringList; priemKr:string;
 begin
    // Заполним список докторов
-   mainDataModule.dataSetDoctorsList.Active:=false;
-   mainDataModule.dataSetDoctorsList.CommandText:='select code_sotr, FIO from Sotr where rights = '+IntToStr(Constants.RIGHTS_DOCTOR);
-   mainDataModule.dataSetDoctorsList.Active:=true;
-   if(mainDataModule.dataSetDoctorsList.RecordCount>0) then
+   mainDataModule.dataSetDoctorsList1.Active:=false;
+   mainDataModule.dataSetDoctorsList1.SQL.Text:='select "Sotr"."Code_sotr", "Sotr"."FIO" from "Sotr" where "Sotr"."Rights" = '+IntToStr(Constants.RIGHTS_DOCTOR);
+   mainDataModule.dataSetDoctorsList1.Active:=true;
+   if(mainDataModule.dataSetDoctorsList1.RecordCount>0) then
     begin
     cbDoctors.Items.Clear;
-    mainDataModule.dataSetDoctorsList.First;
-      for i:=1 to mainDataModule.dataSetDoctorsList.RecordCount do
+    mainDataModule.dataSetDoctorsList1.First;
+      for i:=1 to mainDataModule.dataSetDoctorsList1.RecordCount do
         begin
-        cbDoctors.Items.AddObject(mainDataModule.dataSetDoctorsList.FieldByName('FIO').AsString, TObject(mainDataModule.dataSetDoctorsList.FieldByName('code_sotr').AsInteger));
-        mainDataModule.dataSetDoctorsList.Next;
+        cbDoctors.Items.AddObject(mainDataModule.dataSetDoctorsList1.FieldByName('FIO').AsString, TObject(mainDataModule.dataSetDoctorsList1.FieldByName('Code_sotr').AsInteger));
+        mainDataModule.dataSetDoctorsList1.Next;
         end;
     end;
-Functions.ActivateDataSetWithParam('cardId_', pacientId,mainDataModule.dataSetPriemByPacient);
+Functions.ActivateDataSetWithParam('cardId_', pacientId,mainDataModule.dataSetPriemByPacient1);
 lbPriems.Items.Clear;
-with mainDataModule.dataSetPriemByPacient do
+with mainDataModule.dataSetPriemByPacient1 do
   begin
   if(RecordCount>0) then
     begin
@@ -123,11 +123,11 @@ refreshForm;
 end;
 
 procedure THistForm.lbPriemsClick(Sender: TObject);
-var priemId, i:integer;priemKrList:TStringList; priemKr:string;
+var priemId,i:integer; priemKrList:TStringList; priemKr:string;
 begin
 priemId:=Integer(lbPriems.Items.Objects[lbPriems.ItemIndex]);
-Functions.ActivateDataSetWithParam('priemId_',IntToStr(priemId),mainDataModule.dataSetPriemById);
-with mainDataModule.dataSetPriemById do
+Functions.ActivateDataSetWithParam('priemId_', IntToStr(priemId), mainDataModule.dataSetPriemById1);
+with mainDataModule.dataSetPriemById1 do
   begin
   selectDoctor(FieldByName('Code_sotr').AsInteger);
   priemKrList:=TStringList.Create;
@@ -161,18 +161,18 @@ var dirName:string;fileName:string;
 begin
 if(lbPriems.ItemIndex<>-1) then
   begin
-  with mainDataModule.queryPriemUpdate do
+  with mainDataModule.queryPriemUpdate1 do
     begin
-    Parameters.ParamValues['priemId_']:=Integer(lbPriems.Items.Objects[lbPriems.ItemIndex]);
-    Parameters.ParamValues['code_sotr_']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
-    Parameters.ParamValues['priemKr_']:=edtShortZub.Text+'&'+edtShortDiag.Text+'&'+edtShortLech.Text;
-    Parameters.ParamValues['Desc_']:=memPriemDesc.Text;
-    Parameters.ParamValues['date_priem_']:=dtpDatePriem.DateTime;
-    if(chkSanus.Checked) then Parameters.ParamValues['sanus_']:='1' else Parameters.ParamValues['sanus_']:='0';
+    Params.ParamValues['priemId_']:=Integer(lbPriems.Items.Objects[lbPriems.ItemIndex]);
+    Params.ParamValues['code_sotr_']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
+    Params.ParamValues['priemKr_']:=edtShortZub.Text+'&'+edtShortDiag.Text+'&'+edtShortLech.Text;
+    Params.ParamValues['Desc_']:=memPriemDesc.Text;
+    Params.ParamValues['date_priem_']:=dtpDatePriem.DateTime;
+    if(chkSanus.Checked) then Params.ParamValues['sanus_']:='1' else Params.ParamValues['sanus_']:='0';
     ExecSQL;
     end;
   dirName:=saveToDir;
-  Functions.ActivateDataSetWithParam('priemId_',IntTOStr(Integer(lbPriems.Items.Objects[lbPriems.ItemIndex])),mainDataModule.dataSetFileNameByPriemId);
+  Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[lbPriems.ItemIndex])),mainDataModule.dataSetFileNameByPriemId1);
   WizardForm.PacientId:=pacientId;
   if(lbPriems.ItemIndex=0) then
     begin
@@ -216,9 +216,9 @@ if(lbPriems.ItemIndex<>-1) then
   begin
   if(MessageDlg('Удаление приема'+'. Продолжить?',mtConfirmation,mbOKCancel,0)=mrOk) then
     begin
-      with mainDataModule.queryPriemDelete do
+      with mainDataModule.queryPriemDelete1 do
       begin
-      Parameters.ParamValues['priemId_']:=Integer(lbPriems.Items.Objects[lbPriems.ItemIndex]);
+      Params.ParamValues['priemId_']:=Integer(lbPriems.Items.Objects[lbPriems.ItemIndex]);
       ExecSQL;
       end;
     lbPriems.Items.Delete(lbPriems.ItemIndex);
@@ -261,8 +261,8 @@ if(lbPriems.Items.Count>0) then
       end
     else if(PrintForm.rg.ItemIndex=1) then
       begin
-      Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[lbPriems.Items.Count-1])),mainDataModule.dataSetPriemByIdWithSotr);
-      with mainDataModule.dataSetPriemByIdWithSotr do
+      Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[lbPriems.Items.Count-1])),mainDataModule.dataSetPriemByIdWithSotr1);
+      with mainDataModule.dataSetPriemByIdWithSotr1 do
         begin
         sdoctor:=FieldByName('FIO').AsString;
         datePriem:=FieldBYname('Date_priem').AsDateTime;
@@ -284,8 +284,8 @@ if(lbPriems.Items.Count>0) then
       end
     else if(PrintForm.rg.ItemIndex=2) then
       begin
-      Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[0])),mainDataModule.dataSetPriemByIdWithSotr);
-      with mainDataModule.dataSetPriemByIdWithSotr do
+      Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[0])),mainDataModule.dataSetPriemByIdWithSotr1);
+      with mainDataModule.dataSetPriemByIdWithSotr1 do
         begin
         sdoctor:=FieldByName('FIO').AsString;
         datePriem:=FieldBYname('Date_priem').AsDateTime;
@@ -309,22 +309,22 @@ end;
 procedure THIstForm.makeWordDates(dfrom,dto:TDateTime);
 var i,count:integer;
 begin
-with mainDataModule.dataSetPriemsByDates do
+with mainDataModule.dataSetPriemsByDates1 do
   begin
   Active:=false;
-  Parameters.ParamValues['dateFrom_']:=dfrom;
-  Parameters.ParamValues['dateTo_']:=dto;
-  Parameters.ParamValues['pacientId_']:=pacientId;
+  Params.ParamValues['dateFrom_']:=dfrom;
+  Params.ParamValues['dateTo_']:=dto;
+  Params.ParamValues['pacientId_']:=pacientId;
   Active:=true;
   First;
   if(RecordCount>0) then
     begin
-    mainDataModule.dataSetPriemsBeforeDate.Active:=false;
-    mainDataModule.dataSetPriemsBeforeDate.Parameters.ParamValues['priemDate_']:=dfrom;
-    mainDataModule.dataSetPriemsBeforeDate.Parameters.ParamValues['cardID_']:=pacientId;
-    mainDataModule.dataSetPriemsBeforeDate.Active:=true;
-    mainDataModule.dataSetPriemsBeforeDate.First;
-    count:=mainDataModule.dataSetPriemsBeforeDate.FieldByName('priemCount').AsInteger;
+    mainDataModule.dataSetPriemsBeforeDate1.Active:=false;
+    mainDataModule.dataSetPriemsBeforeDate1.Params.ParamValues['priemDate_']:=dfrom;
+    mainDataModule.dataSetPriemsBeforeDate1.Params.ParamValues['cardID_']:=pacientId;
+    mainDataModule.dataSetPriemsBeforeDate1.Active:=true;
+    mainDataModule.dataSetPriemsBeforeDate1.First;
+    count:=mainDataModule.dataSetPriemsBeforeDate1.FieldByName('priemCount').AsInteger;
     if(RecordCount=1) then
       begin
       memInvPriem.Text:=FieldByName('Description').AsString;
@@ -369,17 +369,17 @@ var Shablon,FileName,oldStr,newStr,cell,replace,ext,row,forw:OleVariant;i:intege
     findRSnimok:boolean; sdoctor, desc:string;datePriem:TDateTime; WordApp: OleVariant;
 begin
 forw:=true;
-FileName:='c:\veda\Priem.doc';
+FileName:=ExtractFilePath(Application.ExeName)+'\Priem.doc';
 WordApp := CreateOleObject('Word.Application');
 if(index=2) then
   begin
-  shablon:='c:\veda\CardAll.doc';
+  shablon:=ExtractFilePath(Application.ExeName)+'\CardAll.doc';
   WordApp.Documents.Open(Shablon,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
   // WordDoc := WordApp.ActiveDocument;
-  with mainDataModule.dataSetPacient do
+  with mainDataModule.dsPacientQuery1 do
     begin
     Active:=false;
-    Parameters.ParamValues['cardCode']:=PacientId;
+    Params.ParamValues['cardCode']:=PacientId;
     Active:=true;
     First;
     Functions.ReplaceInWord(WordApp, '$$num', FieldByName('NewNum2').AsString);
@@ -402,7 +402,7 @@ if(index=2) then
 
     Functions.ReplaceInWord(WordApp, '$$prikus', FieldByName('Prikus').AsString);
 
-    with mainDataModule.dataSetPriemsByDates do
+    with mainDataModule.dataSetPriemsByDates1 do
       begin
       sdoctor:=FieldByName('FIO').AsString;
       datePriem:=FieldBYname('Date_priem').AsDateTime;
@@ -464,7 +464,7 @@ if(index=2) then
       end;
     WordApp.Tables.Item(3).Rows.Item(3).Cells.Item(2).Select;
     row:=1;
-    with mainDataModule.dataSetPriemsByDates do
+    with mainDataModule.dataSetPriemsByDates1 do
       begin
       for i:=1 to RecordCount-1 do
         begin
@@ -504,15 +504,15 @@ if(index=2) then
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-  wordApp.Quit(true,EmptyParam,EmptyParam);   //Disconnect;
+    wordApp.Quit(true,EmptyParam,EmptyParam);   //Disconnect;
   end
 else if((index=3)or(index=1)) then
   begin
-  if (index=3) then shablon:='c:\veda\withSecond.doc';
-  if (index=1) then shablon:='c:\veda\withoutSecond.doc';
+  if (index=3) then shablon:=ExtractFilePath(Application.ExeName)+'\withSecond.doc';
+  if (index=1) then shablon:=ExtractFilePath(Application.ExeName)+'\withoutSecond.doc';
   WordApp.Documents.Open(Shablon,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
-  with mainDataModule.dataSetPriemsByDates do
+  with mainDataModule.dataSetPriemsByDates1 do
   begin
   Formatsettings.ShortDateFormat := 'dd MMMM yyyy';
   Functions.ReplaceInWord(WordApp, '$$date', DateToStr(FieldByName('Date_priem').AsDateTime));
@@ -522,7 +522,7 @@ else if((index=3)or(index=1)) then
   Functions.ReplaceInWord(WordApp, '$$Doc', fieldByName('FIO').AsString);
   end;
   row:=1;
-  with mainDataModule.dataSetPriemsByDates do
+  with mainDataModule.dataSetPriemsByDates1 do
      begin
      for i:=1 to RecordCount-1 do
         begin
@@ -542,18 +542,18 @@ else if((index=3)or(index=1)) then
         WordApp.Selection.TypeText(sdoctor);
         end;
       end;
-  functions.ActivateDataSetWithParam('pacientId_',PacientId,mainDataModule.dataSetFIOById);
+  functions.ActivateDataSetWithParam('pacientId_',PacientId,mainDataModule.dataSetFIOById1);
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
-  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString);
+  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById1.FieldByName('newNum2').AsString);
 
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
-  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString);
+  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById1.FieldByName('newNum2').AsString);
 
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
-  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString);
+  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById1.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById1.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById1.FieldByName('Sec_name').AsString);
 
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
-  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString);
+  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById1.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById1.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById1.FieldByName('Sec_name').AsString);
 
   WordApp.ActiveDocument.SaveAs(FileName);
   wordApp.ActiveDocument.CLose(true,EmptyParam,EmptyParam);
@@ -572,14 +572,14 @@ var Shablon,FileName,oldStr,newStr,cell,replace,ext,row, forw:OleVariant;i:integ
 begin
 forw:=true;
 WordApp := CreateOleObject('Word.Application');
-shablon:='c:\veda\CardAll.doc';
-FileName:='c:\veda\Priem.doc';
+shablon:=ExtractFilePath(Application.ExeName)+'\CardAll.doc';
+FileName:=ExtractFilePath(Application.ExeName)+'\Priem.doc';
   WordApp.Documents.Open(Shablon,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
  // WordDoc := WordApp.ActiveDocument;
-  with mainDataModule.dataSetPacient do
+  with mainDataModule.dsPacientQuery1 do
     begin
     Active:=false;
-    Parameters.ParamValues['cardCode']:=PacientId;
+    Params.ParamValues['cardCode']:=PacientId;
     Active:=true;
     First;
     Functions.ReplaceInWord(WordApp, '$$num', FieldByName('NewNum2').AsString);
@@ -603,8 +603,8 @@ FileName:='c:\veda\Priem.doc';
     Functions.ReplaceInWord(WordApp, '$$prikus', FieldByName('Prikus').AsString);
 
 
-  Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[0])),mainDataModule.dataSetPriemByIdWithSotr);
-  with mainDataModule.dataSetPriemByIdWithSotr do
+  Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[0])),mainDataModule.dataSetPriemByIdWithSotr1);
+  with mainDataModule.dataSetPriemByIdWithSotr1 do
     begin
     sdoctor:=FieldByName('FIO').AsString;
     datePriem:=FieldBYname('Date_priem').AsDateTime;
@@ -668,8 +668,8 @@ FileName:='c:\veda\Priem.doc';
     for i:=1 to lbPriems.Count-1 do
       begin
       cell:=wdCell;
-      Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[i])),mainDataModule.dataSetPriemByIdWithSotr);
-      with mainDataModule.dataSetPriemByIdWithSotr do
+      Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbPriems.Items.Objects[i])),mainDataModule.dataSetPriemByIdWithSotr1);
+      with mainDataModule.dataSetPriemByIdWithSotr1 do
         begin
         sdoctor:=FieldByName('FIO').AsString;
         datePriem:=FieldBYname('Date_priem').AsDateTime;

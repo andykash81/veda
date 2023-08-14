@@ -243,28 +243,28 @@ begin
    sheetCorrect.TabVisible:=false;
    DictEditForm.makeDiagnozesTree(diagnozesTree,ListDiagssNodes);
    // Заполним список докторов
-   mainDataModule.dataSetDoctorsList.Active:=false;
-   mainDataModule.dataSetDoctorsList.CommandText:='select code_sotr, FIO from Sotr where rights = '+IntToStr(Constants.RIGHTS_DOCTOR);
-   mainDataModule.dataSetDoctorsList.Active:=true;
-   if(mainDataModule.dataSetDoctorsList.RecordCount>0) then
+   mainDataModule.dataSetDoctorsList1.Active:=false;
+   mainDataModule.dataSetDoctorsList1.SQL.Text:='select "Sotr"."Code_sotr", "Sotr"."FIO" from "Sotr" where "Rights" = '+IntToStr(Constants.RIGHTS_DOCTOR);
+   mainDataModule.dataSetDoctorsList1.Active:=true;
+   if(mainDataModule.dataSetDoctorsList1.RecordCount>0) then
     begin
-    mainDataModule.dataSetDoctorsList.First;
-      for i:=1 to mainDataModule.dataSetDoctorsList.RecordCount do
+    mainDataModule.dataSetDoctorsList1.First;
+      for i:=1 to mainDataModule.dataSetDoctorsList1.RecordCount do
         begin
-        cbDoctor.Items.AddObject(mainDataModule.dataSetDoctorsList.FieldByName('FIO').AsString, TObject(mainDataModule.dataSetDoctorsList.FieldByName('code_sotr').AsInteger));
-        mainDataModule.dataSetDoctorsList.Next;
+        cbDoctor.Items.AddObject(mainDataModule.dataSetDoctorsList1.FieldByName('FIO').AsString, TObject(mainDataModule.dataSetDoctorsList1.FieldByName('code_sotr').AsInteger));
+        mainDataModule.dataSetDoctorsList1.Next;
         end;
     end;
     with mainDataModule do
       begin
-      Functions.ActivateDataSetWithParam('pacientId_', PacientId,dataSetPszPrikus);
-      with dataSetPszPrikus do
+      Functions.ActivateDataSetWithParam('pacientId_', PacientId,dataSetPszPrikus1);
+      with dataSetPszPrikus1 do
         begin
         memPrikus.Text:=FieldByName('prikus').AsString;
         memPsz.Text:=FieldByName('psz').AsString;
         end;
       end;
-Functions.ActivateDataSetWithParam('cardId_',PacientId,mainDataModule.dataSetPriemCount);
+Functions.ActivateDataSetWithParam('cardId_',PacientId,mainDataModule.dataSetPriemCount1);
 {count:=mainDataModule.dataSetPriemCount.FieldByName('priemCount').AsInteger;}
 {if(count=0) then
   begin
@@ -340,10 +340,10 @@ end;
 procedure TWizardForm.fillCbFromDict(parentDictId:integer;cb:TComboBox);
 var i:integer;
 begin
-with mainDataModule.dataSetDictBranch do
+with mainDataModule.dataSetDictBranch1 do
   begin
   Active:=false;
-  CommandText:='select Description from dict where parentDictId = '+IntTOStr(parentDictId);
+  SQL.Text:='select "Dict"."Description" from "Dict" where "ParentDictId" = '+IntTOStr(parentDictId);
   Active:=true;
   First;
   cb.Items.Clear;
@@ -382,10 +382,10 @@ end;
 procedure TWizardForm.fillBtnsFromDatabase;
 var i, zubId, letterId:integer ; btnSender, btnTarget:TButton; id:double;
 begin
-with mainDataModule.dataSetZubCard do
+with mainDataModule.dataSetZubCard1 do
   begin
   Active:=false;
-  Parameters.ParamValues['cardId_']:=PacientId;
+  Params.ParamValues['cardId_']:=PacientId;
   Active:=true;
   if(RecordCount>0) then
     begin
@@ -453,7 +453,7 @@ begin
         Constants.ZUB_45:returnButtonByConstant:=tnl5;
         Constants.ZUB_46:returnButtonByConstant:=tnl6;
         Constants.ZUB_47:returnButtonByConstant:=tnl7;
-        Constants.ZUB_48:returnButtonByConstant:=tnl8
+        Constants.ZUB_48:returnButtonByConstant:=tnl8;
         end;
 end;
 
@@ -528,11 +528,11 @@ else if(PageControl1.ActivePage=sheetTeeth) then
   end else
 if(PageControl1.ActivePage=sheetZubCard) then
   begin
-  with mainDataModule.queryUpdateCardPszPrikus do
+  with mainDataModule.queryUpdateCardPszPrikus1 do
     begin
-    Parameters.ParamValues['pacientId_']:=PacientId;
-    Parameters.ParamValues['psz_']:=memPsz.Text;
-    Parameters.ParamValues['prikus_']:=memPrikus.Text;
+    Params.ParamValues['pacientId_']:=PacientId;
+    Params.ParamValues['psz_']:=memPsz.Text;
+    Params.ParamValues['prikus_']:=memPrikus.Text;
     ExecSQL;
     end;
   btnPrev.Visible:=true;
@@ -549,22 +549,22 @@ if(PageControl1.ActivePage=sheetZubCard) then
   end else
 if(PageControl1.ActivePage=sheetCorrect) then
   begin
-  with mainDataModule.dataSetMaxPriem do
+  with mainDataModule.dataSetMaxPriem1 do
     begin
     Active:=false;
     Active:=true;
     First;
     priemId:=FieldByName('maxPriemId').AsFloat+1;
     end;
-  with mainDataModule.queryInsertPriem do
+  with mainDataModule.queryInsertPriem1 do
     begin
-    Parameters.ParamValues['priemId_']:=priemId;
-    Parameters.ParamValues['cardId_']:=PacientId;
-    Parameters.ParamValues['desc_']:=memPriemDesc.Text;
-    Parameters.ParamValues['date_']:=edtDate.Text;
-    Parameters.ParamValues['sotrId_']:=IntToStr(Integer(cbDoctor.Items.Objects[cbDoctor.ItemIndex]));
-    Parameters.ParamValues['PriemKr_']:=shortDesc;
-    if(chkSanus.Checked) then Parameters.ParamValues['sanus_']:='1' else Parameters.ParamValues['sanus_']:='0'; 
+    Params.ParamValues['priemId_']:=priemId;
+    Params.ParamValues['cardId_']:=PacientId;
+    Params.ParamValues['desc_']:=memPriemDesc.Text;
+    Params.ParamValues['date_']:=edtDate.Text;
+    Params.ParamValues['sotrId_']:=IntToStr(Integer(cbDoctor.Items.Objects[cbDoctor.ItemIndex]));
+    Params.ParamValues['PriemKr_']:=shortDesc;
+    if(chkSanus.Checked) then Params.ParamValues['sanus_']:='1' else Params.ParamValues['sanus_']:='0';
     ExecSQL;
     {добавим записи в карту зубов}
     addRecordsToZubCard(priemId);
@@ -576,8 +576,8 @@ if(PageControl1.ActivePage=sheetCorrect) then
   else if(cbActions.ItemIndex=0) then
     begin
     dirName:=saveToDir;
-    Functions.ActivateDataSetWithParam('cardId_',PacientId,mainDataModule.dataSetPriemCount);
-    with mainDataModule.dataSetPriemCount do
+    Functions.ActivateDataSetWithParam('cardId_',PacientId,mainDataModule.dataSetPriemCount1);
+    with mainDataModule.dataSetPriemCount1 do
       begin
       priemCount:=FieldByName('priemCount').AsInteger;
       end;
@@ -594,10 +594,10 @@ if(PageControl1.ActivePage=sheetCorrect) then
       FileName:=makeWord(1,memPriemDesc,cbDoctor.Text,calDate.Date,false,dirName,'');
       end;
     end;
-  with mainDataModule.queryFileNamePriemUpdate do
+  with mainDataModule.queryFileNamePriemUpdate1 do
     begin
-    Parameters.ParamValues['fileName_']:=FileName;
-    Parameters.ParamValues['priemId_']:=priemId;
+    Params.ParamValues['fileName_']:=FileName;
+    Params.ParamValues['PriemId_']:=priemId;
     ExecSQL;
     end;
   btnCloseClick(btnClose);
@@ -642,23 +642,23 @@ for i:=0 to forMemList.Count-1 do
   ExtractStrings([' '],[],PChar(Arecord^.zub),list);
   for j:=0 to list.Count-1 do
     begin
-    Functions.ActivateDataSetWithParam('name_',list[j],mainDataModule.dataSetZubIdByName);
-    zubId:=mainDataModule.dataSetZubIdByName.fieldByName('dictId').AsFloat;
-    Functions.ActivateDataSetWithParam('diagId_',FloatToStr(ARecord^.diagId),mainDataModule.dataSetLetterIdByDiagId);
+    Functions.ActivateDataSetWithParam('name_',list[j],mainDataModule.dataSetZubIdByName1);
+    zubId:=mainDataModule.dataSetZubIdByName1.fieldByName('dictId').AsFloat;
+    Functions.ActivateDataSetWithParam('diagId_',FloatToStr(ARecord^.diagId),mainDataModule.dataSetLetterIdByDiagId1);
     letterId:=0;
-    letterId:=mainDataModule.dataSetLetterIdByDiagId.FieldByName('letterId').AsFloat;
+    letterId:=mainDataModule.dataSetLetterIdByDiagId1.FieldByName('letterId').AsFloat;
     insertIntoZubCard(letterId,zubId,zubPriemId);
-    Functions.ActivateDataSetWithParam('lechId_',FloatToStr(ARecord^.lechId),mainDataModule.dataSetLetterIdByLechId);
+    Functions.ActivateDataSetWithParam('lechId_',FloatToStr(ARecord^.lechId),mainDataModule.dataSetLetterIdByLechId1);
     letterId:=0;
-    letterId:=mainDataModule.dataSetLetterIdByLechId.FieldByName('letterId').AsFloat;
+    letterId:=mainDataModule.dataSetLetterIdByLechId1.FieldByName('letterId').AsFloat;
     insertIntoZubCard(letterId,zubId,zubPriemId);
     end;
   list.Clear;
   ExtractStrings([' '],[],PChar(incStr),list);
   for j:=0 to list.Count-1 do
     begin
-    Functions.ActivateDataSetWithParam('name_',list[j],mainDataModule.dataSetZubIdByName);
-    zubId:=mainDataModule.dataSetZubIdByName.fieldByName('dictId').AsFloat;
+    Functions.ActivateDataSetWithParam('name_',list[j],mainDataModule.dataSetZubIdByName1);
+    zubId:=mainDataModule.dataSetZubIdByName1.fieldByName('dictId').AsFloat;
     letterId:=constants.LETTER_K;
     insertIntoZubCard(letterId,zubId,zubPriemId);
     end;
@@ -670,30 +670,31 @@ var zubCardId, order:double;
 begin
 if(letterId<>0) then
   begin
-  with mainDataModule.dataSetzubCardMax do
+  with mainDataModule.dataSetzubCardMax1 do
     begin
     Active:=false;
     Active:=true;
     First;
     zubCardId:=FieldByName('maxZubCardId').AsFloat+1;
     end;
-  with mainDataModule.dataSetMaxOrder do
+  with mainDataModule.dataSetMaxOrder1 do
     begin
     Active:=false;
-    Parameters.ParamValues['zubId_']:=FloatTostr(zubId);
-    Parameters.ParamValues['CardId_']:=PacientId;
+    Params.ParamValues['zubId_']:=FloatTostr(zubId);
+    Params.ParamValues['CardId_']:=PacientId;
     Active:=true;
     First;
     order:=FieldByName('maxOrder').AsInteger+1;
     end;
-  with mainDataModule.queryInsertZubCardFromPriem do
+  with mainDataModule.queryInsertZubCardFromPriem1 do
     begin
-    Parameters.ParamValues['ZubCardId_']:=zubCardId;
-    Parameters.ParamValues['CardId_']:=PacientId;
-    Parameters.ParamValues['ZubId_']:=zubId;
-    Parameters.ParamValues['LetterId_']:=letterId;
-    Parameters.ParamValues['orderNumber_']:=order;
-    Parameters.ParamValues['ZubPriemId_']:=ZubPriemId;
+    Params.ParamValues['ZubCardId_']:=zubCardId;
+    Params.ParamValues['CardId_']:=PacientId;
+    Params.ParamValues['ZubId_']:=zubId;
+    Params.ParamValues['LetterId_']:=letterId;
+    Params.ParamValues['orderNumber_']:=order;
+    Params.ParamValues['ZubPriemId_']:=ZubPriemId;
+    Params.ParamValues['Date_']:=Now;
     ExecSQL;
     end;
   end;
@@ -732,7 +733,7 @@ forw:=true;
 //Word := Unassigned;
   if((dirName='')and(FileName=''))then
     begin
-    FileName:='c:\veda\priem.doc';
+    FileName:=ExtractFilePath(Application.ExeName)+'\priem.doc';
     end;
   //wordApp:=CoWordApplication.Create;
 
@@ -741,16 +742,16 @@ if(index<>2) then
   begin
   if(index=1)then
     begin
-    shablon:='c:\veda\withoutSecond.doc';
+    shablon:=ExtractFilePath(Application.ExeName)+'\withoutSecond.doc';
     end
   else if(index=3) then
     begin
-    shablon:='c:\veda\withSecond.doc';
+    shablon:=ExtractFilePath(Application.ExeName)+'\withSecond.doc';
     end;
-  functions.ActivateDataSetWithParam('pacientId_',PacientId,mainDataModule.dataSetFIOById);
+  functions.ActivateDataSetWithParam('pacientId_',PacientId,mainDataModule.dataSetFIOById1);
   if((dirName<>'')and(FileName=''))then
     begin
-    with mainDataModule.dataSetFIOById do
+    with mainDataModule.dataSetFIOById1 do
       begin
       FileName:=dirName+'\'+FieldByName('newNum2').AsString+' - '+FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString;
       end;
@@ -776,25 +777,25 @@ if(index<>2) then
    {WordApp.Selection.ClearFormatting;
    WordApp.Selection.Find.Replacement.ClearFormatting;}
 
-  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString);
+  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById1.FieldByName('newNum2').AsString);
 
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
    {WordApp.Selection.ClearFormatting;
       WordApp.Selection.Find.Replacement.ClearFormatting;}
 
-  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById.FieldByName('newNum2').AsString);
+  Functions.ReplaceInWord(WordApp, '$$num', mainDataModule.dataSetFIOById1.FieldByName('newNum2').AsString);
 
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageHeader;
    {WordApp.Selection.ClearFormatting;
    WordApp.Selection.Find.Replacement.ClearFormatting;}
 
-  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString);
+  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById1.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById1.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById1.FieldByName('Sec_name').AsString);
 
   WordApp.ActiveWindow.ActivePane.View.SeekView:=wdSeekCurrentPageFooter;
   // WordApp.Selection.ClearFormatting;
   // WordApp.Selection.Find.Replacement.ClearFormatting;
 
-  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById.FieldByName('Sec_name').AsString);
+  Functions.ReplaceInWord(WordApp, '$$FIO', mainDataModule.dataSetFIOById1.FieldByName('Surname').AsString+' '+mainDataModule.dataSetFIOById1.FieldByName('Name').AsString+' '+mainDataModule.dataSetFIOById1.FieldByName('Sec_name').AsString);
 
   FileName:=getFileName(FileName);
   saveFileName:=FileName;
@@ -808,13 +809,13 @@ if(index<>2) then
   end
 else
   begin
-  shablon:='c:\veda\Card.doc';
+  shablon:=ExtractFilePath(Application.ExeName)+'\Card.doc';
   WordApp.Documents.Open(Shablon);
-  WordApp.Visible := True;
-  with mainDataModule.dataSetPacient do
+  //WordApp.Visible := True;
+  with mainDataModule.dsPacientQuery1 do
     begin
     Active:=false;
-    Parameters.ParamValues['cardCode']:=PacientId;
+    Params.ParamValues['cardCode']:=PacientId;
     Active:=true;
     First;
 
@@ -823,7 +824,8 @@ else
     Formatsettings.ShortDateFormat := 'dd.MM.yyyy';
     Functions.ReplaceInWord(WordApp, '$$year', DateToStr(FieldByName('Date_open').AsDateTime));
 
-    Functions.ReplaceInWord(WordApp, '$$FIO', FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString);
+    newStr:= FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString;
+    Functions.ReplaceInWord(WordApp, '$$FIO', newStr);
 
       if((dirName<>'')and(FileName=''))then
         begin
@@ -955,9 +957,9 @@ for i:=0 to forMemList.Count-1 do
   ARecord:=forMemList.Items[i];
   with mainDataModule do
     begin
-    with dataSetDiagById do
+    with dataSetDiagById1 do
       begin
-      Functions.ActivateDataSetWithParam('diagId_', FloatToStr(Arecord^.diagId), dataSetDiagById);
+      Functions.ActivateDataSetWithParam('diagId_', FloatToStr(Arecord^.diagId), dataSetDiagById1);
       zhal:=zhal+' '+StringReplace(FieldByName('St_zhal').AsString,'$$',Arecord^.zub, [rfReplaceAll]);
       anm:=anm+' '+StringReplace(FieldByName('St_An_morbi').AsString,'$$',Arecord^.zub, [rfReplaceAll]);
       obno:=obno+' '+StringReplace(FieldByName('St_Obno').AsString,'$$',Arecord^.zub, [rfReplaceAll]);
@@ -966,9 +968,9 @@ for i:=0 to forMemList.Count-1 do
       diag:=diag+' '+StringReplace(FieldByName('Name').AsString,'$$',Arecord^.zub, [rfReplaceAll]);
       shortDesc:=shortDesc+Arecord^.zub+'&'+FieldByName('ShortName').AsString;
       end;
-    with dataSetLechItems do
+    with dataSetLechItems1 do
       begin
-      Functions.ActivateDataSetWithParam('lechId_', FloatToStr(Arecord^.lechId),dataSetLechItems);
+      Functions.ActivateDataSetWithParam('lechId_', FloatToStr(Arecord^.lechId),dataSetLechItems1);
       if(RecordCount>0) then
         begin
         SetLength(lechList,RecordCount);
@@ -979,9 +981,9 @@ for i:=0 to forMemList.Count-1 do
           end;
         end;
       end;
-    with dataSetLechById do
+    with dataSetLechById1 do
       begin
-      Functions.ActivateDataSetWithParam('lechId_',IntToStr(Arecord^.lechId),dataSetLechById);
+      Functions.ActivateDataSetWithParam('lechId_',IntToStr(Arecord^.lechId),dataSetLechById1);
       tmpLech:=FieldByName('Description').AsString;
       tmpreccs:=FieldByName('Reccs').AsString;
       tmpnazn:=FieldByName('Nazn').AsString;
@@ -991,8 +993,8 @@ for i:=0 to forMemList.Count-1 do
       k:=0;
       while k<list.Count do
         begin
-        Functions.ActivateDataSetWithParam('priceId_',list[k+1],mainDataModule.dataSetPriceDescById);
-        desc:=mainDataModule.dataSetPriceDescById.FieldByName('Description').AsString;
+        Functions.ActivateDataSetWithParam('priceId_',list[k+1],mainDataModule.dataSetPriceDescById1);
+        desc:=mainDataModule.dataSetPriceDescById1.FieldByName('Description').AsString;
         tmpLech:=StringReplace(tmpLech,'ыы'+list[k],desc,[rfReplaceAll]);
         tmpreccs:=StringReplace(tmpreccs,'ыы'+list[k],desc,[rfReplaceAll]);
         tmpnazn:=StringReplace(tmpnazn,'ыы'+list[k],desc,[rfReplaceAll]);
@@ -1061,7 +1063,7 @@ end;
 function TWizardForm.addZubCard(btnLetter, btnZub:TButton):double;
 var id:double;order, letterId, zubId:integer;
 begin
-with mainDataModule.dataSetzubCardMax do
+with mainDataModule.dataSetzubCardMax1 do
   begin
   Active:=false;
   Active:=true;
@@ -1070,22 +1072,23 @@ with mainDataModule.dataSetzubCardMax do
   end;
 letterId:=returnConstByButton(btnLetter,false);
 zubId:=returnConstByButton(btnZub,true);
-with mainDataModule.dataSetMaxOrder do
+with mainDataModule.dataSetMaxOrder1 do
   begin
   Active:=false;
-  Parameters.ParamValues['zubId_']:=IntTostr(zubId);
-  Parameters.ParamValues['CardId_']:=PacientId;
+  Params.ParamValues['zubId_']:=IntTostr(zubId);
+  Params.ParamValues['CardId_']:=PacientId;
   Active:=true;
   First;
   order:=FieldByName('maxOrder').AsInteger+1;
   end;
-with mainDataModule.queryInsertZubCard do
+with mainDataModule.queryInsertZubCard1 do
   begin
-   Parameters.ParamValues['ZubCardId_']:=id;
-   Parameters.ParamValues['CardId_']:=PacientId;
-   Parameters.ParamValues['ZubId_']:=zubId;
-   Parameters.ParamValues['LetterId_']:=letterId;
-   Parameters.ParamValues['orderNumber_']:=order;
+   Params.ParamValues['ZubCardId_']:=id;
+   Params.ParamValues['CardId_']:=PacientId;
+   Params.ParamValues['ZubId_']:=zubId;
+   Params.ParamValues['LetterId_']:=letterId;
+   Params.ParamValues['orderNumber_']:=order;
+   Params.ParamValues['Date_']:=Now;
    ExecSQL;
   end;
 addZubCard:=id;
@@ -1151,9 +1154,9 @@ for i:=1 to list.Count-list.IndexOf(TLabel(sender)) do
   end;
 list.Remove(Sender);
 TLabel(Sender).Visible:=false;
-with mainDataModule.queryZubCardDelete do
+with mainDataModule.queryZubCardDelete1 do
   begin
-  Parameters.ParamValues['zubCardId_']:=returnIdByLabel(TLabel(Sender));
+  Params.ParamValues['zubCardId_']:=returnIdByLabel(TLabel(Sender));
   ExecSQL;
   end;
 end;
@@ -1287,10 +1290,10 @@ if(diagnozesTree.Selected<>nil) then
   diagnozesTree.Enabled:=false;
   id:=DictEditForm.returnId(ListDiagssNodes,diagnozesTree.Selected);
   gArecord^.diagIdG:=id;
-  with mainDataModule.dataSetLechByDiag do
+  with mainDataModule.dataSetLechByDiag1 do
     begin
     Active:=false;
-    Parameters.ParamValues['diagId_']:=FloatToStr(id);
+    Params.ParamValues['diagId_']:=FloatToStr(id);
     Active:=true;
     cbLech.Items.Clear; 
     if(RecordCount>0) then
@@ -1337,8 +1340,8 @@ gArecord^.lechIdG:= lechId;
 forMemList.Add(gArecord);
 //enableButtons(true);
 tmpStr:='';
-Functions.ActivateDataSetWithParam('lechId_',IntToStr(lechId), mainDataModule.dataSetLechRelays);
-with mainDataModule.dataSetLechRelays do
+Functions.ActivateDataSetWithParam('lechId_',IntToStr(lechId), mainDataModule.dataSetLechRelays1);
+with mainDataModule.dataSetLechRelays1 do
   begin
   for i:=1 to RecordCount do
     begin
@@ -1374,8 +1377,8 @@ if(lwAddedTeeth.Selected<>nil) then
     cbBox.Width:=377;
     cbBox.Style:=csDropDownList;
     cbBox.Items.Clear;
-    Functions.ActivateDataSetWithParam('priceId_',list[i+1],mainDataModule.dataSetPricesById);
-    with mainDataModule.dataSetPricesById do
+    Functions.ActivateDataSetWithParam('priceId_',list[i+1],mainDataModule.dataSetPricesById1);
+    with mainDataModule.dataSetPricesById1 do
       begin
       for j:=1 to RecordCount do
         begin
@@ -1388,8 +1391,8 @@ if(lwAddedTeeth.Selected<>nil) then
     i:=i+2;
     end;
   //является ли диагноз ортопедическим
-  Functions.ActivateDataSetWithParam('LechId_',FloatToStr(gArecord^.lechIdG),mainDataModule.dataSetIsLechOrt);
-  with mainDataModule.dataSetIsLechOrt do
+  Functions.ActivateDataSetWithParam('LechId_',FloatToStr(gArecord^.lechIdG),mainDataModule.dataSetIsLechOrt1);
+  with mainDataModule.dataSetIsLechOrt1 do
     begin
     if(FieldByName('IsOrt').AsInteger=0) then
       begin
@@ -1400,11 +1403,11 @@ if(lwAddedTeeth.Selected<>nil) then
       lechForm.IsOrt:=true;
       end;
     end;
-  with mainDataModule.dataSetOstr do
+  with mainDataModule.dataSetOstr1 do
     begin
     Active:=false;
-    Parameters.ParamValues['PacientId_']:=PacientId;
-    Parameters.ParamValues['letterId_']:=Constants.LETTER_O;
+    Params.ParamValues['PacientId_']:=PacientId;
+    Params.ParamValues['letterId_']:=Constants.LETTER_O;
     Active:=true;
     First;
     dsOStr:='';

@@ -2,8 +2,8 @@ object WizardForm: TWizardForm
   Left = 1
   Top = 42
   Caption = #1042#1074#1086#1076' '#1087#1088#1080#1077#1084#1072' '#1087#1072#1094#1080#1077#1085#1090#1072
-  ClientHeight = 631
-  ClientWidth = 981
+  ClientHeight = 628
+  ClientWidth = 969
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,23 +16,23 @@ object WizardForm: TWizardForm
   object pnlData: TPanel
     Left = 0
     Top = 0
-    Width = 981
-    Height = 593
+    Width = 969
+    Height = 590
     Align = alClient
     Caption = 'pnlData'
     TabOrder = 0
-    ExplicitWidth = 977
-    ExplicitHeight = 592
+    ExplicitWidth = 965
+    ExplicitHeight = 589
     object PageControl1: TPageControl
       Left = 1
       Top = 1
-      Width = 979
-      Height = 591
-      ActivePage = sheetTeeth
+      Width = 967
+      Height = 588
+      ActivePage = sheetCorrect
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 975
-      ExplicitHeight = 590
+      ExplicitWidth = 963
+      ExplicitHeight = 587
       object sheetZubCard: TTabSheet
         Caption = #1050#1072#1088#1090#1072' '#1079#1091#1073#1086#1074
         Font.Charset = RUSSIAN_CHARSET
@@ -878,12 +878,11 @@ object WizardForm: TWizardForm
         object GroupBox1: TGroupBox
           Left = 0
           Top = 0
-          Width = 971
+          Width = 959
           Height = 97
           Align = alTop
           Caption = #1047#1091#1073
           TabOrder = 0
-          ExplicitWidth = 967
           object Button1: TButton
             Left = 88
             Top = 16
@@ -1363,31 +1362,28 @@ object WizardForm: TWizardForm
           Left = 0
           Top = 97
           Width = 457
-          Height = 459
+          Height = 456
           Align = alLeft
           Caption = #1044#1080#1072#1075#1085#1086#1079
           TabOrder = 1
-          ExplicitHeight = 458
           object diagnozesTree: TTreeView
             Left = 2
             Top = 22
             Width = 453
-            Height = 376
+            Height = 373
             Align = alClient
             Indent = 19
             ReadOnly = True
             TabOrder = 0
             OnDblClick = diagnozesTreeDblClick
-            ExplicitHeight = 375
           end
           object Panel1: TPanel
             Left = 2
-            Top = 398
+            Top = 395
             Width = 453
             Height = 59
             Align = alBottom
             TabOrder = 1
-            ExplicitTop = 397
             DesignSize = (
               453
               59)
@@ -1566,21 +1562,18 @@ object WizardForm: TWizardForm
         object GroupBox3: TGroupBox
           Left = 457
           Top = 97
-          Width = 514
-          Height = 459
+          Width = 502
+          Height = 456
           Align = alClient
           Caption = #1059#1078#1077' '#1076#1086#1073#1072#1074#1083#1077#1085#1099
           TabOrder = 2
-          ExplicitWidth = 510
-          ExplicitHeight = 458
           object Panel2: TPanel
             Left = 2
             Top = 22
-            Width = 510
+            Width = 498
             Height = 59
             Align = alTop
             TabOrder = 0
-            ExplicitWidth = 506
             object btnDelRecord: TBitBtn
               Left = 13
               Top = 5
@@ -1743,8 +1736,8 @@ object WizardForm: TWizardForm
           object lwAddedTeeth: TListView
             Left = 2
             Top = 81
-            Width = 510
-            Height = 376
+            Width = 498
+            Height = 373
             Align = alClient
             Columns = <>
             GridLines = True
@@ -1755,8 +1748,6 @@ object WizardForm: TWizardForm
             ViewStyle = vsSmallIcon
             OnDblClick = lwAddedTeethDblClick
             OnInfoTip = lwAddedTeethInfoTip
-            ExplicitWidth = 506
-            ExplicitHeight = 375
           end
         end
       end
@@ -1766,18 +1757,19 @@ object WizardForm: TWizardForm
         object GroupBox4: TGroupBox
           Left = 0
           Top = 0
-          Width = 971
+          Width = 959
           Height = 473
           Align = alTop
           Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1087#1088#1080#1077#1084#1072':'
           TabOrder = 0
+          ExplicitWidth = 955
           DesignSize = (
-            971
+            959
             473)
           object memPriemDesc: TMemo
             Left = 2
             Top = 22
-            Width = 963
+            Width = 919
             Height = 419
             Anchors = [akLeft, akTop, akRight]
             Font.Charset = DEFAULT_CHARSET
@@ -1788,7 +1780,7 @@ object WizardForm: TWizardForm
             ParentFont = False
             ScrollBars = ssVertical
             TabOrder = 0
-            ExplicitWidth = 967
+            ExplicitWidth = 915
           end
           object chkSanus: TCheckBox
             Left = 16
@@ -1802,10 +1794,12 @@ object WizardForm: TWizardForm
         object Panel3: TPanel
           Left = 0
           Top = 473
-          Width = 971
-          Height = 83
+          Width = 959
+          Height = 80
           Align = alClient
           TabOrder = 1
+          ExplicitWidth = 955
+          ExplicitHeight = 79
           object Label3: TLabel
             Left = 8
             Top = 15
@@ -1836,18 +1830,18 @@ object WizardForm: TWizardForm
   end
   object pnlControl: TPanel
     Left = 0
-    Top = 593
-    Width = 981
+    Top = 590
+    Width = 969
     Height = 38
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 592
-    ExplicitWidth = 977
+    ExplicitTop = 589
+    ExplicitWidth = 965
     DesignSize = (
-      981
+      969
       38)
     object btnNext: TButton
-      Left = 759
+      Left = 715
       Top = 5
       Width = 110
       Height = 25
@@ -1855,10 +1849,10 @@ object WizardForm: TWizardForm
       Caption = #1044#1072#1083#1077#1077' >>'
       TabOrder = 0
       OnClick = btnNextClick
-      ExplicitLeft = 755
+      ExplicitLeft = 711
     end
     object btnClose: TButton
-      Left = 888
+      Left = 844
       Top = 5
       Width = 75
       Height = 25
@@ -1866,10 +1860,10 @@ object WizardForm: TWizardForm
       Caption = #1042#1099#1093#1086#1076
       TabOrder = 1
       OnClick = btnCloseClick
-      ExplicitLeft = 884
+      ExplicitLeft = 840
     end
     object btnPrev: TButton
-      Left = 631
+      Left = 587
       Top = 5
       Width = 116
       Height = 25
@@ -1877,7 +1871,7 @@ object WizardForm: TWizardForm
       Caption = '<< '#1053#1072#1079#1072#1076
       TabOrder = 2
       OnClick = btnPrevClick
-      ExplicitLeft = 627
+      ExplicitLeft = 583
     end
   end
 end
