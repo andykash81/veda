@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Grids, DBGrids, ComCtrls, ExtCtrls, Menus, WordXP,
-  OleServer, ShellApi, Word_TLB;
+  Dialogs, StdCtrls, Grids, DBGrids, ComCtrls, ExtCtrls, Menus, OleServer,
+  ShellApi, Word_TLB, FireDAC.Comp.DataSet, ComObj;
 
 type
   TJournalForm = class(TForm)
@@ -31,8 +31,6 @@ type
     N1: TMenuItem;
     N2: TMenuItem;
     btnExport: TButton;
-    WordApp: TWordApplication;
-    WordDoc: TWordDocument;
     btnOpenFolder: TButton;
     procedure FormShow(Sender: TObject);
     procedure btnTodayClick(Sender: TObject);
@@ -73,16 +71,16 @@ procedure TJournalForm.FormShow(Sender: TObject);
 var i:integer;
 begin
 // Заполним список докторов
-   mainDataModule.dataSetDoctorsList.Active:=false;
-   mainDataModule.dataSetDoctorsList.CommandText:='select code_sotr, FIO from Sotr where rights = '+IntToStr(Constants.RIGHTS_DOCTOR);
-   mainDataModule.dataSetDoctorsList.Active:=true;
-   if(mainDataModule.dataSetDoctorsList.RecordCount>0) then
+   mainDataModule.dataSetDoctorsList1.Active:=false;
+   mainDataModule.dataSetDoctorsList1.SQL.Text:='select "Sotr"."Code_sotr", "Sotr"."FIO" from "Sotr" where "Rights" = '+IntToStr(Constants.RIGHTS_DOCTOR);
+   mainDataModule.dataSetDoctorsList1.Active:=true;
+   if(mainDataModule.dataSetDoctorsList1.RecordCount>0) then
     begin
-    mainDataModule.dataSetDoctorsList.First;
-      for i:=1 to mainDataModule.dataSetDoctorsList.RecordCount do
+    mainDataModule.dataSetDoctorsList1.First;
+      for i:=1 to mainDataModule.dataSetDoctorsList1.RecordCount do
         begin
-        cbDoctors.Items.AddObject(mainDataModule.dataSetDoctorsList.FieldByName('FIO').AsString, TObject(mainDataModule.dataSetDoctorsList.FieldByName('code_sotr').AsInteger));
-        mainDataModule.dataSetDoctorsList.Next;
+        cbDoctors.Items.AddObject(mainDataModule.dataSetDoctorsList1.FieldByName('FIO').AsString, TObject(mainDataModule.dataSetDoctorsList1.FieldByName('code_sotr').AsInteger));
+        mainDataModule.dataSetDoctorsList1.Next;
         end;
     end;
 dtpDatePriem.DateTime:=Today;
@@ -129,25 +127,26 @@ lbYesterday.Items.Clear;
 if(cbDoctors.ItemIndex<>-1) then
   begin
   // Узнаем сколлько документов лежит на сегодняшний день
+  // Functions.getConectStr
   Formatsettings.ShortDateFormat:='yyyy.MM.dd';
   docsCount:=Functions.getDocsNumByPath(Functions.getConectStr+'\veda_hist\'+DateToStr(dtpDatePriem.DateTime)+'\'+cbDoctors.Text);
   btnOpenFolder.Caption:='На печать('+IntToStr(docsCount)+')';
-  with mainDataModule.dataSetPriemsByDate do
+  with mainDataModule.dataSetPriemsByDate1 do
     begin
     //Сегодня
     Active:=false;
-    Parameters.ParamValues['sotrId']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
-    Parameters.ParamValues['dateTo']:=FloatToDateTime(Int(dtpDatePriem.DateTime)+1);
-    Parameters.ParamValues['dateFrom']:=FloatToDateTime(Int(dtpDatePriem.DateTime));
+    Params.ParamValues['sotrId']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
+    Params.ParamValues['dateTo']:=FloatToDateTime(Int(dtpDatePriem.DateTime)+1);
+    Params.ParamValues['dateFrom']:=FloatToDateTime(Int(dtpDatePriem.DateTime));
     Active:=true;
     if(RecordCount>0) then
       begin
       First;
       for i:=0 to RecordCount-1 do
         begin
-        Functions.ActivateDataSetWithParam('pacientId_',FieldByName('CardId').AsString, mainDataModule.dataSetFIOById);
-        if(StrLen(PChar(mainDataModule.dataSetFIOById.FieldByName('Name').AsString))<>0) then nam:=mainDataModule.dataSetFIOById.FieldByName('Name').AsString[1]+'. ' else nam:='';
-        if(StrLen(PChar(mainDataModule.dataSetFIOById.FieldByName('Sec_Name').AsString))<>0) then sname:=mainDataModule.dataSetFIOById.FieldByName('Sec_Name').AsString[1]+'.' else sname:='';
+        Functions.ActivateDataSetWithParam('pacientId_',FieldByName('CardId').AsString, mainDataModule.dataSetFIOById1);
+        if(StrLen(PChar(mainDataModule.dataSetFIOById1.FieldByName('Name').AsString))<>0) then nam:=mainDataModule.dataSetFIOById1.FieldByName('Name').AsString[1]+'. ' else nam:='';
+        if(StrLen(PChar(mainDataModule.dataSetFIOById1.FieldByName('Sec_Name').AsString))<>0) then sname:=mainDataModule.dataSetFIOById1.FieldByName('Sec_Name').AsString[1]+'.' else sname:='';
         priemKrList:=TStringList.Create;
         priemKr:='';
         ExtractStrings(['&'],[],PChar(FieldByName('PriemKr').AsString),priemKrList);
@@ -155,24 +154,24 @@ if(cbDoctors.ItemIndex<>-1) then
           begin
           priemKr:=priemKr+priemKrList[j]+' ';
           end;
-        lbToday.Items.AddObject(mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+nam+sname+' - '+priemKr, TObject(FieldByName('PriemId').AsInteger));
+        lbToday.Items.AddObject(mainDataModule.dataSetFIOById1.FieldByName('Surname').AsString+' '+nam+sname+' - '+priemKr, TObject(FieldByName('PriemId').AsInteger));
         Next;
         end;
       end;
     //Вчера
     Active:=false;
-    Parameters.ParamValues['sotrId']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
-    Parameters.ParamValues['dateTo']:=FloatToDateTime(Int(dtpDatePriem.DateTime));
-    Parameters.ParamValues['dateFrom']:=FloatToDateTime(Int(dtpDatePriem.DateTime)-1);
+    Params.ParamValues['sotrId']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
+    Params.ParamValues['dateTo']:=FloatToDateTime(Int(dtpDatePriem.DateTime));
+    Params.ParamValues['dateFrom']:=FloatToDateTime(Int(dtpDatePriem.DateTime)-1);
     Active:=true;
     if(RecordCount>0) then
       begin
       First;
       for i:=0 to RecordCount-1 do
         begin
-        Functions.ActivateDataSetWithParam('pacientId_',FieldByName('CardId').AsString, mainDataModule.dataSetFIOById);
-        if(StrLen(PChar(mainDataModule.dataSetFIOById.FieldByName('Name').AsString))<>0) then nam:=mainDataModule.dataSetFIOById.FieldByName('Name').AsString[1]+'. ' else nam:='';
-        if(StrLen(PChar(mainDataModule.dataSetFIOById.FieldByName('Sec_Name').AsString))<>0) then sname:=mainDataModule.dataSetFIOById.FieldByName('Sec_Name').AsString[1]+'.' else sname:='';
+        Functions.ActivateDataSetWithParam('pacientId_',FieldByName('CardId').AsString, mainDataModule.dataSetFIOById1);
+        if(StrLen(PChar(mainDataModule.dataSetFIOById1.FieldByName('Name').AsString))<>0) then nam:=mainDataModule.dataSetFIOById1.FieldByName('Name').AsString[1]+'. ' else nam:='';
+        if(StrLen(PChar(mainDataModule.dataSetFIOById1.FieldByName('Sec_Name').AsString))<>0) then sname:=mainDataModule.dataSetFIOById1.FieldByName('Sec_Name').AsString[1]+'.' else sname:='';
         priemKrList:=TStringList.Create;
         priemKr:='';
         ExtractStrings(['&'],[],PChar(FieldByName('PriemKr').AsString),priemKrList);
@@ -180,24 +179,24 @@ if(cbDoctors.ItemIndex<>-1) then
           begin
           priemKr:=priemKr+priemKrList[j]+' ';
           end;
-        lbYesterday.Items.AddObject(mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+nam +sname+' - ' +priemKr, TObject(FieldByName('PriemId').AsInteger));
+        lbYesterday.Items.AddObject(mainDataModule.dataSetFIOById1.FieldByName('Surname').AsString+' '+nam +sname+' - ' +priemKr, TObject(FieldByName('PriemId').AsInteger));
         Next;
         end;
       end;
      //Завтра
      Active:=false;
-    Parameters.ParamValues['sotrId']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
-    Parameters.ParamValues['dateTo']:=FloatToDateTime(Int(dtpDatePriem.DateTime)+2);
-    Parameters.ParamValues['dateFrom']:=FloatToDateTime(Int(dtpDatePriem.DateTime)+1);
+    Params.ParamValues['sotrId']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
+    Params.ParamValues['dateTo']:=FloatToDateTime(Int(dtpDatePriem.DateTime)+2);
+    Params.ParamValues['dateFrom']:=FloatToDateTime(Int(dtpDatePriem.DateTime)+1);
     Active:=true;
     if(RecordCount>0) then
       begin
       First;
       for i:=0 to RecordCount-1 do
         begin
-        Functions.ActivateDataSetWithParam('pacientId_',FieldByName('CardId').AsString, mainDataModule.dataSetFIOById);
-        if(StrLen(PChar(mainDataModule.dataSetFIOById.FieldByName('Name').AsString))<>0) then nam:=mainDataModule.dataSetFIOById.FieldByName('Name').AsString[1]+'. ' else nam:='';
-        if(StrLen(PChar(mainDataModule.dataSetFIOById.FieldByName('Sec_Name').AsString))<>0) then sname:=mainDataModule.dataSetFIOById.FieldByName('Sec_Name').AsString[1]+'.' else sname:='';
+        Functions.ActivateDataSetWithParam('pacientId_',FieldByName('CardId').AsString, mainDataModule.dataSetFIOById1);
+        if(StrLen(PChar(mainDataModule.dataSetFIOById1.FieldByName('Name').AsString))<>0) then nam:=mainDataModule.dataSetFIOById1.FieldByName('Name').AsString[1]+'. ' else nam:='';
+        if(StrLen(PChar(mainDataModule.dataSetFIOById1.FieldByName('Sec_Name').AsString))<>0) then sname:=mainDataModule.dataSetFIOById1.FieldByName('Sec_Name').AsString[1]+'.' else sname:='';
         priemKrList:=TStringList.Create;
         priemKr:='';
         ExtractStrings(['&'],[],PChar(FieldByName('PriemKr').AsString),priemKrList);
@@ -205,7 +204,7 @@ if(cbDoctors.ItemIndex<>-1) then
           begin
           priemKr:=priemKr+priemKrList[j]+' ';
           end;
-        lbTomorrow.Items.AddObject(mainDataModule.dataSetFIOById.FieldByName('Surname').AsString+' '+nam+sname+' - '+priemKr, TObject(FieldByName('PriemId').AsInteger));
+        lbTomorrow.Items.AddObject(mainDataModule.dataSetFIOById1.FieldByName('Surname').AsString+' '+nam+sname+' - '+priemKr, TObject(FieldByName('PriemId').AsInteger));
         Next;
         end;
       end;
@@ -221,37 +220,37 @@ end;
 procedure TJournalForm.btnExportClick(Sender: TObject);
 var Shablon,FileName,oldStr,newStr,cell,replace,ext,row:OleVariant;i,j,k, num, count, number:integer;
     sanus,pfirst:boolean;  priemKrList:TStringList; diagKr, lechKr:string; sdoctor, desc, pacientId, pname, sname:string;datePriem:TDateTime;
-    pacList:TStringList;
+    pacList:TStringList; WordApp: OleVariant; table: variant;
 begin
 pacList:=TStringList.Create;
-FileName:='c:\veda\Отчет.doc';
-shablon:='c:\veda\Terap_ezh.doc';
-WordApp.Documents.Open(Shablon,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-WordDoc.ConnectTo(WordApp.ActiveDocument);
+FileName:=ExtractFilePath(Application.ExeName)+'\Отчет.doc';
+shablon:=ExtractFilePath(Application.ExeName)+'\Terap_ezh.doc';
+WordApp:=CreateOleObject('Word.Application');
+WordApp.Documents.Open(Shablon);
+//WordApp.Visible:=true;
+//WordDoc.ConnectTo(WordApp.ActiveDocument);
+
 Formatsettings.ShortDateFormat:='dd';
-replace:=wdReplaceOne;  oldStr:='$$day';  newStr:=DateToStr(dtpDatePriem.DateTime);
-WordDoc.Range.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+Functions.ReplaceInWord(WordApp, '$$day', DateToStr(dtpDatePriem.DateTime));
 
 Formatsettings.ShortDateFormat:='MMMM';
-replace:=wdReplaceOne;  oldStr:='$$month';  newStr:=DateToStr(dtpDatePriem.DateTime);
-WordDoc.Range.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+Functions.ReplaceInWord(WordApp, '$$month', DateToStr(dtpDatePriem.DateTime));
 
 Formatsettings.ShortDateFormat:='yyyy';
-replace:=wdReplaceOne;  oldStr:='$$year';  newStr:=DateToStr(dtpDatePriem.DateTime);
-WordDoc.Range.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+Functions.ReplaceInWord(WordApp, '$$year', DateToStr(dtpDatePriem.DateTime));
 
-replace:=wdReplaceOne;  oldStr:='$$doctor';  newStr:=JournalForm.cbDoctors.Text;
-WordDoc.Range.Find.Execute(oldStr,EmptyParam,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,newStr,replace,EmptyParam, EmptyParam, EmptyParam, EmptyParam);
+Functions.ReplaceInWord(WordApp, '$$doctor', JournalForm.cbDoctors.Text);
 
-WordDoc.Tables.Item(2).Rows.Item(3).Cells.Item(1).Select;
+table:=WordApp.ActiveDocument.Tables.Item(2);
+table.Cell(3,1).Select;
 if lbToday.Items.Count>1 then
   begin
-  with mainDataModule.dataSetDistinctPriems do
+  with mainDataModule.dataSetDistinctPriems1 do
     begin
     Active:=false;
-    Parameters.ParamValues['CodeSotr_']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
-    Parameters.ParamValues['dateTo_']:=FloatToDateTime(Int(dtpDatePriem.DateTime)+1);
-    Parameters.ParamValues['dateFrom_']:=FloatToDateTime(Int(dtpDatePriem.DateTime));
+    Params.ParamValues['CodeSotr_']:=Integer(cbDoctors.Items.Objects[cbDoctors.ItemIndex]);
+    Params.ParamValues['dateTo_']:=FloatToDateTime(Int(dtpDatePriem.DateTime)+1);
+    Params.ParamValues['dateFrom_']:=FloatToDateTime(Int(dtpDatePriem.DateTime));
     Active:=true;
     First;
     count:=FieldByName('ReccsCount').AsInteger;
@@ -263,105 +262,105 @@ num:=0;
 number:=1;
 for i:=1 to lbToday.Items.Count do
   begin
-  with WordDoc.Tables.Item(2).Rows do
+
+
+  Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbToday.Items.Objects[i-1])),mainDataModule.dataSetCardIdByPriemId1);
+  pacientId:=mainDataModule.dataSetCardIdByPriemId1.FieldByName('CardId').AsString;
+
+  if(pacList.IndexOf(pacientId)=-1) then
     begin
-    Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbToday.Items.Objects[i-1])),mainDataModule.dataSetCardIdByPriemId);
-    pacientId:=mainDataModule.dataSetCardIdByPriemId.FieldByName('CardId').AsString;
-
-    If(pacList.IndexOf(pacientId)=-1) then
+    //№ п/п
+    num:=num+1;
+    WordApp.ActiveDocument.Tables.Item(2).Rows.Item(num+2).Cells.Item(1).Select;
+    WordApp.Selection.TypeText(IntToStr(num));
+    Functions.ActivateDataSetWithParam('pacientId_',pacientId,mainDataModule.dataSetPacientForEzhList1);
+    with mainDataModule.dataSetPacientForEzhList1 do
       begin
-      //№ п/п
-      num:=num+1;
-      Item(num+2).Cells.Item(1).Select;
-      WordApp.Selection.TypeText(IntToStr(num));
-      Functions.ActivateDataSetWithParam('pacientId_',pacientId,mainDataModule.dataSetPacientForEzhList);
-      with mainDataModule.dataSetPacientForEzhList do
+      //Фамилия И.О.
+      WordApp.ActiveDocument.Tables.Item(2).Rows.Item(num+2).Cells.Item(3).Select;
+      j:=StrLen(PChar(string(FieldByName('Name').AsString)));
+      if(j>0) then  pname:=FieldByName('Name').AsString[1]+'. ' else pname := '';
+      if(StrLen(PChar(FieldByName('Sec_Name').AsString))<>0) then sname:=FieldByName('Sec_Name').AsString[1]+'. ' else sname := '';
+      WordApp.Selection.TypeText(FieldByName('Surname').AsString+ ' ' + pname+ sname);
+      //Дата рождения
+      WordApp.ActiveDocument.Tables.Item(2).Rows.Item(num+2).Cells.Item(4).Select;
+      Formatsettings.ShortDateFormat:='dd.MM.yy';
+      WordApp.Selection.TypeText(DateToStr(FieldByName('Date_birth').AsDateTime));
+
+      //Число полных лет
+      WordApp.ActiveDocument.Tables.Item(2).Rows.Item(num+2).Cells.Item(5).Select;
+      WordApp.Selection.TypeText(IntToStr(YearsBetween(Today, FieldByName('Date_birth').AsDateTime)));
+
+      // Адрес, номер амбулаторной карты
+      WordApp.ActiveDocument.Tables.Item(2).Rows.Item(num+2).Cells.Item(6).Select;
+      if(Trim(FieldByName('Adress').AsString)='') then
         begin
-        //Фамилия И.О.
-        Item(num+2).Cells.Item(3).Select;
-        j:=StrLen(PChar(string(FieldByName('Name').AsString)));
-        if(j>0) then  pname:=FieldByName('Name').AsString[1]+'. ' else pname := '';
-        if(StrLen(PChar(FieldByName('Sec_Name').AsString))<>0) then sname:=FieldByName('Sec_Name').AsString[1]+'. ' else sname := '';
-        WordApp.Selection.TypeText(FieldByName('Surname').AsString+ ' ' + pname+ sname);
-        //Дата рождения
-        Item(num+2).Cells.Item(4).Select;
-        Formatsettings.ShortDateFormat:='dd.MM.yy';
-        WordApp.Selection.TypeText(DateToStr(FieldByName('Date_birth').AsDateTime));
+        WordApp.Selection.TypeText(chr(13)+' №: '+FieldByName('newNum2').AsString);
+        end
+      else
+        begin
+        WordApp.Selection.TypeText(FieldByName('Adress').AsString+' №: '+FieldByName('newNum2').AsString);
+        end;
 
-        //Число полных лет
-        Item(num+2).Cells.Item(5).Select;
-        WordApp.Selection.TypeText(IntToStr(YearsBetween(Today, FieldByName('Date_birth').AsDateTime)));
+      //Иногородние
+      WordApp.ActiveDocument.Tables.Item(2).Rows.Item(num+2).Cells.Item(8).Select;
+      if(FieldByName('OthCities').AsInteger=0) then
+        WordApp.Selection.TypeText('-')
+      else
+        WordApp.Selection.TypeText('+');
 
-        // Адрес, номер амбулаторной карты
-        Item(num+2).Cells.Item(6).Select;
-        if(Trim(FieldByName('Adress').AsString)='') then
-          begin
-          WordApp.Selection.TypeText(chr(13)+' №: '+FieldByName('newNum2').AsString);
-          end
-        else
-          begin
-          WordApp.Selection.TypeText(FieldByName('Adress').AsString+' №: '+FieldByName('newNum2').AsString);
-          end;
-
-        //Иногородние
-        Item(num+2).Cells.Item(8).Select;
-        if(FieldByName('OthCities').AsInteger=0) then
-          WordApp.Selection.TypeText('-')
-        else
-          WordApp.Selection.TypeText('+');
-
-        // Первично принятый
-        pfirst:=false;
-        Item(num+2).Cells.Item(10).Select;
-        with mainDataModule.dataSetMaxDateBeforePriem do
-          begin
-          Active:=false;
-          Parameters.ParamValues['cardId_']:=pacientId;
-          Parameters.ParamValues['dateTo_']:=DateToStr(dtpDatePriem.DateTime);
-          Active:=true;
-          end;
-        if(mainDataModule.dataSetMaxDateBeforePriem.RecordCount=0) then
+      // Первично принятый
+      pfirst:=false;
+      WordApp.ActiveDocument.Tables.Item(2).Rows.Item(num+2).Cells.Item(10).Select;
+      with mainDataModule.dataSetMaxDateBeforePriem1 do
+        begin
+        Active:=false;
+        Params.ParamValues['cardId_']:=pacientId;
+        Params.ParamValues['dateTo_']:=DateToStr(dtpDatePriem.DateTime);
+        Active:=true;
+        end;
+      if(mainDataModule.dataSetMaxDateBeforePriem1.RecordCount=0) then
+        begin
+        pfirst:=true;
+        end
+      else
+        begin
+        if(YearOf(mainDataModule.dataSetMaxDateBeforePriem1.FieldByName('maxDate').AsDateTime)<>YearOf(Today)) then
           begin
           pfirst:=true;
           end
         else
           begin
-          if(YearOf(mainDataModule.dataSetMaxDateBeforePriem.FieldByName('maxDate').AsDateTime)<>YearOf(Today)) then
+          if(mainDataModule.dataSetMaxDateBeforePriem1.FieldByName('sanus').AsInteger=1) then
             begin
             pfirst:=true;
-            end
-          else
-            begin
-            if(mainDataModule.dataSetMaxDateBeforePriem.FieldByName('sanus').AsInteger=1) then
-              begin
-              pfirst:=true;
-              end;
             end;
           end;
-        if(pfirst) then
-          WordApp.Selection.TypeText('+')
-        else
-          WordApp.Selection.TypeText('-');
-      end;
-      //Продолжает лечение
-      WordDoc.Tables.Item(2).Rows.Item(num+2).Cells.Item(12).Select;
+        end;
       if(pfirst) then
-        WordApp.Selection.TypeText('-')
+        WordApp.Selection.TypeText('+')
       else
-        WordApp.Selection.TypeText('+');
-
-      pacList.Add(pacientId);
-      pacList.Add(IntToStr(num));
-      number:=num;
-      end
+        WordApp.Selection.TypeText('-');
+    end;
+    //Продолжает лечение
+    WordApp.ActiveDocument.Tables.Item(2).Rows.Item(num+2).Cells.Item(12).Select;
+    if(pfirst) then
+      WordApp.Selection.TypeText('-')
     else
-      begin
-      number:=StrToInt(pacList[pacList.IndexOf(pacientId)+1]);
-      end;
+      WordApp.Selection.TypeText('+');
+
+    pacList.Add(pacientId);
+    pacList.Add(IntToStr(num));
+    number:=num;
+    end
+  else
+    begin
+    number:=StrToInt(pacList[pacList.IndexOf(pacientId)+1]);
     end;
 
-   Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbToday.Items.Objects[i-1])),mainDataModule.dataSetPriemForEzhList);
-   with mainDataModule.dataSetPriemForEzhList do
+
+   Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbToday.Items.Objects[i-1])),mainDataModule.dataSetPriemForEzhList1);
+   with mainDataModule.dataSetPriemForEzhList1 do
     begin
     priemKrList:=TStringList.Create;
     ExtractStrings(['&'],[],PChar(FieldByName('PriemKr').AsString),priemKrList);
@@ -376,17 +375,17 @@ for i:=1 to lbToday.Items.Count do
       end;
     // Диагноз
     //diagKr:=WordDoc.Tables.Item(2).Rows.Item(number+2).Cells.Item(11).Range.Text+diagKr;
-    WordDoc.Tables.Item(2).Rows.Item(number+2).Cells.Item(11).Select;
+    WordApp.ActiveDocument.Tables.Item(2).Rows.Item(number+2).Cells.Item(11).Select;
     WordApp.Selection.InsertAfter(diagKr);
 
 
    //Фактический объем вып. работы
    //lechKr:=WordDoc.Tables.Item(2).Rows.Item(number+2).Cells.Item(13).Range.Text+lechKr;
-   WordDoc.Tables.Item(2).Rows.Item(number+2).Cells.Item(13).Select;
+   WordApp.ActiveDocument.Tables.Item(2).Rows.Item(number+2).Cells.Item(13).Select;
    WordApp.Selection.InsertAfter(lechKr);
 
    //Закончено лечение
-   WordDoc.Tables.Item(2).Rows.Item(number+2).Cells.Item(14).Select;
+   WordApp.ActiveDocument.Tables.Item(2).Rows.Item(number+2).Cells.Item(14).Select;
    if(FieldByName('sanus').AsInteger=0) then
       WordApp.Selection.TypeText('-')
     else
@@ -395,25 +394,17 @@ for i:=1 to lbToday.Items.Count do
 
   end;
 
-
-
-
-
-
-
        { WordApp.Selection.TypeText(DateToStr(datePriem));
         WordApp.Selection.MoveRight(cell,row,EmptyParam);
         WordApp.Selection.TypeText(desc);
         WordApp.Selection.MoveRight(cell,row,EmptyParam);
         WordApp.Selection.TypeText(sdoctor);}
-WordDoc.SaveAs(FileName);
-wordDoc.Close;
+WordApp.ActiveDocument.SaveAs(FileName);
+WordApp.ActiveDocument.Close;
 wordApp.Visible:=true;
-WordApp.Documents.Open(FileName,EmptyParam,
-EmptyParam,EmptyParam,EmptyParam,EmptyParam,
-EmptyParam,EmptyParam,EmptyParam,EmptyParam,
-EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-wordApp.Disconnect;
+WordApp.Documents.Open(FileName);
+//wordApp.Disconnect;
+
 end;
 
 procedure TJournalForm.makeHeader;
@@ -444,8 +435,8 @@ if(lbToday.Focused) then
   begin
   if(lbToday.ItemIndex<>-1) then
     begin
-    Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbToday.Items.Objects[lbToday.ItemIndex])),mainDataModule.dataSetCardIdByPriemId);
-    with mainDataModule.dataSetCardIdByPriemId do
+    Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbToday.Items.Objects[lbToday.ItemIndex])),mainDataModule.dataSetCardIdByPriemId1);
+    with mainDataModule.dataSetCardIdByPriemId1 do
       begin
       pacientId:=FieldByName('CardId').AsString;
       end;
@@ -455,8 +446,8 @@ else if(lbYesterday.Focused) then
   begin
   if(lbYesterday.ItemIndex<>-1) then
     begin
-    Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbYesterday.Items.Objects[lbYesterday.ItemIndex])),mainDataModule.dataSetCardIdByPriemId);
-    with mainDataModule.dataSetCardIdByPriemId do
+    Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbYesterday.Items.Objects[lbYesterday.ItemIndex])),mainDataModule.dataSetCardIdByPriemId1);
+    with mainDataModule.dataSetCardIdByPriemId1 do
       begin
       pacientId:=FieldByName('CardId').AsString;
       end;
@@ -466,8 +457,8 @@ else if(lbTomorrow.Focused) then
   begin
   if(lbTomorrow.ItemIndex<>-1) then
     begin
-    Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbTomorrow.Items.Objects[lbTomorrow.ItemIndex])),mainDataModule.dataSetCardIdByPriemId);
-    with mainDataModule.dataSetCardIdByPriemId do
+    Functions.ActivateDataSetWithParam('priemId_',IntToStr(Integer(lbTomorrow.Items.Objects[lbTomorrow.ItemIndex])),mainDataModule.dataSetCardIdByPriemId1);
+    with mainDataModule.dataSetCardIdByPriemId1 do
       begin
       pacientId:=FieldByName('CardId').AsString;
       end;

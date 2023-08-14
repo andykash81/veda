@@ -10,9 +10,7 @@ object FilesForm: TFilesForm
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = False
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object pnlButtons: TPanel
     Left = 0
@@ -21,7 +19,7 @@ object FilesForm: TFilesForm
     Height = 65
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 753
+    ExplicitWidth = 741
     object btnNewFile: TBitBtn
       Left = 8
       Top = 8
@@ -321,17 +319,18 @@ object FilesForm: TFilesForm
     Height = 342
     Align = alLeft
     TabOrder = 1
-    ExplicitHeight = 353
+    ExplicitHeight = 341
     object lbFiles: TListBox
       Left = 1
       Top = 1
       Width = 247
-      Height = 351
+      Height = 340
       Align = alClient
       ItemHeight = 13
       TabOrder = 0
       OnClick = lbFilesClick
       OnDblClick = lbFilesDblClick
+      ExplicitHeight = 339
     end
   end
   object Panel2: TPanel
@@ -347,8 +346,8 @@ object FilesForm: TFilesForm
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 2
-    ExplicitWidth = 504
-    ExplicitHeight = 353
+    ExplicitWidth = 492
+    ExplicitHeight = 341
     DesignSize = (
       496
       342)
@@ -404,7 +403,7 @@ object FilesForm: TFilesForm
       TabOrder = 2
     end
     object btnSave: TBitBtn
-      Left = 274
+      Left = 270
       Top = 304
       Width = 219
       Height = 33
@@ -487,6 +486,8 @@ object FilesForm: TFilesForm
         6FFF6F6F6FFF6F6F6FFF6F6F6FFF000000000000000000000000}
       TabOrder = 3
       OnClick = btnSaveClick
+      ExplicitLeft = 266
+      ExplicitTop = 303
     end
     object edtCreateDate: TDateTimePicker
       Left = 184

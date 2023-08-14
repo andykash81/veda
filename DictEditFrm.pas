@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, ExtCtrls, ToolWin, Buttons, ADODB, Grids,
-  DBGrids, DBCtrls, Data.DB;
+  DBGrids, DBCtrls, Data.DB, FireDAC.Comp.Client, IdCoder, IdCoder3to4,
+  IdCoder00E, IdCoderXXE, IdBaseComponent, FireDAC.Phys.PGWrapper;
 
 type
   TDictEditForm = class(TForm)
@@ -134,11 +135,26 @@ type
     chkOrt: TCheckBox;
     Label19: TLabel;
     Label20: TLabel;
+    connectBD: TTabSheet;
+    Label21: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    Label25: TLabel;
+    edt1: TEdit;
+    edt2: TEdit;
+    edt5: TEdit;
+    edt3: TEdit;
+    edt4: TEdit;
+    Label26: TLabel;
+    Button1: TButton;
+    IncoderSym: TIdEncoderXXE;
+    DecoderSym: TIdDecoderXXE;
     procedure FormShow(Sender: TObject);
     procedure cbBranchesChange(Sender: TObject);
     procedure makeTree(parentId:integer);
     procedure makeDiagnozesTree(treeView:TTreeView;nodesIdsList:TList);
-    procedure makeTreeFromDataSet(treeView:TTreeView;nodesIdsList:TList;dataSet:TADODataSet; keyField:string;parentField:string);
+    procedure makeTreeFromDataSet(treeView:TTreeView;nodesIdsList:TList;dataSet:TFDQuery; keyField:string;parentField:string);
     procedure makeLechList;
     procedure Copyy(destList:TList;sourceList:TList);
     function returnNode(idsList:TList;id1:integer):TTreeNode;
@@ -147,7 +163,7 @@ type
     procedure btnNewDiagnozClick(Sender: TObject);
     procedure DeleteFromNodes(id1:integer;idsList:TList);
     procedure btnNewSubDiagnozClick(Sender: TObject);
-    procedure addNode(node: TTreeNode; dataSetMax:TADODataSet;maxField:string; treeView:TTreeView; idsList:TList; insertStatement:string; insertStatementNil:string);
+    procedure addNode(node: TTreeNode; dataSetMax:TFDQuery;maxField:string; treeView:TTreeView; idsList:TList; insertStatement:string; insertStatementNil:string);
     procedure btnDeleteClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnNewDiagnozMouseMove(Sender: TObject; Shift: TShiftState;
@@ -257,6 +273,8 @@ type
       Y: Integer);
     procedure memNaznMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
+    procedure readSettingFromFile;
+    procedure saveSettingtoFileClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -281,18 +299,20 @@ uses MAIN, dataModule, Constants;
 procedure TDictEditForm.FormShow(Sender: TObject);
 var  count, i, index:integer;
 begin
-mainDataModule.dataSetDictBranches.Active:=false;
-mainDataModule.dataSetDictBranches.Active:=true;
-count:=mainDataModule.dataSetDictBranches.RecordCount;
+try
+readSettingFromFile;
+mainDataModule.dataSetDictBranches1.Active:=false;
+mainDataModule.dataSetDictBranches1.Active:=true;
+count:=mainDataModule.dataSetDictBranches1.RecordCount;
    if(count>0) then
     begin
     SetLength(ids, count);
-    mainDataModule.dataSetDictBranches.First;
+    mainDataModule.dataSetDictBranches1.First;
       for i:=1 to count do
         begin
-        index:=cbBranches.Items.Add(mainDataModule.dataSetDictBranches.FieldByName('Name').AsString);
-        ids[index]:=mainDataModule.dataSetDictBranches.FieldByName('DictId').AsInteger;
-        mainDataModule.dataSetDictBranches.Next;
+        index:=cbBranches.Items.Add(mainDataModule.dataSetDictBranches1.FieldByName('Name').AsString);
+        ids[index]:=mainDataModule.dataSetDictBranches1.FieldByName('DictId').AsInteger;
+        mainDataModule.dataSetDictBranches1.Next;
         end;
     end;
 ListDiagsNodes:=TList.Create;
@@ -302,16 +322,22 @@ ListPriceNodesForLech:=Tlist.Create;
 makeDiagnozesTree(treeDiagnozes,ListDiagsNodes);
 makeLechList;
 makeDiagnozesTree(treeDiagnozesForLech,ListDiagsNodesForLech);
-makeTreeFromDataSet(treePrice,ListPriceNodes, mainDataModule.dataSetPrices,'PriceId', 'ParentPriceId');
-makeTreeFromDataSet(treePriceForLech,ListPriceNodesForLech, mainDataModule.dataSetPrices,'PriceId', 'ParentPriceId');
-mainDataModule.dataSetLetters.Active:=false;
-mainDataModule.dataSetLetters.CommandText:='select DictId, Name, ShortName from Dict where ParentDictId = '+IntToStr(BRANCH_LETTERS);
-mainDataModule.dataSetLetters.Active:=true;
-mainDataModule.dataSetLetters.First;
+makeTreeFromDataSet(treePrice,ListPriceNodes, mainDataModule.dataSetPrices1,'PriceId', 'ParentPriceId');
+makeTreeFromDataSet(treePriceForLech,ListPriceNodesForLech, mainDataModule.dataSetPrices1,'PriceId', 'ParentPriceId');
+mainDataModule.dataSetLetters1.Active:=false;
+mainDataModule.dataSetLetters1.SQL.Text:='select "Dict"."DictId", "Dict"."Name", "Dict"."ShortName" from "Dict" where "ParentDictId" = '+IntToStr(BRANCH_LETTERS);
+mainDataModule.dataSetLetters1.Active:=true;
+mainDataModule.dataSetLetters1.First;
 fill(cbLetterDiag);
-mainDataModule.dataSetLetters.First;
+mainDataModule.dataSetLetters1.First;
 fill(cbLetterLech);
-mainDataModule.dataSetDict.Active:=true;
+mainDataModule.dataSetDict1.Active:=true;
+except
+  on E: EPgNativeException do
+    ShowMessage('Ошибка загрузки');
+end;
+
+
 end;
 
 procedure TDictEditForm.fill(cb:TComboBox);
@@ -319,10 +345,10 @@ var i:integer;
 begin
 cb.Items.Clear;
 cb.Items.Add('Нет буквы');
-for i:=1 to mainDataModule.dataSetLetters.RecordCount do
+for i:=1 to mainDataModule.dataSetLetters1.RecordCount do
   begin
-  cb.AddItem(mainDataModule.dataSetLetters.FieldByName('shortName').AsString+'-'+ mainDataModule.dataSetLetters.FieldByName('Name').AsString, TObject(mainDataModule.dataSetLetters.FieldByName('DictId').asInteger));
-  mainDataModule.dataSetLetters.Next;
+  cb.AddItem(mainDataModule.dataSetLetters1.FieldByName('shortName').AsString+'-'+ mainDataModule.dataSetLetters1.FieldByName('Name').AsString, TObject(mainDataModule.dataSetLetters1.FieldByName('DictId').asInteger));
+  mainDataModule.dataSetLetters1.Next;
   end;
 end;
 
@@ -330,11 +356,11 @@ end;
 {Построение дерева}
 procedure TDictEditForm.makeDiagnozesTree(treeView:TTreeView;nodesIdsList:TList);
 begin
-mainDataModule.dataSetDiags.Active:=true;
-makeTreeFromDataSet(treeView,nodesIdsList,mainDataModule.dataSetDiags,'Diag','ParentDiagId');
+mainDataModule.dataSetDiags1.Active:=true;
+makeTreeFromDataSet(treeView,nodesIdsList,mainDataModule.dataSetDiags1,'Diag','ParentDiagId');
 end;
 
-procedure  TDictEditForm.makeTreeFromDataSet(treeView:TTreeView;nodesIdsList:TList;dataSet:TADODataSet; keyField:string;parentField:string);
+procedure  TDictEditForm.makeTreeFromDataSet(treeView:TTreeView;nodesIdsList:TList;dataSet:TFDQuery; keyField:string;parentField:string);
 type
     PNodeList = ^ANodeList;
     ANodeList = record
@@ -345,6 +371,7 @@ var count, i, id  : integer; ANodeRecord: PNodeList; idsList:Tlist;   curNode: T
 begin
 treeView.Items.Clear;
 dataSet.Active:=true;
+dataSet.Last;
 count:=dataSet.RecordCount;
 idsList:=TList.Create;
 newIdsList:=TList.Create;
@@ -432,6 +459,46 @@ for i:= 0 to idsList.Count-1 do
 returnNode:=nil;
 end;
 
+procedure TDictEditForm.readSettingFromFile;
+var
+  lineFile: TStringList;
+  i: integer;
+begin
+    lineFile:=TStringList.Create;
+      try
+        lineFile.LoadFromFile(ExtractFilePath(Application.ExeName)+'\bd.sys');
+        for i:=0 to lineFile.Count-1 do
+        begin
+          TEdit(FindComponent('edt'+IntToStr(i+1))).Text:=DecoderSym.DecodeString(lineFile[i]);
+        end;
+      finally
+        lineFile.Free;
+      end;
+end;
+
+
+procedure TDictEditForm.saveSettingtoFileClick(Sender: TObject);
+var
+  sysFile: TextFile;
+  i, p: integer;
+begin
+  try
+    AssignFile(sysFile, ExtractFilePath(Application.ExeName)+'\bd.sys');
+    Rewrite(sysFile);
+    for i := 0 to ComponentCount-1 do
+      begin
+      if (Components[i].Name = 'edt1') or (Components[i].Name = 'edt2') or (Components[i].Name = 'edt3') or (Components[i].Name = 'edt4') or (Components[i].Name = 'edt5') then
+//        ShowMessage((Components[i] As TEdit).Text);
+        Writeln(sysFile, IncoderSym.Encode((Components[i] As TEdit).Text));
+      end;
+  finally
+     CloseFile(sysFile);
+     mainDataModule.DataModuleCreate(Sender);
+  end;
+
+end;
+
+
 {Возвращает Id по ноде}
 function TDictEditForm.returnId(idsList:TList;node1:TTreeNode):integer;
 type
@@ -461,9 +528,9 @@ procedure TDictEditForm.treeDiagnozesChange(Sender: TObject;
   var id:integer;
 begin
  id:=returnId(ListDiagsNodes,Node);
-  mainDataModule.dataSetDiag.Active:=False;
-  mainDataModule.dataSetDiag.CommandText:='select Is_diag, Name, St_An_morbi, ShortName, St_obno, St_RSnimok, St_slizist, St_Zhal, UseParentZhal, UseParentAnMorbi, UseParentObno, UseParentSlizist, UseParentXRay, LetterId from Spr_diag where Diag = '+IntToStr(id);
-  mainDataModule.dataSetDiag.Active:=true;
+  mainDataModule.dataSetDiag1.Active:=False;
+  mainDataModule.dataSetDiag1.SQL.Text:='select "Spr_diag"."Is_diag", "Spr_diag"."Name", "Spr_diag"."St_An_morbi", "Spr_diag"."ShortName",'+'"Spr_diag"."St_obno", "Spr_diag"."St_RSnimok", "Spr_diag"."St_slizist", "Spr_diag"."St_Zhal", "Spr_diag"."UseParentZhal", "Spr_diag"."UseParentAnMorbi",'+'"Spr_diag"."UseParentObno", "Spr_diag"."UseParentSlizist", "Spr_diag"."UseParentXRay", "Spr_diag"."LetterId" from "Spr_diag" where "Diag" = '+IntToStr(id);
+  mainDataModule.dataSetDiag1.Active:=true;
   {очищаем}
   edtDiagName.Text:='';
   memZhal.Text:='';
@@ -474,21 +541,21 @@ begin
   memObno.Text:='';
   cbLetterDiag.Text:='';
   {заполняем}
-  mainDataModule.dataSetDiag.First;
-  edtDiagName.Text:=  mainDataModule.dataSetDiag.FieldByName('Name').AsString;
-  memZhal.Text:=mainDataModule.dataSetDiag.FieldByName('St_Zhal').AsString;
-  edtDiagShortName.Text:=mainDataModule.dataSetDiag.FieldByName('ShortName').AsString;
-  memAnMorbi.Text:=mainDataModule.dataSetDiag.FieldByName('St_An_morbi').AsString;
-  memXRay.Text:=mainDataModule.dataSetDiag.FieldByName('St_RSnimok').AsString;
-  memSliz.Text:=mainDataModule.dataSetDiag.FieldByName('St_slizist').AsString;
-  memObno.Text:=mainDataModule.dataSetDiag.FieldByName('St_obno').AsString;
-  chkIsDiag.Checked:=mainDataModule.dataSetDiag.FieldByName('Is_diag').AsInteger=1;
-  chkUseParentZhal.Checked:=mainDataModule.dataSetDiag.FieldByName('UseParentZhal').AsInteger=1;
-  chkUseParentAnMorbi.Checked:=mainDataModule.dataSetDiag.FieldByName('UseParentAnMorbi').AsInteger=1;
-  chkUseParentObno.Checked:=mainDataModule.dataSetDiag.FieldByName('UseParentObno').AsInteger=1;
-  chkUseParentSlizist.Checked:=mainDataModule.dataSetDiag.FieldByName('UseParentSlizist').AsInteger=1;
-  chkUseParentXRay.Checked:=mainDataModule.dataSetDiag.FieldByName('UseParentXRay').AsInteger=1;
-  cbLetterDiag.ItemIndex:=getIndexById(cbLetterDiag, mainDataModule.dataSetDiag.FieldByName('LetterId').AsInteger);
+  mainDataModule.dataSetDiag1.First;
+  edtDiagName.Text:=  mainDataModule.dataSetDiag1.FieldByName('Name').AsString;
+  memZhal.Text:=mainDataModule.dataSetDiag1.FieldByName('St_Zhal').AsString;
+  edtDiagShortName.Text:=mainDataModule.dataSetDiag1.FieldByName('ShortName').AsString;
+  memAnMorbi.Text:=mainDataModule.dataSetDiag1.FieldByName('St_An_morbi').AsString;
+  memXRay.Text:=mainDataModule.dataSetDiag1.FieldByName('St_RSnimok').AsString;
+  memSliz.Text:=mainDataModule.dataSetDiag1.FieldByName('St_slizist').AsString;
+  memObno.Text:=mainDataModule.dataSetDiag1.FieldByName('St_obno').AsString;
+  chkIsDiag.Checked:=mainDataModule.dataSetDiag1.FieldByName('Is_diag').AsInteger=1;
+  chkUseParentZhal.Checked:=mainDataModule.dataSetDiag1.FieldByName('UseParentZhal').AsInteger=1;
+  chkUseParentAnMorbi.Checked:=mainDataModule.dataSetDiag1.FieldByName('UseParentAnMorbi').AsInteger=1;
+  chkUseParentObno.Checked:=mainDataModule.dataSetDiag1.FieldByName('UseParentObno').AsInteger=1;
+  chkUseParentSlizist.Checked:=mainDataModule.dataSetDiag1.FieldByName('UseParentSlizist').AsInteger=1;
+  chkUseParentXRay.Checked:=mainDataModule.dataSetDiag1.FieldByName('UseParentXRay').AsInteger=1;
+  cbLetterDiag.ItemIndex:=getIndexById(cbLetterDiag, mainDataModule.dataSetDiag1.FieldByName('LetterId').AsInteger);
 end;
 
 function TDictEditForm.getIndexById(cb:TComboBox; id:integer):integer;
@@ -510,11 +577,11 @@ procedure TDictEditForm.btnNewDiagnozClick(Sender: TObject);
 begin
 if(treeDiagnozes.Selected<>nil) then
   begin
-  addNode(treeDiagnozes.Selected.Parent, mainDataModule.dataSetMaxDiag,'maxDiag', treeDiagnozes, ListDiagsNodes, 'Insert into Spr_diag (Diag,parentDiagId, Name) values (:id,:parent,:name)', 'Insert into Spr_diag (Diag, Name) values (:id,:name)');
+  addNode(treeDiagnozes.Selected.Parent, mainDataModule.dataSetMaxDiag1,'maxDiag', treeDiagnozes, ListDiagsNodes, 'Insert into "Spr_diag" ("Diag","ParentDiagId", "Name") values (:id,:parent,:name)', 'Insert into "Spr_diag" ("Diag", "Name") values (:id,:name)');
   end
 else
   begin
-  addNode(nil, mainDataModule.dataSetMaxDiag,'maxDiag', treeDiagnozes, ListDiagsNodes, 'Insert into Spr_diag (Diag,parentDiagId, Name) values (:id,:parent,:name)', 'Insert into Spr_diag (Diag, Name) values (:id,:name)');
+  addNode(nil, mainDataModule.dataSetMaxDiag1,'maxDiag', treeDiagnozes, ListDiagsNodes, 'Insert into "Spr_diag" ("Diag","ParentDiagId", "Name") values (:id,:parent,:name)', 'Insert into "Spr_diag" ("Diag", "Name") values (:id,:name)');
   end;
 end;
 
@@ -523,12 +590,12 @@ procedure TDictEditForm.btnNewSubDiagnozClick(Sender: TObject);
 begin
 if(treeDiagnozes.Selected<>nil) then
   begin
-  addNode(treeDiagnozes.Selected, mainDataModule.dataSetMaxDiag,'maxDiag', treeDiagnozes, ListDiagsNodes, 'Insert into Spr_diag (Diag,parentDiagId, Name) values (:id,:parent,:name)', 'Insert into Spr_diag (Diag, Name) values (:id,:name)');
+  addNode(treeDiagnozes.Selected, mainDataModule.dataSetMaxDiag1,'maxDiag', treeDiagnozes, ListDiagsNodes, 'Insert into "Spr_diag" ("Diag","ParentDiagId", "Name") values (:id,:parent,:name)', 'Insert into "Spr_diag" ("Diag", "Name") values (:id,:name)');
   end;
 end;
 
 {Добавление пустой ноды}
-procedure TDictEditForm.addNode(node: TTreeNode; dataSetMax:TADODataSet;maxField:string; treeView:TTreeView; idsList:TList; insertStatement:string; insertStatementNil:string);
+procedure TDictEditForm.addNode(node: TTreeNode; dataSetMax:TFDQuery; maxField:String; treeView:TTreeView; idsList:TList; insertStatement:string; insertStatementNil:string);
 type
     PNodeList = ^ANodeList;
     ANodeList = record
@@ -548,18 +615,18 @@ ANodeRecord^.node:=treeView.Items.AddChild(node,'Новый');
 idsList.Add(ANodeRecord);
 if parentId<>0 then
   begin
-  mainDataModule.queryInsertEmptyDiag.SQL.Clear;
-  mainDataModule.queryInsertEmptyDiag.SQL.Add(insertStatement);
-  mainDataModule.queryInsertEmptyDiag.Parameters.ParamValues['parent']:=IntToStr(parentId);
+  mainDataModule.queryInsertEmptyDiag1.SQL.Clear;
+  mainDataModule.queryInsertEmptyDiag1.SQL.Add(insertStatement);
+  mainDataModule.queryInsertEmptyDiag1.Params.ParamValues['parent']:=parentId;
   end
 else
   begin
-  mainDataModule.queryInsertEmptyDiag.SQL.Clear;
-  mainDataModule.queryInsertEmptyDiag.SQL.Add(insertStatementNil);
+  mainDataModule.queryInsertEmptyDiag1.SQL.Clear;
+  mainDataModule.queryInsertEmptyDiag1.SQL.Add(insertStatementNil);
   end;
-mainDataModule.queryInsertEmptyDiag.Parameters.ParamValues['id']:=IntToStr(id);
-mainDataModule.queryInsertEmptyDiag.Parameters.ParamValues['name']:='Новый';
-mainDataModule.queryInsertEmptyDiag.ExecSQL;
+mainDataModule.queryInsertEmptyDiag1.Params.ParamValues['id']:=id;
+mainDataModule.queryInsertEmptyDiag1.Params.ParamValues['name']:='Новый';
+mainDataModule.queryInsertEmptyDiag1.ExecSQL;
 end;
 
 {Удаление диагноза}
@@ -574,11 +641,11 @@ if(treeDiagnozes.Selected<>nil) then
     end
   else
     begin
-    if MessageDlg( 'Удаление диагноза "'+treeDiagnozes.Selected.Text+'". Продолжить?',    mtConfirmation, [mbYes, mbNo],0) = mrYes then
+    if Dialogs.MessageDlg( 'Удаление диагноза "'+treeDiagnozes.Selected.Text+'". Продолжить?',    mtConfirmation, [mbYes, mbNo],0) = mrYes then
       begin
       id:=returnId(ListDiagsNodes,treeDiagnozes.Selected);
-      mainDataModule.queryDeleteDiag.Parameters.ParamValues['diagId']:=IntToStr(id);
-      mainDataModule.queryDeleteDiag.ExecSQL;
+      mainDataModule.queryDeleteDiag1.Params.ParamValues['diagId']:=IntToStr(id);
+      mainDataModule.queryDeleteDiag1.ExecSQL;
       treeDiagnozes.Selected.Delete;
       DeleteFromNodes(id,ListDiagsNodes);
       end;
@@ -613,76 +680,76 @@ var id:integer;
 begin
 if(cbLetterDiag.ItemIndex>0) then
   begin
-  mainDataModule.queryDiagUpdate.SQL.Clear;
-  mainDataModule.queryDiagUpdate.SQL.Add('Update Spr_Diag set name = :name_, St_Zhal = :zhal_ , ShortName=:shortName_, St_An_morbi = :anMorbi, ');
-  mainDataModule.queryDiagUpdate.SQL.Add('St_obno=:obno, St_slizist = :slizist, St_Rsnimok = :rsnimok, Is_diag = :isdiag, ');
-  mainDataModule.queryDiagUpdate.SQL.Add('  UseParentZhal=:UseParentZhal_, UseParentAnMorbi=:UseParentAnMorbi_,UseParentObno = :UseParentObno_, UseParentSlizist=:UseParentSlizist_,UseParentXRay=:UseParentXRay_ , letterId = :letterId_ where diag = :diagId');
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['letterId_']:=IntToStr(Integer(cbLetterDiag.Items.Objects[cbLetterDiag.ItemIndex]));
+  mainDataModule.queryDiagUpdate1.SQL.Clear;
+  mainDataModule.queryDiagUpdate1.SQL.Add('Update "Spr_diag" set "Name" = :name_, "St_Zhal" = :zhal_ , "ShortName"=:shortName_, "St_An_morbi" = :anMorbi, ');
+  mainDataModule.queryDiagUpdate1.SQL.Add('"St_obno"=:obno, "St_slizist" = :slizist, "St_RSnimok" = :rsnimok, "Is_diag" = :isdiag, ');
+  mainDataModule.queryDiagUpdate1.SQL.Add('  "UseParentZhal"=:UseParentZhal_, "UseParentAnMorbi"=:UseParentAnMorbi_,"UseParentObno" = :UseParentObno_, "UseParentSlizist"=:UseParentSlizist_,"UseParentXRay"=:UseParentXRay_ , "LetterId" = :letterId_ where "Diag" = :diagId');
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['letterId_']:=Integer(cbLetterDiag.Items.Objects[cbLetterDiag.ItemIndex]);
   end
 else
   begin
-  mainDataModule.queryDiagUpdate.SQL.Clear;
-  mainDataModule.queryDiagUpdate.SQL.Add('Update Spr_Diag set name = :name_, St_Zhal = :zhal_ , ShortName=:shortName_, St_An_morbi = :anMorbi, St_obno=:obno, letterId=null, ');
-  mainDataModule.queryDiagUpdate.SQL.Add('St_slizist = :slizist, St_Rsnimok = :rsnimok, Is_diag = :isdiag, UseParentZhal=:UseParentZhal_, UseParentAnMorbi=:UseParentAnMorbi_,UseParentObno = :UseParentObno_, UseParentSlizist=:UseParentSlizist_,UseParentXRay=:UseParentXRay_  where diag = :diagId');
+  mainDataModule.queryDiagUpdate1.SQL.Clear;
+  mainDataModule.queryDiagUpdate1.SQL.Add('Update "Spr_diag" set "Name" = :name_, "St_Zhal" = :zhal_ , "ShortName"=:shortName_, "St_An_morbi" = :anMorbi, "St_obno"=:obno, "LetterId"=null, ');
+  mainDataModule.queryDiagUpdate1.SQL.Add('"St_slizist" = :slizist, "St_RSnimok" = :rsnimok, "Is_diag" = :isdiag, "UseParentZhal"=:UseParentZhal_,'+' "UseParentAnMorbi"=:UseParentAnMorbi_,"UseParentObno" = :UseParentObno_, "UseParentSlizist"=:UseParentSlizist_,"UseParentXRay"=:UseParentXRay_  where "Diag" = :diagId');
   end;
 id:=returnId(ListDiagsNodes,treeDiagnozes.Selected);
-mainDataModule.queryDiagUpdate.Parameters.ParamValues['name_']:=edtDiagName.Text;
-mainDataModule.queryDiagUpdate.Parameters.ParamValues['zhal_']:=memZhal.Text;
-mainDataModule.queryDiagUpdate.Parameters.ParamValues['shortName_']:=edtDiagShortName.Text;
-mainDataModule.queryDiagUpdate.Parameters.ParamValues['anMorbi']:=memAnMorbi.Text;
-mainDataModule.queryDiagUpdate.Parameters.ParamValues['obno']:=memObno.Text;
-mainDataModule.queryDiagUpdate.Parameters.ParamValues['slizist']:=memSliz.Text;
-mainDataModule.queryDiagUpdate.Parameters.ParamValues['rsnimok']:=memXRay.Text;
+mainDataModule.queryDiagUpdate1.Params.ParamValues['name_']:=edtDiagName.Text;
+mainDataModule.queryDiagUpdate1.Params.ParamValues['zhal_']:=memZhal.Text;
+mainDataModule.queryDiagUpdate1.Params.ParamValues['shortName_']:=edtDiagShortName.Text;
+mainDataModule.queryDiagUpdate1.Params.ParamValues['anMorbi']:=memAnMorbi.Text;
+mainDataModule.queryDiagUpdate1.Params.ParamValues['obno']:=memObno.Text;
+mainDataModule.queryDiagUpdate1.Params.ParamValues['slizist']:=memSliz.Text;
+mainDataModule.queryDiagUpdate1.Params.ParamValues['rsnimok']:=memXRay.Text;
 if(chkIsDiag.Checked) then
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['isdiag']:=IntToStr(1);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['isdiag']:=1;
   end
 else
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['isdiag']:=IntToStr(0);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['isdiag']:=0;
   end;
 if(chkUseParentZhal.Checked) then
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentZhal_']:=IntToStr(1);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentZhal_']:=1;
   end
 else
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentZhal_']:=IntToStr(0);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentZhal_']:=0;
   end;
 if(chkUseParentAnMorbi.Checked) then
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentAnMorbi_']:=IntToStr(1);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentAnMorbi_']:=1;
   end
 else
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentAnMorbi_']:=IntToStr(0);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentAnMorbi_']:=0;
   end;
 if(chkUseParentObno.Checked) then
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentObno_']:=IntToStr(1);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentObno_']:=1;
   end
 else
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentObno_']:=IntToStr(0);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentObno_']:=0;
   end;
 if(chkUseParentSlizist.Checked) then
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentSlizist_']:=IntToStr(1);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentSlizist_']:=1;
   end
 else
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentSlizist_']:=IntToStr(0);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentSlizist_']:=0;
   end;
 if(chkUseParentXRay.Checked) then
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentXRay_']:=IntToStr(1);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentXRay_']:=1;
   end
 else
   begin
-  mainDataModule.queryDiagUpdate.Parameters.ParamValues['UseParentXRay_']:=IntToStr(0);
+  mainDataModule.queryDiagUpdate1.Params.ParamValues['UseParentXRay_']:=0;
   end;
-mainDataModule.queryDiagUpdate.Parameters.ParamValues['diagId']:=IntToStr(id);
-mainDataModule.queryDiagUpdate.ExecSQL;
+mainDataModule.queryDiagUpdate1.Params.ParamValues['diagId']:=id;
+mainDataModule.queryDiagUpdate1.ExecSQL;
 treeDiagnozes.Selected.Text:=edtDiagName.Text;
 end;
 
@@ -782,16 +849,17 @@ end;
 procedure TDictEditForm.makeTree(parentId:integer);
 var treeNode:TTreeNode; count1,i:integer;
 begin
-count1:= mainDataModule.dataSetDictBranch.RecordCount;
+mainDataModule.dataSetDictBranch1.Last;
+count1:= mainDataModule.dataSetDictBranch1.RecordCount;
 SetLength(idsByNodes,count1);
 with treeElements.Items do
   begin
-  mainDataModule.dataSetDictBranch.First;
+  mainDataModule.dataSetDictBranch1.First;
       for i:=1 to count1 do
         begin
-        treeNode:=Add(nil,mainDataModule.dataSetDictBranch.FieldByName('Name').AsString);
-        idsByNodes[treeNode.AbsoluteIndex]:=mainDataModule.dataSetDictBranch.FieldByName('DictId').AsInteger;
-        mainDataModule.dataSetDictBranch.Next;
+        treeNode:=Add(nil,mainDataModule.dataSetDictBranch1.FieldByName('Name').AsString);
+        idsByNodes[treeNode.AbsoluteIndex]:=mainDataModule.dataSetDictBranch1.FieldByName('DictId').AsInteger;
+        mainDataModule.dataSetDictBranch1.Next;
         end;
     end;
 
@@ -801,11 +869,11 @@ procedure TDictEditForm.cbBranchesChange(Sender: TObject);
 begin
 if(cbBranches.ItemIndex>-1) then
   begin
-  mainDataModule.dataSetDictBranch.active:=false;
-  mainDataModule.dataSetDictBranch.CommandText:='select * from Dict where ParentDictId = '+IntToStr(ids[cbBranches.ItemIndex]);
-  mainDataModule.dataSetDictBranch.active:=true;
+  mainDataModule.dataSetDictBranch1.Active:=false;
+  mainDataModule.dataSetDictBranch1.SQL.Text:='select * from "Dict" where "ParentDictId" = '+IntToStr(ids[cbBranches.ItemIndex]);
+  mainDataModule.dataSetDictBranch1.Active:=true;
   end;
-if(mainDataModule.dataSetDictBranch.RecordCount>0) then
+if(mainDataModule.dataSetDictBranch1.RecordCount>0) then
   begin
   SetLength(idsByNodes,0);
   treeElements.Items.Clear;
@@ -818,12 +886,13 @@ procedure TDictEditForm.makeLechList;
 var i:integer;
 begin
 lbLechs.Clear;
-mainDataModule.dataSetLechs.Active:=true;
-mainDataModule.dataSetLechs.First;
-for i:=1 to mainDataModule.dataSetLechs.RecordCount do
+mainDataModule.dataSetLechs1.Active:=true;
+mainDataModule.dataSetLechs1.Last;
+mainDataModule.dataSetLechs1.First;
+for i:=1 to mainDataModule.dataSetLechs1.RecordCount do
   begin
-  lbLechs.AddItem(mainDataModule.dataSetLechs.FieldByName('Name').AsString, TObject(mainDataModule.dataSetLechs.FieldByName('LechId').AsInteger));
-  mainDataModule.dataSetLechs.Next;
+  lbLechs.AddItem(mainDataModule.dataSetLechs1.FieldByName('Name').AsString, TObject(mainDataModule.dataSetLechs1.FieldByName('LechId').AsInteger));
+  mainDataModule.dataSetLechs1.Next;
   end;
 end;
 
@@ -841,38 +910,38 @@ If(lbLechs.ItemIndex>=0) then
   memReccs.Text:='';
   memNazn.Text:='';
   {Заполняем}
-  mainDataModule.dataSetLech.Active:=false;
-  mainDataModule.dataSetLech.CommandText:='select Description, Name, ShortName, Nazn, Reccs, letterId, IsOrt from Lech where LechId ='+IntToStr(id);
-  mainDataModule.dataSetLech.Active:=true;
-  mainDataModule.dataSetLech.First;
-  chkOrt.Checked:=(mainDataModule.dataSetLech.FieldByName('IsORt').AsInteger<>0);
-  edtLechName.Text:=mainDataModule.dataSetLech.FieldByName('Name').AsString;
-  edtLechShortName.Text:=mainDataModule.dataSetLech.FieldByName('ShortName').AsString;
-  memLechDesc.Text:=mainDataModule.dataSetLech.FieldByName('Description').AsString;
-  memReccs.Text:=mainDataModule.dataSetLech.FieldByName('Reccs').AsString;
-  memNazn.Text:=mainDataModule.dataSetLech.FieldByName('Nazn').AsString;
-  cbLetterLech.ItemIndex:=getIndexById(cbLetterLech, mainDataModule.dataSetLech.FieldByName('LetterId').AsInteger);
-  {Очищаем бокс с дигнозами}
+  mainDataModule.dataSetLech1.Active:=false;
+  mainDataModule.dataSetLech1.SQL.Text:='select "Lech"."Description", "Lech"."Name", "Lech"."ShortName", "Lech"."Nazn", "Lech"."Reccs", "Lech"."letterId", "Lech"."IsOrt" from "Lech" where "LechId" ='+IntToStr(id);
+  mainDataModule.dataSetLech1.Active:=true;
+  mainDataModule.dataSetLech1.First;
+  chkOrt.Checked:=(mainDataModule.dataSetLech1.FieldByName('IsORt').AsInteger<>0);
+  edtLechName.Text:=mainDataModule.dataSetLech1.FieldByName('Name').AsString;
+  edtLechShortName.Text:=mainDataModule.dataSetLech1.FieldByName('ShortName').AsString;
+  memLechDesc.Text:=mainDataModule.dataSetLech1.FieldByName('Description').AsString;
+  memReccs.Text:=mainDataModule.dataSetLech1.FieldByName('Reccs').AsString;
+  memNazn.Text:=mainDataModule.dataSetLech1.FieldByName('Nazn').AsString;
+  cbLetterLech.ItemIndex:=getIndexById(cbLetterLech, mainDataModule.dataSetLech1.FieldByName('LetterId').AsInteger);
+  {Очищаем бокс с диагнозами}
   lbLechDiags.Clear;
-  mainDataModule.dataSetLechDiags.Active:=false;
-  mainDataModule.dataSetLechDiags.CommandText:='select Spr_diag.Diag, Spr_diag.Name from Spr_diag, Diag_lech where Spr_diag.Diag = Diag_lech.Diag and Diag_lech.LechId = '+IntToStr(id);
-  mainDataModule.dataSetLechDiags.Active:=true;
-  mainDataModule.dataSetLechDiags.First;
-  for i:=1 to mainDataModule.dataSetLechDiags.RecordCount do
+  mainDataModule.dataSetLechDiags1.Active:=false;
+  mainDataModule.dataSetLechDiags1.SQL.Text:='select "Spr_diag"."Diag", "Spr_diag"."Name" from "Spr_diag", "Diag_lech" where "Spr_diag"."Diag" = "Diag_lech"."Diag" and "Diag_lech"."LechId" = '+IntToStr(id);
+  mainDataModule.dataSetLechDiags1.Active:=true;
+  mainDataModule.dataSetLechDiags1.First;
+  for i:=1 to mainDataModule.dataSetLechDiags1.RecordCount do
     begin
-    lbLechDiags.AddItem(mainDataModule.dataSetLechDiags.FieldByName('Name').AsString, TObject(mainDataModule.dataSetLechDiags.FieldByName('Diag').AsInteger));
-    mainDataModule.dataSetLechDiags.Next;
+    lbLechDiags.AddItem(mainDataModule.dataSetLechDiags1.FieldByName('Name').AsString, TObject(mainDataModule.dataSetLechDiags1.FieldByName('Diag').AsInteger));
+    mainDataModule.dataSetLechDiags1.Next;
     end;
   {Бокс с услугами}
   lbLechPrices.Clear;
-  mainDataModule.dataSetLechPrices.Active:=false;
-  mainDataModule.dataSetLechPrices.CommandText:='select Price.PriceId, Price.Name, Lech_price.num from Price, lech_price where lech_price.priceId = price.priceId and lech_Price.LechId = '+IntToStr(id)+' order by lech_price.num';
-  mainDataModule.dataSetLechPrices.Active:=true;
-  mainDataModule.dataSetLechPrices.First;
-  for i:=1 to mainDataModule.dataSetLechPrices.RecordCount do
+  mainDataModule.dataSetLechPrices1.Active:=false;
+  mainDataModule.dataSetLechPrices1.SQL.Text:='select "Price"."PriceId", "Price"."Name", "Lech_price"."Num" from "Price", "Lech_price" where "Lech_price"."PriceId" = "Price"."PriceId" and "Lech_price"."LechId" = '+IntToStr(id)+' order by "Lech_price"."Num"';
+  mainDataModule.dataSetLechPrices1.Active:=true;
+  mainDataModule.dataSetLechPrices1.First;
+  for i:=1 to mainDataModule.dataSetLechPrices1.RecordCount do
     begin
-    lbLechPrices.AddItem(mainDataModule.dataSetLechPrices.FieldByName('Name').AsString + ' ($$'+mainDataModule.dataSetLechPrices.FieldByName('Num').AsString+')', TObject(mainDataModule.dataSetLechPrices.FieldByName('priceId').AsInteger));
-    mainDataModule.dataSetLechPrices.Next;
+    lbLechPrices.AddItem(mainDataModule.dataSetLechPrices1.FieldByName('Name').AsString + ' ($$'+mainDataModule.dataSetLechPrices1.FieldByName('Num').AsString+')', TObject(mainDataModule.dataSetLechPrices1.FieldByName('priceId').AsInteger));
+    mainDataModule.dataSetLechPrices1.Next;
     end;
   end;
 end;
@@ -880,16 +949,16 @@ end;
 procedure TDictEditForm.btnNewLechClick(Sender: TObject);
 var id:integer;
 begin
-mainDataModule.dataSetMaxLech.Active:=false;
-mainDataModule.dataSetMaxLech.Active:=true;
-mainDataModule.dataSetMaxLech.First;
-id:=mainDataModule.dataSetMaxLech.FieldByName('maxLech').AsInteger+1;
+mainDataModule.dataSetMaxLech1.Active:=false;
+mainDataModule.dataSetMaxLech1.Active:=true;
+mainDataModule.dataSetMaxLech1.First;
+id:=mainDataModule.dataSetMaxLech1.FieldByName('maxLech').AsInteger+1;
 {Добавляем элемент в бокс}
 lbLechs.AddItem('Новый', TObject(id));
 {Добавляем в базу}
-mainDataModule.queryInsertEmptyLech.Parameters.ParamValues['id']:=id;
-mainDataModule.queryInsertEmptyLech.Parameters.ParamValues['name_']:='Новый';
-mainDataModule.queryInsertEmptyLech.ExecSQL;
+mainDataModule.queryInsertEmptyLech1.Params.ParamValues['id']:=id;
+mainDataModule.queryInsertEmptyLech1.Params.ParamValues['name_']:='Новый';
+mainDataModule.queryInsertEmptyLech1.ExecSQL;
 end;
 
 procedure TDictEditForm.btnDelLechClick(Sender: TObject);
@@ -897,11 +966,11 @@ var id:integer;
 begin
 if(lbLechs.ItemIndex>=0) then
   begin
-  if MessageDlg( 'Удаление лечения "'+lbLechs.Items[lbLechs.ItemIndex]+'". Продолжить?',    mtConfirmation, [mbYes, mbNo],0) = mrYes then
+  if Dialogs.MessageDlg( 'Удаление лечения "'+lbLechs.Items[lbLechs.ItemIndex]+'". Продолжить?',    mtConfirmation, [mbYes, mbNo],0) = mrYes then
       begin
       id:=Integer(lbLechs.Items.Objects[lbLechs.ItemIndex]);
-      mainDataModule.queryDeleteLech.Parameters.ParamValues['id']:=IntToStr(id);
-      mainDataModule.queryDeleteLech.ExecSQL;
+      mainDataModule.queryDeleteLech1.Params.ParamValues['id']:=IntToStr(id);
+      mainDataModule.queryDeleteLech1.ExecSQL;
       lbLechs.Items.Delete(lbLechs.ItemIndex);
       end;
   end
@@ -921,9 +990,9 @@ if(lbLechs.ItemIndex>=0) then
     diagId:=returnId(ListDiagsNodesForLech,treeDiagnozesForLech.Selected);
     if(not contains(lbLechDiags,diagId)) then
       begin
-      mainDataModule.queryInsertDiagLech.Parameters.ParamValues['lechId_']:=Integer(lbLechs.Items.Objects[lbLechs.ItemIndex]);
-      mainDataModule.queryInsertDiagLech.Parameters.ParamValues['diagId_']:=diagId;
-      mainDataModule.queryInsertDiagLech.ExecSQL;
+      mainDataModule.queryInsertDiagLech1.Params.ParamValues['lechId_']:=Integer(lbLechs.Items.Objects[lbLechs.ItemIndex]);
+      mainDataModule.queryInsertDiagLech1.Params.ParamValues['diagId_']:=diagId;
+      mainDataModule.queryInsertDiagLech1.ExecSQL;
       lbLechDiags.AddItem(treeDiagnozesForLech.Selected.Text,TObject(diagId));
       end
     else
@@ -948,9 +1017,9 @@ begin
   if(lbLechDiags.ItemIndex>=0) then
     begin
     diagId:=Integer(lbLechDiags.Items.Objects[lbLechDiags.ItemIndex]);
-    mainDataModule.queryDeleteDiagLech.Parameters.ParamValues['lechId_']:=Integer(lbLechs.Items.Objects[lbLechs.ItemIndex]);
-    mainDataModule.queryDeleteDiagLech.Parameters.ParamValues['diagId_']:=diagId;
-    mainDataModule.queryDeleteDiagLech.ExecSQL;
+    mainDataModule.queryDeleteDiagLech1.Params.ParamValues['lechId_']:=Integer(lbLechs.Items.Objects[lbLechs.ItemIndex]);
+    mainDataModule.queryDeleteDiagLech1.Params.ParamValues['diagId_']:=diagId;
+    mainDataModule.queryDeleteDiagLech1.ExecSQL;
     lbLechDiags.Items.Delete(lbLechDiags.ItemIndex);
     end
   else
@@ -966,22 +1035,22 @@ if(lbLechs.ItemIndex>=0) then
   begin
   id:=Integer(lbLechs.Items.Objects[lbLechs.ItemIndex]);
   lbLechs.Items[lbLechs.ItemIndex]:= edtLechName.Text;
-  with mainDataModule.queryUpdateLech do
+  with mainDataModule.queryUpdateLech1 do
     begin
     sql.Clear;
      if(cbLetterLech.ItemIndex>0) then
         begin
-        sql.Add('Update Lech set Name = :name_, ShortName=:shortName_,');
-        Sql.Add('Description = :desc_, Reccs = :reccs_, Nazn=:nazn_, letterId = :letterId_, IsOrt=:isOrt_');
-        Sql.Add('where LechId = :lechId_');
-        Parameters.ParamValues['letterId_']:=IntToStr(Integer(cbLetterLech.Items.Objects[cbLetterLech.ItemIndex]));
+        sql.Add('Update "Lech" set "Name" = :name_, "ShortName"=:shortName_,');
+        Sql.Add('"Description" = :desc_, "Reccs" = :reccs_, "Nazn"=:nazn_, "letterId" = :letterId_, "IsOrt"=:isOrt_');
+        Sql.Add('where "LechId" = :lechId_');
+        Params.ParamValues['letterId_']:=Integer(cbLetterLech.Items.Objects[cbLetterLech.ItemIndex]);
         end
       else
         begin
-        sql.Add('Update Lech set Name = :name_, ShortName=:shortName_, letterId=null, ');
-        Sql.Add('Description = :desc_, Reccs = :reccs_, Nazn=:nazn_, IsOrt=:isOrt_ where LechId = :lechId_');
+        SQL.Add('Update "Lech" set "Name" = :name_, "ShortName"=:shortName_, "letterId"=null, ');
+        SQL.Add('"Description" = :desc_, "Reccs" = :reccs_, "Nazn"=:nazn_, "IsOrt"=:isOrt_ where "LechId" = :lechId_');
         end;
-    with Parameters do
+    with Params do
       begin
       ParamValues['lechId_']:=id;
       ParamValues['name_']:=edtLechName.Text;
@@ -991,11 +1060,11 @@ if(lbLechs.ItemIndex>=0) then
       ParamValues['nazn_']:=memNazn.Text;
       if(chkOrt.Checked) then
         begin
-        ParamValues['IsOrt_']:=IntToStr(1);
+        ParamValues['IsOrt_']:=1;
         end
       else
         begin
-        ParamValues['IsOrt_']:=IntToStr(0);
+        ParamValues['IsOrt_']:=0;
         end;
       end;
     ExecSQL;
@@ -1158,11 +1227,11 @@ procedure TDictEditForm.btnNewPriceClick(Sender: TObject);
 begin
 if(treePrice.Selected<>nil) then
   begin
-  addNode(treePrice.Selected.Parent, mainDataModule.dataSetMaxPrice,'maxPriceId', treePrice, ListPriceNodes, 'Insert into Price (PriceId ,parentPriceId, Name) values (:id,:parent,:name)', 'Insert into Price (PriceId, Name) values (:id,:name)');
+  addNode(treePrice.Selected.Parent, mainDataModule.dataSetMaxPrice1,'maxPriceId', treePrice, ListPriceNodes, 'Insert into "Price" ("PriceId" ,"ParentPriceId", "Name") values (:id,:parent,:name)', 'Insert into "Price" ("PriceId", "Name") values (:id,:name)');
   end
 else
   begin
-  addNode(nil, mainDataModule.dataSetMaxPrice,'maxPriceId', treePrice, ListPriceNodes, 'Insert into Price (PriceId ,parentPriceId, Name) values (:id,:parent,:name)', 'Insert into Price (PriceId, Name) values (:id,:name)');
+  addNode(nil, mainDataModule.dataSetMaxPrice1,'maxPriceId', treePrice, ListPriceNodes, 'Insert into "Price" ("PriceId" ,"ParentPriceId", "Name") values (:id,:parent,:name)', 'Insert into "Price" ("PriceId", "Name") values (:id,:name)');
   end;
 end;
 
@@ -1171,7 +1240,7 @@ procedure TDictEditForm.BitBtn1Click(Sender: TObject);
 begin
 if(treePrice.Selected<>nil) then
   begin
-  addNode(treePrice.Selected, mainDataModule.dataSetMaxPrice,'maxPriceId', treePrice, ListPriceNodes, 'Insert into Price (PriceId ,parentPriceId, Name) values (:id,:parent,:name)', 'Insert into Price (PriceId, Name) values (:id,:name)');
+  addNode(treePrice.Selected, mainDataModule.dataSetMaxPrice1,'maxPriceId', treePrice, ListPriceNodes, 'Insert into "Price" ("PriceId" ,"ParentPriceId", "Name") values (:id,:parent,:name)', 'Insert into "Price" ("PriceId", "Name") values (:id,:name)');
   end
 end;
 
@@ -1187,11 +1256,11 @@ if(treePrice.Selected<>nil) then
     end
   else
     begin
-    if MessageDlg( 'Удаление услуги "'+treePrice.Selected.Text+'". Продолжить?',    mtConfirmation, [mbYes, mbNo],0) = mrYes then
+    if Dialogs.MessageDlg( 'Удаление услуги "'+treePrice.Selected.Text+'". Продолжить?',    mtConfirmation, [mbYes, mbNo],0) = mrYes then
       begin
       id:=returnId(ListPriceNodes,treePrice.Selected);
-      mainDataModule.queryDeletePrice.Parameters.ParamValues['priceId_']:=IntToStr(id);
-      mainDataModule.queryDeletePrice.ExecSQL;
+      mainDataModule.queryDeletePrice1.Params.ParamValues['priceId_']:=IntToStr(id);
+      mainDataModule.queryDeletePrice1.ExecSQL;
       treePrice.Selected.Delete;
       DeleteFromNodes(id,ListPriceNodes);
       end;
@@ -1204,20 +1273,20 @@ procedure TDictEditForm.treePriceChange(Sender: TObject; Node: TTreeNode);
 var id:integer;
 begin
   id:=returnId(ListPriceNodes,Node);
-  mainDataModule.dataSetPrice.Active:=False;
-  mainDataModule.dataSetPrice.CommandText:='select Name, ShortName, Description, Cost from Price where PriceId = '+IntToStr(id);
-  mainDataModule.dataSetPrice.Active:=true;
+  mainDataModule.dataSetPrice1.Active:=False;
+  mainDataModule.dataSetPrice1.SQL.Text:='select "Price"."Name", "Price"."ShortName", "Price"."Description", "Price"."Cost" from "Price" where "PriceId" = '+IntToStr(id);
+  mainDataModule.dataSetPrice1.Active:=true;
   {очищаем}
   edtPriceName.Text:='';
   edtShortPriceName.Text:='';
   memPriceDesc.Text:='';
   edtCost.Text:='';
   {заполняем}
-  mainDataModule.dataSetPrice.First;
-  edtPriceName.Text:=mainDataModule.dataSetPrice.FieldByName('name').AsString;
-  edtShortPriceName.Text:=mainDataModule.dataSetPrice.FieldByName('shortName').AsString;
-  memPriceDesc.Text:=mainDataModule.dataSetPrice.FieldByName('Description').AsString;
-  edtCost.Text:=mainDataModule.dataSetPrice.FieldByName('cost').AsString;
+  mainDataModule.dataSetPrice1.First;
+  edtPriceName.Text:=mainDataModule.dataSetPrice1.FieldByName('name').AsString;
+  edtShortPriceName.Text:=mainDataModule.dataSetPrice1.FieldByName('shortName').AsString;
+  memPriceDesc.Text:=mainDataModule.dataSetPrice1.FieldByName('Description').AsString;
+  edtCost.Text:=mainDataModule.dataSetPrice1.FieldByName('cost').AsString;
 end;
 
 procedure TDictEditForm.btnSavePriceClick(Sender: TObject);
@@ -1226,12 +1295,12 @@ begin
 if (TryStrToFloat(edtCost.Text, sum)) then
   begin
   id:=returnId(ListPriceNodes,treePrice.Selected);
-  mainDataModule.queryPriceUpdate.Parameters.ParamValues['name_']:=edtPriceName.Text;
-  mainDataModule.queryPriceUpdate.Parameters.ParamValues['shortName_']:=edtShortPriceName.Text;
-  mainDataModule.queryPriceUpdate.Parameters.ParamValues['description_']:=memPriceDesc.Text;
-  mainDataModule.queryPriceUpdate.Parameters.ParamValues['cost_']:=edtCost.Text;
-  mainDataModule.queryPriceUpdate.Parameters.ParamValues['priceId_']:=IntToStr(id);
-  mainDataModule.queryPriceUpdate.ExecSQL;
+  mainDataModule.queryPriceUpdate1.Params.ParamValues['name_']:=edtPriceName.Text;
+  mainDataModule.queryPriceUpdate1.Params.ParamValues['shortName_']:=edtShortPriceName.Text;
+  mainDataModule.queryPriceUpdate1.Params.ParamValues['description_']:=memPriceDesc.Text;
+  mainDataModule.queryPriceUpdate1.Params.ParamValues['cost_']:=edtCost.Text;
+  mainDataModule.queryPriceUpdate1.Params.ParamValues['priceId_']:=IntToStr(id);
+  mainDataModule.queryPriceUpdate1.ExecSQL;
   treePrice.Selected.Text:=edtPriceName.Text;
   end
 else
@@ -1318,14 +1387,14 @@ if(lbLechs.ItemIndex>=0) then
     if(not contains(lbLechPrices,priceId)) then
       begin
       lechId:=Integer(lbLechs.Items.Objects[lbLechs.ItemIndex]);
-      mainDataModule.dataSetMaxLechPrice.Active:=false;
-      mainDataModule.dataSetMaxLechPrice.Parameters.ParamValues['lechId_']:=lechId;
-      mainDataModule.dataSetMaxLechPrice.Active:=true;
-      priceLechId:= mainDataModule.dataSetMaxLechPrice.FieldByName('MaxLechPrice').AsInteger+1;
-      mainDataModule.queryInsertLechPrice.Parameters.ParamValues['lechId_']:=lechId;
-      mainDataModule.queryInsertLechPrice.Parameters.ParamValues['priceId_']:=priceId;
-      mainDataModule.queryInsertLechPrice.Parameters.ParamValues['num_']:=priceLechId;
-      mainDataModule.queryInsertLechPrice.ExecSQL;
+      mainDataModule.dataSetMaxLechPrice1.Active:=false;
+      mainDataModule.dataSetMaxLechPrice1.Params.ParamValues['lechId_']:=lechId;
+      mainDataModule.dataSetMaxLechPrice1.Active:=true;
+      priceLechId:= mainDataModule.dataSetMaxLechPrice1.FieldByName('MaxLechPrice').AsInteger+1;
+      mainDataModule.queryInsertLechPrice1.Params.ParamValues['lechId_']:=lechId;
+      mainDataModule.queryInsertLechPrice1.Params.ParamValues['priceId_']:=priceId;
+      mainDataModule.queryInsertLechPrice1.Params.ParamValues['num_']:=priceLechId;
+      mainDataModule.queryInsertLechPrice1.ExecSQL;
       lbLechPrices.AddItem(treePriceForLech.Selected.Text+' ($$'+IntToStr(priceLechId)+')',TObject(priceId));
       end
     else
@@ -1350,9 +1419,9 @@ begin
   if(lbLechPrices.ItemIndex>=0) then
     begin
     priceId:=Integer(lbLechPrices.Items.Objects[lbLechPrices.ItemIndex]);
-    mainDataModule.queryDeletePricesLech.Parameters.ParamValues['lechId_']:=Integer(lbLechs.Items.Objects[lbLechs.ItemIndex]);
-    mainDataModule.queryDeletePricesLech.Parameters.ParamValues['priceId_']:=priceId;
-    mainDataModule.queryDeletePricesLech.ExecSQL;
+    mainDataModule.queryDeletePricesLech1.Params.ParamValues['lechId_']:=Integer(lbLechs.Items.Objects[lbLechs.ItemIndex]);
+    mainDataModule.queryDeletePricesLech1.Params.ParamValues['priceId_']:=priceId;
+    mainDataModule.queryDeletePricesLech1.ExecSQL;
     lbLechPrices.Items.Delete(lbLechPrices.ItemIndex);
     end
   else

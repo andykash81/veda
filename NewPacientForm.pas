@@ -5,7 +5,7 @@ interface
 uses
  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, ExtCtrls, StdCtrls, ComCtrls, ToolWin, Buttons,
-  Mask, DBCtrls, Types, Constants;
+  Mask, DBCtrls, Types, Constants, CardsForm;
 
 type
   TNewPacientFrm = class(TForm)
@@ -103,29 +103,29 @@ end;
 
 {нажали сохранить}
 procedure TNewPacientFrm.btnSaveClick(Sender: TObject);
-var ind: integer; name,patr, text:string; toCopy:boolean; newId:double;
+var ind: integer; name,patr, text:string; toCopy:boolean; newId, id:double;
 begin
 if(Trim(edtSurname.Text)<>'') then
   begin
   if(isNew) then
     begin
-    mainDataModule.dataSetLikePac.Active:=false;
-    mainDataModule.dataSetLikePac.Parameters.ParamValues['surname_']:=edtSurname.Text;
-    mainDataModule.dataSetLikePac.Parameters.ParamValues['name_']:=edtName.Text;
-    mainDataModule.dataSetLikePac.Parameters.ParamValues['sec_name_']:=edtPatronymic.Text;
-    mainDataModule.dataSetLikePac.Active:=true;
+    mainDataModule.dataSetLikePac1.Active:=false;
+    mainDataModule.dataSetLikePac1.Params.ParamValues['surname_']:=edtSurname.Text;
+    mainDataModule.dataSetLikePac1.Params.ParamValues['name_']:=edtName.Text;
+    mainDataModule.dataSetLikePac1.Params.ParamValues['sec_name_']:=edtPatronymic.Text;
+    mainDataModule.dataSetLikePac1.Active:=true;
     toCopy:=true;
-    if(mainDataModule.dataSetLikePac.RecordCount<>0) then
+    if(mainDataModule.dataSetLikePac1.RecordCount<>0) then
      begin
       toCopy:=false;
       text:= 'ѕациент с похожими данными уже создан в системе ('
-         +VarToStr(mainDataModule.dataSetLikePac.FieldValues['Surname'])
+         +VarToStr(mainDataModule.dataSetLikePac1.FieldValues['Surname'])
          +' '
-         +VarToStr(mainDataModule.dataSetLikePac.FieldValues['Name'])
+         +VarToStr(mainDataModule.dataSetLikePac1.FieldValues['Name'])
          +' '
-         +VarToStr(mainDataModule.dataSetLikePac.FieldValues['Sec_name'])
+         +VarToStr(mainDataModule.dataSetLikePac1.FieldValues['Sec_name'])
          +', код карты:'
-         +VarToStr(mainDataModule.dataSetLikePac.FieldValues['Num_fam2'])
+         +VarToStr(mainDataModule.dataSetLikePac1.FieldValues['Num_fam2'])
          +'). —оздать пациента?';
         if MessageDlg(
          text,
@@ -136,14 +136,16 @@ if(Trim(edtSurname.Text)<>'') then
       end;
       if(toCopy) then
       begin
-      mainDataModule.dsMaxNum.Active:=false;
-      mainDataModule.dsMaxNum.Parameters.ParamValues['p']:=edtSurname.Text[1]+'%';
-      mainDataModule.dsMaxNum.Active:=true;
+      mainDataModule.dsMaxNum1.Active:=false;
+      mainDataModule.dsMaxNum1.Params.ParamValues['p']:=edtSurname.Text[1]+'%';
+      mainDataModule.dsMaxNum1.Active:=true;
+      id:=mainDataModule.dsMaxNum1.FieldByName('MaxNum').AsFloat+1;
+      DBEdit1.Text:=FloatToStr(id);
 
-      with mainDataModule.dsMaxNum2 do
+      with mainDataModule.dsMaxNum2_1 do
         begin
         Active:=false;
-        Parameters.ParamValues['sur']:=edtSurname.Text[1]+'%';
+        Params.ParamValues['sur']:=edtSurname.Text[1]+'%';
         Active:=true;
         First;
         newId:=FieldByName('MaxNewNum').AsFloat+1;
@@ -153,23 +155,24 @@ if(Trim(edtSurname.Text)<>'') then
           ind:=0
         else
           ind:=Strtoint(DBEdit1.Text);
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['num_fam_']:=ind+1;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['surname_'] := edtSurname.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['name_'] := edtname.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['sec_name_'] := edtPatronymic.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['day_bir_'] := DayOfTheMonth(dateBirth.DateTime);
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['month_bir_'] := MonthOfTheYear(dateBirth.DateTime);
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['year_bir_'] := YearOf(dateBirth.DateTime);
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['sex_'] := cbSex.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['address_'] := edtAdress.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['profession_pl_w_'] := edtProfession.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['svedenia_'] := edtRemarks.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['num_fam_2_'] := edtSurname.Text[1]+ IntToStr(ind+1);
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['newNum_']:=FloatToStr(newId);
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['newNum2_']:= edtSurname.Text[1]+edtSurname.Text[1]+FloatTostr(newId);
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['Date_open_'] := dateOpen.DateTime;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['date_birth_'] := dateBirth.DateTime;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['ph1_'] := edtMobileNum.Text;
+
+      mainDataModule.queryPacientInsert1.Params.ParamValues['num_fam_']:=ind+1;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['surname_'] := edtSurname.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['name_'] := edtname.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['sec_name_'] := edtPatronymic.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['day_bir_'] := DayOfTheMonth(dateBirth.DateTime);
+      mainDataModule.queryPacientInsert1.Params.ParamValues['month_bir_'] := MonthOfTheYear(dateBirth.DateTime);
+      mainDataModule.queryPacientInsert1.Params.ParamValues['year_bir_'] := YearOf(dateBirth.DateTime);
+      mainDataModule.queryPacientInsert1.Params.ParamValues['sex_'] := cbSex.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['address_'] := edtAdress.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['profession_pl_w_'] := edtProfession.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['svedenia_'] := edtRemarks.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['num_fam_2_'] := edtSurname.Text[1]+ IntToStr(ind+1); // —тарый номер карточки пациента.
+      mainDataModule.queryPacientInsert1.Params.ParamValues['newNum_']:=FloatToStr(newId);
+      mainDataModule.queryPacientInsert1.Params.ParamValues['newNum2_']:= edtSurname.Text[1]+edtSurname.Text[1]+FloatTostr(newId);
+      mainDataModule.queryPacientInsert1.Params.ParamValues['Date_open_'] := dateOpen.DateTime;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['date_birth_'] := dateBirth.DateTime;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['ph1_'] := edtMobileNum.Text;
         if(edtname.Text<>'')then
           name:=edtname.Text[1]+'. '
         else
@@ -178,59 +181,59 @@ if(Trim(edtSurname.Text)<>'') then
           patr:=edtPatronymic.Text[1]+'.'
         else
           patr:='';
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['initials_'] := edtSurname.Text+' '+name+patr;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['ph2_'] := edtHomeNum.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['ph3_'] := edtWorkNum.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['ph4_'] := edtOtherNum.Text;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['place_work_dolzhn_'] := edtDolzhn.Text;
-      if(chkOthCities.Checked) then mainDataModule.queryPacientInsert.Parameters.ParamValues['OthCities_']:=1 else mainDataModule.queryPacientInsert.Parameters.ParamValues['OthCities_']:=0;
-      mainDataModule.queryPacientInsert.Parameters.ParamValues['psz_']:=memPsz.Text;
-      mainDataModule.queryPacientInsert.ExecSQL;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['initials_'] := edtSurname.Text+' '+name+patr;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['ph2_'] := edtHomeNum.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['ph3_'] := edtWorkNum.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['ph4_'] := edtOtherNum.Text;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['place_work_dolzhn_'] := edtDolzhn.Text;
+      if(chkOthCities.Checked) then mainDataModule.queryPacientInsert1.Params.ParamValues['OthCities_']:=1 else mainDataModule.queryPacientInsert1.Params.ParamValues['OthCities_']:=0;
+      mainDataModule.queryPacientInsert1.Params.ParamValues['psz_']:=memPsz.Text;
+      mainDataModule.queryPacientInsert1.ExecSQL;
       if(chkAllergy.Checked) then
         begin
-            mainDataModule.queryPSZInsert.Parameters.ParamValues['code_']:= edtSurname.Text[1]+ IntToStr(ind+1);
-            mainDataModule.queryPSZInsert.Parameters.ParamValues['zab_']:= PSZ_ALLERGY;
-            mainDataModule.queryPSZInsert.ExecSQL;
+            mainDataModule.queryPSZInsert1.Params.ParamValues['code_']:= edtSurname.Text[1]+ IntToStr(ind+1);
+            mainDataModule.queryPSZInsert1.Params.ParamValues['zab_']:= PSZ_ALLERGY;
+            mainDataModule.queryPSZInsert1.ExecSQL;
        end;
 
       if(chkGepatit.Checked) then
         begin
-          mainDataModule.queryPSZInsert.Parameters.ParamValues['code_']:= edtSurname.Text[1]+ IntToStr(ind+1);
-          mainDataModule.queryPSZInsert.Parameters.ParamValues['zab_']:= PSZ_GEPATIT;
-          mainDataModule.queryPSZInsert.ExecSQL;
+          mainDataModule.queryPSZInsert1.Params.ParamValues['code_']:= edtSurname.Text[1]+ IntToStr(ind+1);
+          mainDataModule.queryPSZInsert1.Params.ParamValues['zab_']:= PSZ_GEPATIT;
+          mainDataModule.queryPSZInsert1.ExecSQL;
         end;
 
       if(chkDolzhn.Checked) then
         begin
-          mainDataModule.queryPSZInsert.Parameters.ParamValues['code_']:= edtSurname.Text[1]+ IntToStr(ind+1);
-          mainDataModule.queryPSZInsert.Parameters.ParamValues['zab_']:= PSZ_DOLZHN;
-          mainDataModule.queryPSZInsert.ExecSQL;
+          mainDataModule.queryPSZInsert1.Params.ParamValues['code_']:= edtSurname.Text[1]+ IntToStr(ind+1);
+          mainDataModule.queryPSZInsert1.Params.ParamValues['zab_']:= PSZ_DOLZHN;
+          mainDataModule.queryPSZInsert1.ExecSQL;
         end;
 
       if(chkOther.Checked) then
         begin
-          mainDataModule.queryPSZInsert.Parameters.ParamValues['code_']:= edtSurname.Text[1]+ IntToStr(ind+1);
-          mainDataModule.queryPSZInsert.Parameters.ParamValues['zab_']:= PSZ_OTHER;
-          mainDataModule.queryPSZInsert.ExecSQL;
+          mainDataModule.queryPSZInsert1.Params.ParamValues['code_']:= edtSurname.Text[1]+ IntToStr(ind+1);
+          mainDataModule.queryPSZInsert1.Params.ParamValues['zab_']:= PSZ_OTHER;
+          mainDataModule.queryPSZInsert1.ExecSQL;
         end;
-      Close;
+      Close
       end;
     end
   else
     begin
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['surname_'] := edtSurname.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['name_'] := edtname.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['sec_name_'] := edtPatronymic.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['day_bir_'] := DayOfTheMonth(dateBirth.DateTime);
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['month_bir_'] := MonthOfTheYear(dateBirth.DateTime);
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['year_bir_'] := YearOf(dateBirth.DateTime);
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['sex_'] := cbSex.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['address_'] := edtAdress.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['profession_pl_w_'] := edtProfession.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['svedenia_'] := edtRemarks.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['Date_open_'] := dateOpen.DateTime;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['date_birth_'] := dateBirth.DateTime;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['ph1_'] := edtMobileNum.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['surname_'] := edtSurname.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['name_'] := edtname.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['sec_name_'] := edtPatronymic.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['day_bir_'] := DayOfTheMonth(dateBirth.DateTime);
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['month_bir_'] := MonthOfTheYear(dateBirth.DateTime);
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['year_bir_'] := YearOf(dateBirth.DateTime);
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['sex_'] := cbSex.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['address_'] := edtAdress.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['profession_pl_w_'] := edtProfession.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['svedenia_'] := edtRemarks.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['Date_open_'] := dateOpen.DateTime;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['date_birth_'] := dateBirth.DateTime;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['ph1_'] := edtMobileNum.Text;
       if(edtname.Text<>'')then
         name:=edtname.Text[1]+'. '
       else
@@ -239,43 +242,46 @@ if(Trim(edtSurname.Text)<>'') then
         patr:=edtPatronymic.Text[1]+'.'
       else
         patr:='';
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['initials_'] := edtSurname.Text+' '+name+patr;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['ph2_'] := edtHomeNum.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['ph3_'] := edtWorkNum.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['ph4_'] := edtOtherNum.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['pl_w_dolzh_'] := edtDolzhn.Text;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['num_fam_2_'] := pacientId;
-    if(chkOthCities.Checked) then mainDataModule.queryPacientUpdate.Parameters.ParamValues['OthCities_']:=1 else mainDataModule.queryPacientUpdate.Parameters.ParamValues['OthCities_']:=0;
-    mainDataModule.queryPacientUpdate.Parameters.ParamValues['psz_']:=memPsz.Text;
-    mainDataModule.queryPacientUpdate.ExecSQL;
-    mainDataModule.queryPSZDelete.Parameters.ParamValues['cardCode_']:=pacientId;
-    mainDataModule.queryPSZDelete.ExecSQL;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['initials_'] := edtSurname.Text+' '+name+patr;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['ph2_'] := edtHomeNum.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['ph3_'] := edtWorkNum.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['ph4_'] := edtOtherNum.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['pl_w_dolzh_'] := edtDolzhn.Text;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['num_fam_2_'] := pacientId;
+    if(chkOthCities.Checked) then
+      mainDataModule.queryPacientUpdate1.Params.ParamValues['OthCities_']:=1
+    else
+      mainDataModule.queryPacientUpdate1.Params.ParamValues['OthCities_']:=0;
+    mainDataModule.queryPacientUpdate1.Params.ParamValues['psz_']:=memPsz.Text;
+    mainDataModule.queryPacientUpdate1.ExecSQL;
+    mainDataModule.queryPSZDelete1.Params.ParamValues['cardCode_']:=pacientId;
+    mainDataModule.queryPSZDelete1.ExecSQL;
     if(chkAllergy.Checked) then
       begin
-        mainDataModule.queryPSZInsert.Parameters.ParamValues['code_']:= pacientId;
-        mainDataModule.queryPSZInsert.Parameters.ParamValues['zab_']:= PSZ_ALLERGY;
-        mainDataModule.queryPSZInsert.ExecSQL;
+        mainDataModule.queryPSZInsert1.Params.ParamValues['code_']:= pacientId;
+        mainDataModule.queryPSZInsert1.Params.ParamValues['zab_']:= PSZ_ALLERGY;
+        mainDataModule.queryPSZInsert1.ExecSQL;
       end;
 
     if(chkGepatit.Checked) then
       begin
-        mainDataModule.queryPSZInsert.Parameters.ParamValues['code_']:= pacientId;
-        mainDataModule.queryPSZInsert.Parameters.ParamValues['zab_']:= PSZ_GEPATIT;
-        mainDataModule.queryPSZInsert.ExecSQL;
+        mainDataModule.queryPSZInsert1.Params.ParamValues['code_']:= pacientId;
+        mainDataModule.queryPSZInsert1.Params.ParamValues['zab_']:= PSZ_GEPATIT;
+        mainDataModule.queryPSZInsert1.ExecSQL;
       end;
 
     if(chkDolzhn.Checked) then
       begin
-        mainDataModule.queryPSZInsert.Parameters.ParamValues['code_']:= pacientId;
-        mainDataModule.queryPSZInsert.Parameters.ParamValues['zab_']:= PSZ_DOLZHN;
-        mainDataModule.queryPSZInsert.ExecSQL;
+        mainDataModule.queryPSZInsert1.Params.ParamValues['code_']:= pacientId;
+        mainDataModule.queryPSZInsert1.Params.ParamValues['zab_']:= PSZ_DOLZHN;
+        mainDataModule.queryPSZInsert1.ExecSQL;
       end;
 
     if(chkOther.Checked) then
       begin
-        mainDataModule.queryPSZInsert.Parameters.ParamValues['code_']:=pacientId;
-        mainDataModule.queryPSZInsert.Parameters.ParamValues['zab_']:= PSZ_OTHER;
-        mainDataModule.queryPSZInsert.ExecSQL;
+        mainDataModule.queryPSZInsert1.Params.ParamValues['code_']:=pacientId;
+        mainDataModule.queryPSZInsert1.Params.ParamValues['zab_']:= PSZ_OTHER;
+        mainDataModule.queryPSZInsert1.ExecSQL;
       end;
     Close;
     end;
@@ -290,60 +296,59 @@ begin
 WizardForm.fillCbFromDict(Constants.PSZ,cbPsz);
 if(pacientId<>'') then
   begin
-    Caption:='–едактирование пациента';
-    mainDataModule.dataSetPacient.Active:=false;
-    mainDataModule.dataSetPacient.Parameters.ParamValues['CardCode']:=pacientId;
-    mainDataModule.dataSetPacient.Active:=true;
-    edtSurname.Text:=mainDataModule.dataSetPacient.Fields.Fields[1].AsString;
-    edtname.Text:=mainDataModule.dataSetPacient.Fields.Fields[2].AsString;
-    edtPatronymic.Text:=mainDataModule.dataSetPacient.Fields.Fields[3].AsString;
-    edtAdress.Text:=mainDataModule.dataSetPacient.Fields.Fields[6].AsString;
-    edtProfession.Text:=mainDataModule.dataSetPacient.Fields.Fields[7].AsString;
-    edtRemarks.Text:=mainDataModule.dataSetPacient.Fields.Fields[14].AsString;
-    edtHomeNum.Text:=mainDataModule.dataSetPacient.Fields.Fields[11].AsString;
-    edtWorkNum.Text:=mainDataModule.dataSetPacient.Fields.Fields[12].AsString;
-    edtMobileNum.Text:=mainDataModule.dataSetPacient.Fields.Fields[10].AsString;
-    edtOtherNum.Text:=mainDataModule.dataSetPacient.Fields.Fields[13].AsString;
-    edtDolzhn.Text:=mainDataModule.dataSetPacient.Fields.Fields[8].AsString;
-    dateBirth.DateTime:=mainDataModule.dataSetPacient.Fields.Fields[5].AsDateTime;
-    dateOpen.DateTime:=mainDataModule.dataSetPacient.Fields.Fields[9].AsDateTime;
-    cbSex.Text:= mainDataModule.dataSetPacient.Fields.Fields[4].AsString;
-    chkOthCities.Checked:=mainDataModule.dataSetPacient.FieldByName('OthCities').AsInteger=1;
-    memPsz.Text:=mainDataModule.dataSetPacient.FieldByName('Psz').AsString;
-    mainDataModule.PSZByCode.Active:=false;
-    mainDataModule.PSZByCode.Parameters.ParamValues['code']:=pacientId;
-    mainDataModule.PSZByCode.Active:=true;
+    mainDataModule.dsPacientQuery1.Active:=false;
+    mainDataModule.dsPacientQuery1.Params.ParamValues['CardCode']:=pacientId;
+    mainDataModule.dsPacientQuery1.Active:=true;
+    edtSurname.Text:=mainDataModule.dsPacientQuery1.FieldByName('Surname').AsString;
+    edtname.Text:=mainDataModule.dsPacientQuery1.FieldByName('Name').AsString;
+    edtPatronymic.Text:=mainDataModule.dsPacientQuery1.FieldByName('Sec_name').AsString;
+    edtAdress.Text:=mainDataModule.dsPacientQuery1.FieldByName('Adress').AsString;
+    edtProfession.Text:=mainDataModule.dsPacientQuery1.FieldByName('Profession_pl_w').AsString;
+    edtRemarks.Text:=mainDataModule.dsPacientQuery1.FieldByName('Svedenia').AsString;
+    edtHomeNum.Text:=mainDataModule.dsPacientQuery1.FieldByName('ph1').AsString;
+    edtWorkNum.Text:=mainDataModule.dsPacientQuery1.FieldByName('ph2').AsString;
+    edtMobileNum.Text:=mainDataModule.dsPacientQuery1.FieldByName('ph3').AsString;
+    edtOtherNum.Text:=mainDataModule.dsPacientQuery1.FieldByName('ph4').AsString;
+    edtDolzhn.Text:=mainDataModule.dsPacientQuery1.FieldByName('Place_work_dolzhn').AsString;
+    dateBirth.DateTime:=mainDataModule.dsPacientQuery1.FieldByName('Date_birth').AsDateTime;
+    dateOpen.DateTime:=mainDataModule.dsPacientQuery1.FieldByName('Date_open').AsDateTime;
+    cbSex.Text:= mainDataModule.dsPacientQuery1.FieldByName('Sex').AsString;
+    chkOthCities.Checked:=mainDataModule.dsPacientQuery1.FieldByName('OthCities').AsInteger=1;
+    memPsz.Text:=mainDataModule.dsPacientQuery1.FieldByName('Psz').AsString;
+    mainDataModule.PSZByCode1.Active:=false;
+    mainDataModule.PSZByCode1.Params.ParamValues['code']:=pacientId;
+    mainDataModule.PSZByCode1.Active:=true;
 
     chkGepatit.Checked:=false;
     chkAllergy.Checked:=false;
     chkDolzhn.Checked:=false;
     chkOther.Checked:=false;
 
-    if(mainDataModule.PSZByCode.RecordCount>0) then
+    if(mainDataModule.PSZByCode1.RecordCount>0) then
       begin
-          mainDataModule.PSZByCode.First;
-          for i:=0 to mainDataModule.PSZByCode.RecordCount do
+          mainDataModule.PSZByCode1.First;
+          for i:=0 to mainDataModule.PSZByCode1.RecordCount do
             begin
-            if(mainDataModule.PSZByCode.FieldByName('Zabolev').AsInteger=PSZ_GEPATIT) then
+            if(mainDataModule.PSZByCode1.FieldByName('Zabolev').AsInteger=PSZ_GEPATIT) then
               begin
                  chkGepatit.Checked:=true;
               end;
 
-            if(mainDataModule.PSZByCode.FieldByName('Zabolev').AsInteger=PSZ_ALLERGY) then
+            if(mainDataModule.PSZByCode1.FieldByName('Zabolev').AsInteger=PSZ_ALLERGY) then
               begin
                  chkAllergy.Checked:=true;
               end;
 
-            if(mainDataModule.PSZByCode.FieldByName('Zabolev').AsInteger=PSZ_DOLZHN) then
+            if(mainDataModule.PSZByCode1.FieldByName('Zabolev').AsInteger=PSZ_DOLZHN) then
               begin
                  chkDolzhn.Checked:=true;
               end;
 
-           if(mainDataModule.PSZByCode.FieldByName('Zabolev').AsInteger=PSZ_OTHER) then
+           if(mainDataModule.PSZByCode1.FieldByName('Zabolev').AsInteger=PSZ_OTHER) then
               begin
                  chkOther.Checked:=true;
               end;
-            mainDataModule.PSZByCode.Next;
+            mainDataModule.PSZByCode1.Next;
             end;
       end;
   end else

@@ -2,8 +2,8 @@ object CardsFrm: TCardsFrm
   Left = 0
   Top = 0
   Caption = #1050#1072#1088#1090#1086#1095#1082#1072
-  ClientHeight = 546
-  ClientWidth = 947
+  ClientHeight = 545
+  ClientWidth = 1020
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,19 +12,17 @@ object CardsFrm: TCardsFrm
   Font.Style = []
   FormStyle = fsMDIChild
   KeyPreview = True
-  OldCreateOrder = False
   Position = poDesigned
   Visible = True
   WindowState = wsMaximized
   OnClose = FormClose
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 20
   object Panel2: TPanel
     Left = 0
     Top = 206
-    Width = 947
-    Height = 148
+    Width = 1020
+    Height = 147
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -33,11 +31,13 @@ object CardsFrm: TCardsFrm
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    ExplicitWidth = 1016
+    ExplicitHeight = 146
     object DBGrid1: TDBGrid
       Left = 1
       Top = 1
-      Width = 945
-      Height = 146
+      Width = 1018
+      Height = 145
       Align = alClient
       Ctl3D = True
       DataSource = mainDataModule.dsPacList
@@ -72,7 +72,7 @@ object CardsFrm: TCardsFrm
         end
         item
           Expanded = False
-          FieldName = 'NewNum2'
+          FieldName = 'newNum2'
           Title.Caption = #1053#1086#1084#1077#1088' '#1082#1072#1088#1090#1099
           Width = 121
           Visible = True
@@ -95,7 +95,7 @@ object CardsFrm: TCardsFrm
         end
         item
           Expanded = False
-          FieldName = 'Sec_Name'
+          FieldName = 'Sec_name'
           Title.Alignment = taCenter
           Title.Caption = #1054#1090#1095#1077#1089#1090#1074#1086
           Width = 152
@@ -114,7 +114,7 @@ object CardsFrm: TCardsFrm
   object ToolBar1: TToolBar
     Left = 0
     Top = 0
-    Width = 947
+    Width = 1020
     Height = 41
     ButtonHeight = 30
     ButtonWidth = 33
@@ -123,6 +123,7 @@ object CardsFrm: TCardsFrm
     TabOrder = 1
     Transparent = False
     OnMouseMove = ToolBar1MouseMove
+    ExplicitWidth = 1016
     object btnNew: TToolButton
       Left = 0
       Top = 0
@@ -135,11 +136,11 @@ object CardsFrm: TCardsFrm
       Left = 33
       Top = 0
       Width = 4
-      Height = 20
+      Height = 30
       Transparent = False
     end
     object btnEdit: TToolButton
-      Left = 50
+      Left = 37
       Top = 0
       Hint = #1056#1077#1076#1072#1082#1090#1080#1088#1086#1074#1072#1090#1100' '#1082#1072#1088#1090#1091
       Caption = 'btnEdit'
@@ -148,14 +149,14 @@ object CardsFrm: TCardsFrm
       OnMouseMove = btnEditMouseMove
     end
     object Label27: TLabel
-      Left = 83
+      Left = 70
       Top = 0
       Width = 4
-      Height = 20
+      Height = 30
       Transparent = False
     end
     object btnSearch: TToolButton
-      Left = 123
+      Left = 74
       Top = 0
       Hint = #1055#1086#1080#1089#1082
       Caption = #1055#1086#1080#1089#1082
@@ -167,14 +168,14 @@ object CardsFrm: TCardsFrm
       OnMouseMove = btnSearchMouseMove
     end
     object Label32: TLabel
-      Left = 156
+      Left = 107
       Top = 0
       Width = 4
-      Height = 20
+      Height = 30
       Transparent = False
     end
     object btnWizard: TToolButton
-      Left = 169
+      Left = 111
       Top = 0
       Caption = 'btnWizard'
       ImageIndex = 24
@@ -183,14 +184,14 @@ object CardsFrm: TCardsFrm
       OnMouseMove = btnWizardMouseMove
     end
     object Label28: TLabel
-      Left = 202
+      Left = 144
       Top = 0
       Width = 4
-      Height = 20
+      Height = 30
       Transparent = False
     end
     object ToolButton38: TToolButton
-      Left = 215
+      Left = 148
       Top = 0
       Caption = 'ToolButton38'
       ImageIndex = 55
@@ -198,38 +199,38 @@ object CardsFrm: TCardsFrm
       OnMouseMove = ToolButton38MouseMove
     end
     object Label30: TLabel
-      Left = 248
+      Left = 181
       Top = 0
       Width = 4
-      Height = 20
+      Height = 30
       Transparent = False
     end
     object btnFiles: TToolButton
-      Left = 265
+      Left = 185
       Top = 0
       ImageIndex = 57
       OnClick = btnFilesClick
     end
-    object Label29: TLabel
-      Left = 298
-      Top = 0
-      Width = 4
-      Height = 20
-      Transparent = False
-    end
     object ToolButton37: TToolButton
-      Left = 313
+      Left = 218
       Top = 0
       Caption = 'btnHistory'
       ImageIndex = 56
       OnClick = ToolButton37Click
       OnMouseMove = ToolButton37MouseMove
     end
+    object Label29: TLabel
+      Left = 251
+      Top = 0
+      Width = 4
+      Height = 30
+      Transparent = False
+    end
     object Label15: TLabel
-      Left = 346
+      Left = 255
       Top = 0
       Width = 257
-      Height = 20
+      Height = 30
       Align = alBottom
       Caption = #1055#1086#1089#1083#1077#1076#1085#1080#1081' '#1076#1086#1073#1072#1074#1083#1077#1085#1085#1099#1081' '#1082#1086#1076':'
       Font.Charset = DEFAULT_CHARSET
@@ -241,7 +242,7 @@ object CardsFrm: TCardsFrm
       Transparent = False
     end
     object DBEdit1: TDBEdit
-      Left = 603
+      Left = 512
       Top = 0
       Width = 121
       Height = 30
@@ -256,7 +257,7 @@ object CardsFrm: TCardsFrm
       TabOrder = 0
     end
     object _edtCode: TDBEdit
-      Left = 724
+      Left = 633
       Top = 0
       Width = 121
       Height = 30
@@ -266,14 +267,14 @@ object CardsFrm: TCardsFrm
       Visible = False
     end
     object Label26: TLabel
-      Left = 845
+      Left = 754
       Top = 0
       Width = 4
-      Height = 20
+      Height = 30
       Transparent = False
     end
     object btnDelete: TToolButton
-      Left = 862
+      Left = 758
       Top = 0
       Hint = #1059#1076#1072#1083#1080#1090#1100' '#1087#1072#1094#1080#1077#1085#1090#1072
       Caption = 'btnDelete'
@@ -286,11 +287,12 @@ object CardsFrm: TCardsFrm
   object GroupBox1: TGroupBox
     Left = 0
     Top = 41
-    Width = 947
+    Width = 1020
     Height = 165
     Align = alTop
     Caption = #1055#1086#1080#1089#1082
     TabOrder = 2
+    ExplicitWidth = 1016
     object Label2: TLabel
       Left = 8
       Top = 56
@@ -554,14 +556,14 @@ object CardsFrm: TCardsFrm
   end
   object Panel1: TPanel
     Left = 0
-    Top = 354
-    Width = 947
+    Top = 353
+    Width = 1020
     Height = 192
     Align = alBottom
     Color = 16573658
     TabOrder = 3
-    ExplicitLeft = 1
-    ExplicitTop = 359
+    ExplicitTop = 352
+    ExplicitWidth = 1016
     object Label16: TLabel
       Left = 8
       Top = 32
@@ -733,10 +735,10 @@ object CardsFrm: TCardsFrm
       Height = 20
       Caption = #1055#1088#1080#1084#1077#1095#1072#1085#1080#1077':'
     end
-    object DBText9: TDBText
-      Left = 112
+    object TDBText
+      Left = 118
       Top = 136
-      Width = 70
+      Width = 6
       Height = 20
       AutoSize = True
       DataField = 'Svedenia'

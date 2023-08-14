@@ -3,8 +3,8 @@ unit Functions;
 interface
 uses   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, DBCtrls, Buttons, OleServer,
-  Word_TLB, ADODB, ShellApi;
-  procedure ActivateDataSetWithParam(param, paramValue:string; dataSet:TADODataSet);
+  Word_TLB, ADODB, FireDAC.Comp.Client, ShellApi;
+  procedure ActivateDataSetWithParam(param, paramValue:string; dataSet:TFDQuery);
   procedure ReplaceInWord(wordApp:OleVariant;oldStr,newStr:String);
   procedure typeToWordHist(wordApp:OleVariant;oldStr,newStr:String;find:boolean);
   function getConectStr:string;
@@ -12,12 +12,12 @@ uses   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms
   function getFileName(fileName:string):string;
 
 implementation
-  Procedure ActivateDataSetWithParam(param, paramValue:string; dataSet:TADODataSet);
+  Procedure ActivateDataSetWithParam(param, paramValue:string; dataSet:TFDQuery);
   begin
   with dataSet do
     begin
     Active:=false;
-    Parameters.ParamValues[param]:=paramValue;
+    Params.ParamValues[param]:=paramValue;
     Active:=true;
     First;
     end;
@@ -115,7 +115,8 @@ if(not(FileExists('c:\veda\db333.mdb'))) then
   end
 else
   begin
-  conectStr:='c:\veda'
+  //conectStr:='c:\veda'
+    conectStr:=ExtractFilePath(Application.ExeName)
   end;
 Result:=conectStr;
 end;

@@ -12,10 +12,8 @@ object MainForm: TMainForm
   Font.Style = []
   FormStyle = fsMDIForm
   Menu = MainMenu1
-  OldCreateOrder = False
   Position = poDefault
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object ToolBar2: TToolBar
     Left = 0
@@ -35,6 +33,7 @@ object MainForm: TMainForm
     Transparent = False
     Wrapable = False
     OnMouseMove = ToolBar2MouseMove
+    ExplicitWidth = 804
     object mnuCard: TToolButton
       Left = 5
       Top = 0
@@ -47,14 +46,14 @@ object MainForm: TMainForm
     object Label4: TLabel
       Left = 39
       Top = 0
-      Width = 22
+      Width = 3
       Height = 30
       Color = clBtnFace
       ParentColor = False
       Transparent = False
     end
     object mnuJournal: TToolButton
-      Left = 61
+      Left = 42
       Top = 0
       Caption = 'mnuJournal'
       ImageIndex = 4
@@ -63,16 +62,16 @@ object MainForm: TMainForm
       OnMouseMove = mnuJournalMouseMove
     end
     object Label5: TLabel
-      Left = 95
+      Left = 76
       Top = 0
-      Width = 22
+      Width = 3
       Height = 30
       Color = clBtnFace
       ParentColor = False
       Transparent = False
     end
     object mnuJournal2: TToolButton
-      Left = 117
+      Left = 79
       Top = 0
       Caption = 'mnuJournal2'
       ImageIndex = 58
@@ -80,64 +79,64 @@ object MainForm: TMainForm
       OnMouseMove = mnuJournal2MouseMove
     end
     object Label7: TLabel
-      Left = 151
+      Left = 113
       Top = 0
-      Width = 29
+      Width = 3
       Height = 30
       Color = clBtnFace
       ParentColor = False
       Transparent = False
     end
     object mnuSklad: TToolButton
-      Left = 180
+      Left = 116
       Top = 0
       Caption = 'mnuSklad'
       ImageIndex = 22
       Visible = False
     end
     object Label8: TLabel
-      Left = 214
+      Left = 150
       Top = 0
-      Width = 26
+      Width = 3
       Height = 30
       Color = clBtnFace
       ParentColor = False
       Transparent = False
     end
     object mnuMedicine: TToolButton
-      Left = 240
+      Left = 153
       Top = 0
       Caption = 'mnuMedicine'
       ImageIndex = 26
       Visible = False
     end
     object Label9: TLabel
-      Left = 274
+      Left = 187
       Top = 0
-      Width = 8
+      Width = 3
       Height = 30
       Color = clBtnFace
       ParentColor = False
       Transparent = False
     end
     object mnuReports: TToolButton
-      Left = 282
+      Left = 190
       Top = 0
       Caption = 'mnuReports'
       ImageIndex = 27
       Visible = False
     end
     object Label10: TLabel
-      Left = 316
+      Left = 224
       Top = 0
-      Width = 10
+      Width = 3
       Height = 30
       Color = clBtnFace
       ParentColor = False
       Transparent = False
     end
     object mnuAnalize: TToolButton
-      Left = 326
+      Left = 227
       Top = 0
       Caption = 'mnuAnalize'
       ImageIndex = 28
@@ -145,16 +144,16 @@ object MainForm: TMainForm
       OnClick = mnuAnalizeClick
     end
     object Label11: TLabel
-      Left = 360
+      Left = 261
       Top = 0
-      Width = 8
+      Width = 3
       Height = 30
       Color = clBtnFace
       ParentColor = False
       Transparent = False
     end
     object mnuSettings: TToolButton
-      Left = 368
+      Left = 264
       Top = 0
       Caption = 'mnuSettings'
       ImageIndex = 29
@@ -162,16 +161,16 @@ object MainForm: TMainForm
       OnMouseMove = mnuSettingsMouseMove
     end
     object Label3: TLabel
-      Left = 402
+      Left = 298
       Top = 0
-      Width = 8
+      Width = 3
       Height = 30
       Color = clBtnFace
       ParentColor = False
       Transparent = False
     end
     object mnuDictEdit: TToolButton
-      Left = 410
+      Left = 301
       Top = 0
       Caption = 'mnuDictEdit'
       ImageIndex = 52
@@ -187,6 +186,8 @@ object MainForm: TMainForm
     Height = 415
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 804
+    ExplicitHeight = 414
     object Image1: TImage
       Left = 1
       Top = 1
@@ -4039,6 +4040,8 @@ object MainForm: TMainForm
     Font.Style = []
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 463
+    ExplicitWidth = 804
   end
   object MainMenu1: TMainMenu
     Left = 40

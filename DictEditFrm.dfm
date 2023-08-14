@@ -11,11 +11,9 @@ object DictEditForm: TDictEditForm
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   FormStyle = fsMDIChild
-  OldCreateOrder = False
   Position = poDefault
   Visible = True
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 20
   object pControl: TPageControl
     Left = 0
@@ -26,6 +24,8 @@ object DictEditForm: TDictEditForm
     Align = alClient
     TabOrder = 0
     OnMouseMove = pControlMouseMove
+    ExplicitWidth = 1004
+    ExplicitHeight = 590
     object pageDiagnozes: TTabSheet
       Caption = #1044#1080#1072#1075#1085#1086#1079#1099
       object ToolBar2: TToolBar
@@ -43,6 +43,7 @@ object DictEditForm: TDictEditForm
         TabOrder = 0
         StyleElements = [seFont, seClient]
         OnMouseMove = ToolBar2MouseMove
+        ExplicitWidth = 996
         object btnNewDiagnoz: TToolButton
           Left = 0
           Top = 0
@@ -97,6 +98,8 @@ object DictEditForm: TDictEditForm
         Height = 515
         Align = alClient
         TabOrder = 1
+        ExplicitWidth = 996
+        ExplicitHeight = 514
         object Splitter1: TSplitter
           Left = 222
           Top = 1
@@ -116,6 +119,8 @@ object DictEditForm: TDictEditForm
           Height = 513
           Align = alClient
           TabOrder = 0
+          ExplicitWidth = 217
+          ExplicitHeight = 512
           object treeDiagnozes: TTreeView
             Left = 1
             Top = 1
@@ -131,6 +136,8 @@ object DictEditForm: TDictEditForm
             TabOrder = 0
             OnChange = treeDiagnozesChange
             OnMouseMove = treeDiagnozesMouseMove
+            ExplicitWidth = 215
+            ExplicitHeight = 510
           end
         end
         object Panel3: TPanel
@@ -141,6 +148,8 @@ object DictEditForm: TDictEditForm
           Align = alRight
           TabOrder = 1
           OnMouseMove = Panel3MouseMove
+          ExplicitLeft = 226
+          ExplicitHeight = 512
           DesignSize = (
             769
             513)
@@ -2671,5 +2680,110 @@ object DictEditForm: TDictEditForm
         TitleFont.Style = []
       end
     end
+    object connectBD: TTabSheet
+      Caption = #1055#1086#1076#1082#1083#1102#1095#1077#1085#1080#1077
+      ImageIndex = 5
+      object Label21: TLabel
+        Left = 32
+        Top = 24
+        Width = 305
+        Height = 20
+        Caption = #1053#1072#1089#1090#1088#1086#1081#1082#1072' '#1087#1086#1076#1082#1083#1102#1095#1077#1085#1080#1103' '#1082' '#1073#1072#1079#1077' '#1076#1072#1085#1085#1099#1093':'
+      end
+      object Label22: TLabel
+        Left = 32
+        Top = 59
+        Width = 131
+        Height = 20
+        Caption = 'IP '#1072#1076#1088#1077#1089' '#1089#1077#1088#1074#1077#1088#1072
+      end
+      object Label23: TLabel
+        Left = 32
+        Top = 92
+        Width = 105
+        Height = 20
+        Caption = #1055#1086#1088#1090' '#1089#1077#1088#1074#1077#1088#1072
+      end
+      object Label24: TLabel
+        Left = 32
+        Top = 164
+        Width = 144
+        Height = 20
+        Caption = #1048#1084#1103' '#1087#1086#1083#1100#1079#1086#1074#1072#1090#1077#1083#1103
+      end
+      object Label25: TLabel
+        Left = 32
+        Top = 199
+        Width = 58
+        Height = 20
+        Caption = #1055#1072#1088#1086#1083#1100
+      end
+      object Label26: TLabel
+        Left = 32
+        Top = 127
+        Width = 175
+        Height = 20
+        Caption = #1053#1072#1079#1074#1072#1085#1080#1077' '#1073#1072#1079#1099' '#1076#1072#1085#1085#1099#1093
+      end
+      object edt1: TEdit
+        Left = 228
+        Top = 56
+        Width = 169
+        Height = 28
+        TabOrder = 0
+        Text = '127.0.0.1'
+      end
+      object edt2: TEdit
+        Left = 228
+        Top = 89
+        Width = 169
+        Height = 28
+        TabOrder = 1
+        Text = '5432'
+      end
+      object edt3: TEdit
+        Left = 228
+        Top = 123
+        Width = 169
+        Height = 28
+        TabOrder = 2
+        Text = 'admin'
+      end
+      object edt4: TEdit
+        Left = 228
+        Top = 161
+        Width = 169
+        Height = 28
+        TabOrder = 3
+        Text = '8186'
+      end
+      object edt5: TEdit
+        Left = 228
+        Top = 196
+        Width = 169
+        Height = 28
+        TabOrder = 4
+        Text = 'veda_db'
+      end
+      object Button1: TButton
+        Left = 216
+        Top = 252
+        Width = 193
+        Height = 25
+        Caption = #1057#1086#1093#1088#1072#1085#1080#1090#1100' '#1080#1079#1084#1077#1085#1077#1085#1080#1103
+        TabOrder = 5
+        OnClick = saveSettingtoFileClick
+      end
+    end
+  end
+  object IncoderSym: TIdEncoderXXE
+    FillChar = '+'
+    Left = 956
+    Top = 39
+  end
+  object DecoderSym: TIdDecoderXXE
+    FillChar = '+'
+    Left = 868
+    Top = 39
   end
 end

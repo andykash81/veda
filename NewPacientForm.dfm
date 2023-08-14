@@ -2,8 +2,8 @@ object NewPacientFrm: TNewPacientFrm
   Left = 205
   Top = 50
   Caption = #1053#1086#1074#1099#1081' '#1087#1072#1094#1080#1077#1085#1090
-  ClientHeight = 545
-  ClientWidth = 794
+  ClientHeight = 544
+  ClientWidth = 790
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,25 +15,25 @@ object NewPacientFrm: TNewPacientFrm
   object Panel5: TPanel
     Left = 0
     Top = 0
-    Width = 794
-    Height = 545
+    Width = 790
+    Height = 544
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 790
-    ExplicitHeight = 544
+    ExplicitWidth = 786
+    ExplicitHeight = 543
     object Panel3: TPanel
       Left = 425
       Top = 1
-      Width = 368
-      Height = 543
+      Width = 364
+      Height = 542
       Align = alClient
       TabOrder = 0
-      ExplicitWidth = 364
-      ExplicitHeight = 542
+      ExplicitWidth = 360
+      ExplicitHeight = 541
       object GroupBox7: TGroupBox
         Left = 1
         Top = 1
-        Width = 366
+        Width = 362
         Height = 192
         Align = alTop
         Caption = #1058#1077#1083#1077#1092#1086#1085#1099
@@ -44,7 +44,7 @@ object NewPacientFrm: TNewPacientFrm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 362
+        ExplicitWidth = 358
         object Label4: TLabel
           Left = 16
           Top = 32
@@ -157,7 +157,7 @@ object NewPacientFrm: TNewPacientFrm
       object GroupBox8: TGroupBox
         Left = 1
         Top = 193
-        Width = 366
+        Width = 362
         Height = 120
         Align = alTop
         Caption = #1057#1074#1077#1076#1077#1085#1080#1103
@@ -168,7 +168,7 @@ object NewPacientFrm: TNewPacientFrm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 1
-        ExplicitWidth = 362
+        ExplicitWidth = 358
         object chkAllergy: TCheckBox
           Left = 8
           Top = 24
@@ -246,12 +246,12 @@ object NewPacientFrm: TNewPacientFrm
       object GroupBox9: TGroupBox
         Left = 1
         Top = 313
-        Width = 366
+        Width = 362
         Height = 80
         Align = alTop
         Caption = #1044#1072#1090#1072' '#1086#1090#1082#1088#1099#1090#1080#1103' '#1082#1072#1088#1090#1099
         TabOrder = 2
-        ExplicitWidth = 362
+        ExplicitWidth = 358
         object dateOpen: TDateTimePicker
           Left = 24
           Top = 32
@@ -264,8 +264,8 @@ object NewPacientFrm: TNewPacientFrm
         end
       end
       object DBEdit1: TDBEdit
-        Left = 144
-        Top = 376
+        Left = 232
+        Top = 345
         Width = 121
         Height = 28
         DataField = 'Expr1000'
@@ -369,7 +369,7 @@ object NewPacientFrm: TNewPacientFrm
       object GroupBox6: TGroupBox
         Left = 1
         Top = 393
-        Width = 366
+        Width = 362
         Height = 72
         Align = alTop
         Caption = #1055#1088#1080#1084#1077#1095#1072#1085#1080#1077
@@ -380,7 +380,7 @@ object NewPacientFrm: TNewPacientFrm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 6
-        ExplicitWidth = 362
+        ExplicitWidth = 358
         object edtRemarks: TEdit
           Left = 16
           Top = 24
@@ -401,10 +401,10 @@ object NewPacientFrm: TNewPacientFrm
       Left = 1
       Top = 1
       Width = 424
-      Height = 543
+      Height = 542
       Align = alLeft
       TabOrder = 1
-      ExplicitHeight = 542
+      ExplicitHeight = 541
       object GroupBox4: TGroupBox
         Left = 1
         Top = 193
@@ -490,7 +490,7 @@ object NewPacientFrm: TNewPacientFrm
             Width = 186
             Height = 28
             Date = 22082.000000000000000000
-            Time = 0.991508206021535400
+            Time = 0.991508206021535500
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -16
@@ -621,7 +621,7 @@ object NewPacientFrm: TNewPacientFrm
         Left = 1
         Top = 393
         Width = 422
-        Height = 149
+        Height = 148
         Align = alClient
         Caption = #1055#1077#1088#1077#1085#1077#1089#1077#1085#1085#1099#1077' '#1080' '#1089#1086#1087#1091#1090#1089#1090#1074#1091#1102#1097#1080#1077' '#1079#1072#1073#1086#1083#1077#1074#1072#1085#1080#1103
         Font.Charset = DEFAULT_CHARSET
@@ -631,7 +631,7 @@ object NewPacientFrm: TNewPacientFrm
         Font.Style = [fsBold]
         ParentFont = False
         TabOrder = 5
-        ExplicitHeight = 148
+        ExplicitHeight = 147
         object cbPsz: TComboBox
           Left = 29
           Top = 27
