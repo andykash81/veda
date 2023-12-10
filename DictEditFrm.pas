@@ -466,7 +466,7 @@ var
 begin
     lineFile:=TStringList.Create;
       try
-        lineFile.LoadFromFile(ExtractFilePath(Application.ExeName)+'\bd.sys');
+        lineFile.LoadFromFile(ExtractFilePath(Application.ExeName)+'bd.sys');
         for i:=0 to lineFile.Count-1 do
         begin
           TEdit(FindComponent('edt'+IntToStr(i+1))).Text:=DecoderSym.DecodeString(lineFile[i]);
@@ -483,7 +483,7 @@ var
   i, p: integer;
 begin
   try
-    AssignFile(sysFile, ExtractFilePath(Application.ExeName)+'\bd.sys');
+    AssignFile(sysFile, ExtractFilePath(Application.ExeName)+'bd.sys');
     Rewrite(sysFile);
     for i := 0 to ComponentCount-1 do
       begin

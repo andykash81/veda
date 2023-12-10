@@ -1,6 +1,6 @@
 object mainDataModule: TmainDataModule
   OnCreate = DataModuleCreate
-  Height = 1382
+  Height = 1504
   Width = 1133
   object mainConnection: TADOConnection
     Connected = True
@@ -2923,8 +2923,9 @@ object mainDataModule: TmainDataModule
       'UnknownFormat=BYTEA'
       'OidAsBlob=Yes'
       'ExtendedMetadata=True'
-      'DriverID=PG'
-      'Port=5432')
+      'User_Name=admin'
+      'Password=8186'
+      'DriverID=PG')
     Left = 24
     Top = 720
   end
@@ -3197,7 +3198,7 @@ object mainDataModule: TmainDataModule
         Precision = 255
         NumericScale = 255
         ParamType = ptInput
-        Size = 510
+        Size = 3000
         Value = Null
       end>
   end
@@ -3943,10 +3944,10 @@ object mainDataModule: TmainDataModule
     SQL.Strings = (
       
         'Insert into "Files" ("FileId", "FileName", "CardId","FileDate", ' +
-        '"Name", "LoadDate")'
+        '"Name", "LoadDate", "Description")'
       
         'values (:FileId_, :FileName_, :CardId_,:FileDate_, :name_, :Load' +
-        'Date_);')
+        'Date_, :desc_);')
     Left = 40
     Top = 1104
     ParamData = <
@@ -4005,6 +4006,14 @@ object mainDataModule: TmainDataModule
         NumericScale = 255
         ParamType = ptInput
         Size = 510
+        Value = Null
+      end
+      item
+        Name = 'desc_'
+        DataType = ftWideString
+        Precision = 255
+        ParamType = ptInput
+        Size = 499
         Value = Null
       end>
   end
@@ -4068,7 +4077,8 @@ object mainDataModule: TmainDataModule
         Precision = 255
         NumericScale = 255
         ParamType = ptInput
-        Size = 510
+        Size = 499
+        Value = Null
       end
       item
         Name = 'FileId_'
@@ -4201,7 +4211,8 @@ object mainDataModule: TmainDataModule
         Precision = 255
         NumericScale = 255
         ParamType = ptInput
-        Size = 510
+        Size = 8000
+        Value = Null
       end
       item
         Name = 'date_'
@@ -4349,7 +4360,7 @@ object mainDataModule: TmainDataModule
     Top = 712
     ParamData = <
       item
-        Name = 'cardId_'
+        Name = 'CardId_'
         DataType = ftWideString
         FDDataType = dtWideString
         Precision = 255
@@ -4887,7 +4898,8 @@ object mainDataModule: TmainDataModule
         Precision = 255
         NumericScale = 255
         ParamType = ptInput
-        Size = 510
+        Size = 8000
+        Value = Null
       end
       item
         Name = 'date_priem_'
@@ -5529,7 +5541,7 @@ object mainDataModule: TmainDataModule
         Precision = 255
         NumericScale = 255
         ParamType = ptInput
-        Size = 510
+        Size = 8000
       end
       item
         Name = 'cost_'
@@ -5646,5 +5658,31 @@ object mainDataModule: TmainDataModule
     Active = True
     Left = 80
     Top = 688
+  end
+  object dataSetZubCardOne1: TFDQuery
+    Connection = FDConnection1
+    SQL.Strings = (
+      
+        'SELECT "ZubCard"."ZubCardId", "ZubCard"."OrderNumber", d."ShortN' +
+        'ame", d."Name" FROM "ZubCard", "Dict" AS d WHERE d."DictId"="Zub' +
+        'Card"."LetterId" AND "ZubCard"."CardId"=:cardId_ AND "ZubCard"."' +
+        'ZubId"=:zubId_ ORDER BY "ZubCard"."OrderNumber"')
+    Left = 408
+    Top = 600
+    ParamData = <
+      item
+        Name = 'cardId_'
+        DataType = ftWideString
+        Precision = 255
+        ParamType = ptInput
+        Size = 200
+        Value = Null
+      end
+      item
+        Name = 'zubId_'
+        DataType = ftInteger
+        ParamType = ptInput
+        Value = Null
+      end>
   end
 end

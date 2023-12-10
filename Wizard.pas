@@ -126,6 +126,48 @@ type
     btnAddPsz: TButton;
     Button33: TButton;
     btnLoadFiles: TButton;
+    Button34: TButton;
+    Button35: TButton;
+    Button36: TButton;
+    Button37: TButton;
+    Button38: TButton;
+    Button39: TButton;
+    Button40: TButton;
+    Button41: TButton;
+    Button42: TButton;
+    Button43: TButton;
+    Button44: TButton;
+    Button45: TButton;
+    Button46: TButton;
+    Button47: TButton;
+    Button48: TButton;
+    Button49: TButton;
+    Button50: TButton;
+    Button51: TButton;
+    Button52: TButton;
+    Button53: TButton;
+    RadioGroup1: TRadioGroup;
+    Panel4: TPanel;
+    tvml1: TButton;
+    tvml2: TButton;
+    tvml3: TButton;
+    tvml4: TButton;
+    tvml5: TButton;
+    tnml1: TButton;
+    tnml2: TButton;
+    tnml3: TButton;
+    tnml4: TButton;
+    tnml5: TButton;
+    tvmr1: TButton;
+    tvmr2: TButton;
+    tvmr3: TButton;
+    tvmr4: TButton;
+    tvmr5: TButton;
+    tnmr1: TButton;
+    tnmr2: TButton;
+    tnmr3: TButton;
+    tnmr4: TButton;
+    tnmr5: TButton;
     procedure addLabelToButton(Sender, Target:TButton; id:double);
     procedure addRecordsToZubCard(zubPriemId:double);
     function addZubCard(btnLetter, btnZub:TButton):double;
@@ -135,7 +177,7 @@ type
     procedure ButtonEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure calDateClick(Sender: TObject);
     procedure ClearLabels;
-    procedure deleteLabel(Sender: TObject);
+ //   procedure deleteLabel(Sender: TObject);
     procedure edtDateChange(Sender: TObject);
     procedure enableButtons(enable:Boolean);
     procedure enableButtonsOnCard(enable:boolean);
@@ -150,6 +192,7 @@ type
     function returnConstByButton(btn:TButton; isZub:boolean):integer;
     function returnIdByLabel(lbl:TLabel):double;
     function returnList(id_:TButton):Tlist;
+    function returnList1(id_:TButton):Tlist;
     function returnListByLabel(lbl:TLabel):TList;
     procedure tDragOver(Sender, Source: TObject; X, Y: Integer; State: TDragState; var Accept: Boolean);
     procedure Button1Click(Sender: TObject);
@@ -169,7 +212,7 @@ type
     procedure btnLoadFilesClick(Sender: TObject);
     function WordStringReplace(SearchString, ReplaceString:string;
 WordApp, Word: Variant):boolean;
-
+    procedure RadioGroup1Click(Sender: TObject);
   private
   wasOnTeeth:bool;
   wasOnDiagnoz:bool;
@@ -192,7 +235,7 @@ WordApp, Word: Variant):boolean;
 var
   WizardForm: TWizardForm;
   lblCount:integer;
-  btnsList:Tlist;
+  btnsList, mbtnsList:Tlist;
   idsList:TList;
   recsToString:TList;
   ListDiagssNodes:TList;
@@ -212,6 +255,7 @@ uses dataModule, Constants, ADODB, DB, DictEditFrm, DateUtils, Functions,
 procedure TWizardForm.FormShow(Sender: TObject);
 var i{,count} : integer;
 begin
+   RadioGroup1.ItemIndex := 0;
    zubAdded:=false;
    incStr:='';
    lblCount:=0;
@@ -335,6 +379,30 @@ tnr5.Enabled:=enable;
 tnr6.Enabled:=enable;
 tnr7.Enabled:=enable;
 tnr8.Enabled:=enable;
+
+tvml1.Enabled:=enable;
+tvml2.Enabled:=enable;
+tvml3.Enabled:=enable;
+tvml4.Enabled:=enable;
+tvml5.Enabled:=enable;
+
+tnml1.Enabled:=enable;
+tnml2.Enabled:=enable;
+tnml3.Enabled:=enable;
+tnml4.Enabled:=enable;
+tnml5.Enabled:=enable;
+
+tvmr1.Enabled:=enable;
+tvmr2.Enabled:=enable;
+tvmr3.Enabled:=enable;
+tvmr4.Enabled:=enable;
+tvmr5.Enabled:=enable;
+
+tnmr1.Enabled:=enable;
+tnmr2.Enabled:=enable;
+tnmr3.Enabled:=enable;
+tnmr4.Enabled:=enable;
+tnmr5.Enabled:=enable;
 end;
 
 procedure TWizardForm.fillCbFromDict(parentDictId:integer;cb:TComboBox);
@@ -366,14 +434,25 @@ type
 var i: integer; ANodeRecord: PNodeList;
 begin
   btnsList:=TList.Create;
-  for i := 0 to  sheetZubCard.ControlCount-1 do
+  mbtnsList:=TList.Create;
+  for i := 0 to  (sheetZubCard.ControlCount-1) do
     begin
-    if((sheetZubCard.Controls[i] is TButton)and(sheetZubCard.Controls[i].Name[1] = 't')) then
+    if(sheetZubCard.Controls[i] is TButton)and(sheetZubCard.Controls[i].Name[1] = 't') then
       begin
       New(ANodeRecord);
       ANodeRecord^.btn:=TButton(sheetZubCard.Controls[i]);
       ANodeRecord^.Letters:=TList.Create;
       btnsList.Add(ANodeRecord);
+      end;
+    end;
+    for i := 0 to  (Panel4.ControlCount-1) do
+    begin
+    if(Panel4.Controls[i] is TButton)and(Panel4.Controls[i].Name[1] = 't') then
+      begin
+      New(ANodeRecord);
+      ANodeRecord^.btn:=TButton(Panel4.Controls[i]);
+      ANodeRecord^.Letters:=TList.Create;
+      mbtnsList.Add(ANodeRecord);
       end;
     end;
 end;
@@ -454,6 +533,30 @@ begin
         Constants.ZUB_46:returnButtonByConstant:=tnl6;
         Constants.ZUB_47:returnButtonByConstant:=tnl7;
         Constants.ZUB_48:returnButtonByConstant:=tnl8;
+
+        Constants.ZUB_51:returnButtonByConstant:=tvml1;
+        Constants.ZUB_52:returnButtonByConstant:=tvml2;
+        Constants.ZUB_53:returnButtonByConstant:=tvml3;
+        Constants.ZUB_54:returnButtonByConstant:=tvml4;
+        Constants.ZUB_55:returnButtonByConstant:=tvml5;
+
+        Constants.ZUB_61:returnButtonByConstant:=tvmr1;
+        Constants.ZUB_62:returnButtonByConstant:=tvmr2;
+        Constants.ZUB_63:returnButtonByConstant:=tvmr3;
+        Constants.ZUB_64:returnButtonByConstant:=tvmr4;
+        Constants.ZUB_65:returnButtonByConstant:=tvmr5;
+
+        Constants.ZUB_71:returnButtonByConstant:=tnmr1;
+        Constants.ZUB_72:returnButtonByConstant:=tnmr2;
+        Constants.ZUB_73:returnButtonByConstant:=tnmr3;
+        Constants.ZUB_74:returnButtonByConstant:=tnmr4;
+        Constants.ZUB_75:returnButtonByConstant:=tnmr5;
+
+        Constants.ZUB_81:returnButtonByConstant:=tnml1;
+        Constants.ZUB_82:returnButtonByConstant:=tnml2;
+        Constants.ZUB_83:returnButtonByConstant:=tnml3;
+        Constants.ZUB_84:returnButtonByConstant:=tnml4;
+        Constants.ZUB_85:returnButtonByConstant:=tnml5;
         end;
 end;
 
@@ -463,7 +566,7 @@ VAR I:INTEGER;
 begin
  if(isZub) then
   begin
-  for i:=301 to 334 do
+  for i:=301 to 352 do            //334 было
     begin
     if(returnButtonByConstant(i)=btn) then
       begin
@@ -563,7 +666,7 @@ if(PageControl1.ActivePage=sheetCorrect) then
     Params.ParamValues['desc_']:=memPriemDesc.Text;
     Params.ParamValues['date_']:=edtDate.Text;
     Params.ParamValues['sotrId_']:=IntToStr(Integer(cbDoctor.Items.Objects[cbDoctor.ItemIndex]));
-    Params.ParamValues['PriemKr_']:=shortDesc;
+    Params.ParamValues['priemKr_']:=shortDesc;
     if(chkSanus.Checked) then Params.ParamValues['sanus_']:='1' else Params.ParamValues['sanus_']:='0';
     ExecSQL;
     {добавим записи в карту зубов}
@@ -733,7 +836,7 @@ forw:=true;
 //Word := Unassigned;
   if((dirName='')and(FileName=''))then
     begin
-    FileName:=ExtractFilePath(Application.ExeName)+'\priem.doc';
+    FileName:=ExtractFilePath(Application.ExeName)+'priem.doc';
     end;
   //wordApp:=CoWordApplication.Create;
 
@@ -742,11 +845,11 @@ if(index<>2) then
   begin
   if(index=1)then
     begin
-    shablon:=ExtractFilePath(Application.ExeName)+'\withoutSecond.doc';
+    shablon:=ExtractFilePath(Application.ExeName)+'withoutSecond.doc';
     end
   else if(index=3) then
     begin
-    shablon:=ExtractFilePath(Application.ExeName)+'\withSecond.doc';
+    shablon:=ExtractFilePath(Application.ExeName)+'withSecond.doc';
     end;
   functions.ActivateDataSetWithParam('pacientId_',PacientId,mainDataModule.dataSetFIOById1);
   if((dirName<>'')and(FileName=''))then
@@ -809,7 +912,7 @@ if(index<>2) then
   end
 else
   begin
-  shablon:=ExtractFilePath(Application.ExeName)+'\Card.doc';
+  shablon:=ExtractFilePath(Application.ExeName)+'Card.doc';
   WordApp.Documents.Open(Shablon);
   //WordApp.Visible := True;
   with mainDataModule.dsPacientQuery1 do
@@ -927,8 +1030,13 @@ else
   end;
 Result:=ExtractFileName(FileName);
 end;
-
-
+procedure TWizardForm.RadioGroup1Click(Sender: TObject);
+begin
+if(RadioGroup1.Items[RadioGroup1.ItemIndex]='Молочный') then
+  Panel4.Visible:=True
+else
+  Panel4.Visible:=False;
+end;
 
 procedure TWizardForm.makeTextPriemDesc;
 type
@@ -1108,14 +1216,23 @@ begin
     lbl := Tlabel.Create(WizardForm);
     lbl.Parent:=sheetZubCard;
     lbl.Caption := Sender.Caption;
+    lblCount:=lblCount+1;
     lbl.Name:='smth'+IntToStr(lblCount);
-    lbl.OnClick := deleteLabel; //делаем обработку клика по лейблу
+ //   lbl.OnClick := deleteLabel; //делаем обработку клика по лейблу
      New(ARecord);
      ARecord^.id:=id;
      ARecord^.labl:=lbl;
      idsList.add(ARecord);
-    lblCount:=lblCount+1; //увеличиваем каунтер чтоб имена не повторялись
+     //увеличиваем каунтер чтоб имена не повторялись
     curList:=returnList(Target);//берем лист у кнопки, на которую притащили
+    if (curList = nil) then
+    begin
+       lbl.Parent:=Panel4;
+       lbl.Name:='smth'+IntToStr(lblCount);
+//       lbl.OnClick := deleteLabel;
+       curList:=returnList1(Target);
+    end;
+
     curList.Add(lbl); //добавляем туда лейбл
     if(Target.Name[2]='v') then  //если верхний
       begin
@@ -1143,7 +1260,7 @@ begin
 
 end;
 
-procedure TWizardForm.deleteLabel(Sender: TObject);
+{procedure TWizardForm.deleteLabel(Sender: TObject);
 var list:TList; i,k:integer;btn:TButton;
 begin
 if TLabel(Sender).Top>100 then k:=-1 else k:=1;
@@ -1159,7 +1276,7 @@ with mainDataModule.queryZubCardDelete1 do
   Params.ParamValues['zubCardId_']:=returnIdByLabel(TLabel(Sender));
   ExecSQL;
   end;
-end;
+end;}
 
 function TWizardForm.returnIdByLabel(lbl:TLabel):double;
 type
@@ -1220,7 +1337,7 @@ var i:integer; ARecord: PNodeList;
 begin
 for i:= 0 to btnsList.Count-1 do
   begin
-  ARecord := btnsList.Items[i];
+   ARecord := btnsList.Items[i];
    if(ARecord^.id=id_) then
     begin
     returnList:=ARecord^.list;
@@ -1228,6 +1345,28 @@ for i:= 0 to btnsList.Count-1 do
     end;
   end;
 returnList:=nil;
+end;
+
+function TWizardForm.returnList1(id_:TButton):Tlist;
+type
+PNodeList = ^ANodeList;
+ANodeList = record
+    id: TButton;
+    list: TList;
+end;
+var i:integer; ARecord: PNodeList;
+
+begin
+for i:= 0 to mbtnsList.Count-1 do
+  begin
+   ARecord := mbtnsList.Items[i];
+   if(ARecord^.id=id_) then
+    begin
+    returnList1:=ARecord^.list;
+    Exit;
+    end;
+  end;
+returnList1:=nil;
 end;
 
 procedure TWizardForm.tDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -1455,6 +1594,20 @@ while i<count do
     if(sheetZubCard.Controls[i-j].Name[1] = 's') then
       begin
       sheetZubCard.Controls[i-j].Free;
+      j:=j+1;//После удаления лейбла увеличиваем j (основная форма)
+      end;
+    end;
+    i:=i+1;
+  end;
+count:=Panel4.ControlCount;
+i:=0; j:=0;
+while i<count do
+  begin
+  if(Panel4.Controls[i-j] is TLabel) then//Отнимаем j для того чтобы не вылезти из индекса, поскольку мы удаляем контролы
+    begin
+    if(Panel4.Controls[i-j].Name[1] = 's') then
+      begin
+      Panel4.Controls[i-j].Free;
       j:=j+1;//После удаления лейбла увеличиваем j
       end;
     end;

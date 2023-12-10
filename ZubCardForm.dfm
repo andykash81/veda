@@ -1,17 +1,15 @@
 object ZubForm: TZubForm
   Left = 347
   Top = 177
-  Width = 411
-  Height = 278
+  ClientHeight = 240
+  ClientWidth = 399
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = False
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object gridLetters: TStringGrid
     Left = 8
@@ -43,8 +41,6 @@ object ZubForm: TZubForm
     Top = 8
     Width = 49
     Height = 49
-    TabOrder = 2
-    OnClick = btnNewClick
     Glyph.Data = {
       7E120000424D7E12000000000000360000002800000027000000270000000100
       18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -195,14 +191,14 @@ object ZubForm: TZubForm
       C0C0BFC0C0BFC0C0BFC0BFBFC0BFBFC0C0BFC0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
       0000}
+    TabOrder = 2
+    OnClick = btnNewClick
   end
   object btnDel: TBitBtn
     Left = 336
     Top = 8
     Width = 49
     Height = 49
-    TabOrder = 3
-    OnClick = btnDelClick
     Glyph.Data = {
       7E120000424D7E12000000000000360000002800000027000000270000000100
       18000000000048120000130B0000130B00000000000000000000C0C0C0C0C0C0
@@ -353,6 +349,8 @@ object ZubForm: TZubForm
       BFBFC0BFBFC0BFBFC0BFBFC0BFBFC0BFBFC0C0C0C0C0C0C0C0C0C0C0C0C0C0C0
       C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C0C000
       0000}
+    TabOrder = 3
+    OnClick = btnDelClick
   end
   object cbLetters: TComboBox
     Left = 8
@@ -365,7 +363,6 @@ object ZubForm: TZubForm
     Font.Height = -19
     Font.Name = 'MS Sans Serif'
     Font.Style = []
-    ItemHeight = 24
     ParentFont = False
     TabOrder = 4
   end

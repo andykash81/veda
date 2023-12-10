@@ -74,23 +74,35 @@ implementation
 {$R *.dfm}
 
 procedure TOrtForm.btnClick(Sender: TObject);
-var i:integer;most:PGlMost;
+var i:integer;most:PGlMost; listZubO, zublst:TStringList;
 begin
+listZubO:=TStringList.Create;
+ExtractStrings([' '],[],PCHar(ostr),listZubO);
 if(lastBtn=nil) then
   begin
   disableButtons(TButton(Sender));
   Canvas.Pen.Color:=COLOR_BTNTEXT;
+//  makeLabel(TButton(Sender),'K',1);
+//  TButton(Sender).Enabled:=false;
+//  incLs:=incLs+TButton(Sender).Caption+' ';
+  if (listZubO.IndexOf(TButton(Sender).Caption)=-1) then
+    begin
+      makeLabel(TButton(Sender),'K',1);
+      TButton(Sender).Enabled:=false;
+      incLs:=incLs+TButton(Sender).Caption+' ';
+    end
+  else makeLabel(TButton(Sender),'И',2);
+  lastBtn:=TButton(Sender);
   if(TButton(Sender).Name[2]='n') then
     begin
-    Canvas.MoveTo(TButton(Sender).Left+Round(TButton(Sender).Width/2),183);
-    Canvas.LineTo(TButton(Sender).Left+Round(TButton(Sender).Width/2),203);
+    Canvas.MoveTo(TButton(Sender).Left+Round(TButton(Sender).Width/2),180);
+    Canvas.LineTo(TButton(Sender).Left+Round(TButton(Sender).Width/2),185);
     end
   else
     begin
-    Canvas.MoveTo(TButton(Sender).Left+Round(TButton(Sender).Width/2),70);
-    Canvas.LineTo(TButton(Sender).Left+Round(TButton(Sender).Width/2),50);
+    Canvas.MoveTo(TButton(Sender).Left+Round(TButton(Sender).Width/2),65);
+    Canvas.LineTo(TButton(Sender).Left+Round(TButton(Sender).Width/2),55);
     end;
-  lastBtn:=TButton(Sender);
   end
 else
   begin
@@ -99,21 +111,40 @@ else
     new(most);
     most^.begins:=lastBtn;
     most^.ends:=TButton(Sender);
-    makeLabel(most^.begins,'К',1);
-    makeLabel(most^.ends,'К',1);
-    incLs:=incLs+most^.begins.Caption+' ';
-    incLs:=incLs+most^.ends.Caption+' ';
+//    makeLabel(most^.begins,'К',1);    // посмотреть в следующий раз
+//    makeLabel(most^.ends,'К',1);
+//    incLs:=incLs+most^.begins.Caption+' ';
+//    incLs:=incLs+most^.ends.Caption+' ';
+    if (listZubO.IndexOf(most^.begins.Caption)=-1) then
+      begin
+        makeLabel(most^.begins,'К',1);
+        most^.begins.Enabled:=false;
+        incLs:=incLs+most^.begins.Caption+' ';
+      end
+    else makeLabel(most^.begins,'И',2);
+
+    if (listZubO.IndexOf(most^.ends.Caption)=-1) then
+      begin
+        makeLabel(most^.ends,'К',1);
+        most^.ends.Enabled:=false;
+        incLs:=incLs+most^.ends.Caption+' ';
+      end
+    else makeLabel(most^.ends,'И',2);
+
     for i:=0 to btnsList.Count-1 do
       begin
       if(most^.begins.Left>most^.ends.Left) then
         begin
         if((TButton(btnsList[i]).Left<most^.begins.Left)and(TButton(btnsList[i]).Left>most^.ends.Left)) then
           begin
-          if(TButton(btnsList[i]).Enabled)then
+          if (listZubO.IndexOf(TButton(btnsList[i]).Caption)=-1) then                //(TButton(btnsList[i]).Enabled)
             begin
-            makeLabel(TButton(btnsList[i]),'K',1);
-            TButton(btnsList[i]).Enabled:=false;
-            incLs:=incLs+TButton(btnsList[i]).Caption+' ';
+            if(TButton(btnsList[i]).Name[2]=most^.begins.Name[2]) then
+              begin
+              makeLabel(TButton(btnsList[i]),'K',1);
+              TButton(btnsList[i]).Enabled:=false;
+              incLs:=incLs+TButton(btnsList[i]).Caption+' ';
+              end;
             end
           else
             begin
@@ -128,11 +159,14 @@ else
         begin
         if((TButton(btnsList[i]).Left>most^.begins.Left)and(TButton(btnsList[i]).Left<most^.ends.Left)) then
           begin
-          if(TButton(btnsList[i]).Enabled)then
+          if(listZubO.IndexOf(TButton(btnsList[i]).Caption)=-1) then            //(TButton(btnsList[i]).Enabled)
             begin
-            makeLabel(TButton(btnsList[i]),'K',1);
-            TButton(btnsList[i]).Enabled:=false;
-            incLs:=incLs+TButton(btnsList[i]).Caption+' ';
+            if(TButton(btnsList[i]).Name[2]=most^.begins.Name[2]) then
+              begin
+                makeLabel(TButton(btnsList[i]),'K',1);
+                TButton(btnsList[i]).Enabled:=false;
+                incLs:=incLs+TButton(btnsList[i]).Caption+' ';
+              end;
             end
           else
             begin
@@ -181,15 +215,15 @@ if(Sender<>nil) then
     end
   end;
 //дизаблим с буквой О и К
-zubList:=TStringList.Create;
+//zubList:=TStringList.Create;
 incList:=TStringList.Create;
-ExtractStrings([' '],[],PCHar(ostr),zubList);
+//ExtractStrings([' '],[],PCHar(ostr),zubList);
 ExtractStrings([' '],[],PCHar(incls),incList);
 for i:=0 to ControlCount-1 do
   begin
   if(Controls[i] is TButton) then
     begin
-    If((zubList.IndexOf(TButton(Controls[i]).Caption)<>-1)or(incList.IndexOf(TButton(Controls[i]).Caption)<>-1)) then
+    If(incList.IndexOf(TButton(Controls[i]).Caption)<>-1) then         // (zubList.IndexOf(TButton(Controls[i]).Caption)<>-1)or
       begin
       controls[i].Enabled:=false;
       end;
@@ -223,13 +257,23 @@ disableButtons(nil);
 end;
 
 procedure TOrtForm.makeLabel(sender:TButton; capt:string;count:integer);
-var lbl:Tlabel;
+var lbl, Instance:Tlabel; Result: String;
 begin
 try
 sender.Enabled:=false;
 lbl:=tlabel.Create(OrtForm);
-lbl.Name:='lblO'+sender.Name+intToStr(count);
+Instance:=Tlabel(FindComponent('lblO'+sender.Name+intToStr(count)));
+if (Instance = nil ) then
+  begin
+    lbl.Name:='lblO'+sender.Name+intToStr(count);
+  end
+else
+  begin
+    lbl.Name:='lblO'+sender.Name+intToStr(count+2);
+  end;
+
 lbl.Left:=sender.Left+6;
+
 if(sender.Name[2]='n') then
   begin
   lbl.Top:=sender.Top+25*count;
@@ -240,6 +284,7 @@ else
   end;
 lbl.Caption:=capt;
 lbl.Parent:=OrtForm;
+lbl.BringToFront;
 except
 ShowMessage('Неверно проведен мост!');
 end;
@@ -258,17 +303,17 @@ if(mostList<>nil) then
       Canvas.Pen.Color:=COLOR_BTNTEXT;
       if(most^.begins.Name[2]='n') then
         begin
-        Canvas.MoveTo(most^.begins.Left+Round(most^.begins.Width/2),183);
-        Canvas.LineTo(most^.begins.Left+Round(most^.begins.Width/2),203);
-        Canvas.LineTo(most^.ends.Left+Round(most^.ends.Width/2),203);
-        Canvas.LineTo(most^.ends.Left+Round(most^.ends.Width/2),183);
+        Canvas.MoveTo(most^.begins.Left+Round(most^.begins.Width/2),180);
+        Canvas.LineTo(most^.begins.Left+Round(most^.begins.Width/2),185);
+        Canvas.LineTo(most^.ends.Left+Round(most^.ends.Width/2),185);
+        Canvas.LineTo(most^.ends.Left+Round(most^.ends.Width/2),180);
         end
       else
         begin
-        Canvas.MoveTo(most^.begins.Left+Round(most^.begins.Width/2),70);
-        Canvas.LineTo(most^.begins.Left+Round(most^.begins.Width/2),50);
-        Canvas.LineTo(most^.ends.Left+Round(most^.ends.Width/2),50);
-        Canvas.LineTo(most^.ends.Left+Round(most^.ends.Width/2),70);
+        Canvas.MoveTo(most^.begins.Left+Round(most^.begins.Width/2),65);
+        Canvas.LineTo(most^.begins.Left+Round(most^.begins.Width/2),55);
+        Canvas.LineTo(most^.ends.Left+Round(most^.ends.Width/2),55);
+        Canvas.LineTo(most^.ends.Left+Round(most^.ends.Width/2),65);
         end;
       end;
     end;

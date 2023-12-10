@@ -241,6 +241,7 @@ type
     queryDeletePricesLech1: TFDQuery;
     DecoderXX: TIdDecoderXXE;
     FDManager1: TFDManager;
+    dataSetZubCardOne1: TFDQuery;
      procedure dsPacListDataChange(Sender: TObject; Field: TField);
     procedure DataModuleCreate(Sender: TObject);
   private

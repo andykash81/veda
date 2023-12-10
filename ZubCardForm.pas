@@ -43,11 +43,11 @@ for j:=1 to gridLetters.RowCount do
 gridLetters.Rows[0].Add('єп/п');
 gridLetters.Rows[0].Add('Ѕуква');
 gridLetters.RowCount:=1;
-with mainDataModule.dataSetZubCardOne do
+with mainDataModule.dataSetZubCardOne1 do
   begin
   Active:=false;
-  Parameters.ParamValues['cardId_']:=pacientId;
-  Parameters.ParamValues['zubId_']:=FloatToStr(zubId);
+  Params.ParamValues['cardId_']:=pacientId;
+  Params.ParamValues['zubId_']:=FloatToStr(zubId);
   Active:=true;
   if(RecordCount>0) then
     begin
@@ -79,29 +79,30 @@ var id:integer;order:integer;
 begin
 if(cbLetters.ItemIndex<>-1) then
   begin
-  with mainDataModule.dataSetzubCardMax do
+  with mainDataModule.dataSetzubCardMax1 do
     begin
     Active:=false;
     Active:=true;
     First;
     id:=FieldByName('maxZubCardId').AsInteger+1;
     end;
-  with mainDataModule.dataSetMaxOrder do
+  with mainDataModule.dataSetMaxOrder1 do
     begin
     Active:=false;
-    Parameters.ParamValues['zubId_']:=FloatTostr(zubId);
-    Parameters.ParamValues['CardId_']:=PacientId;
+    Params.ParamValues['zubId_']:=FloatTostr(zubId);
+    Params.ParamValues['CardId_']:=PacientId;
     Active:=true;
     First;
     order:=FieldByName('maxOrder').AsInteger+1;
     end;
-  with mainDataModule.queryInsertZubCard do
+  with mainDataModule.queryInsertZubCard1 do
     begin
-    Parameters.ParamValues['ZubCardId_']:=id;
-    Parameters.ParamValues['CardId_']:=PacientId;
-    Parameters.ParamValues['ZubId_']:=zubId;
-    Parameters.ParamValues['LetterId_']:=Integer(cbLetters.Items.Objects[cbLetters.ItemIndex]);
-    Parameters.ParamValues['orderNumber_']:=order;
+    Params.ParamValues['zubCardId_']:=id;
+    Params.ParamValues['CardId_']:=PacientId;
+    Params.ParamValues['ZubId_']:=zubId;
+    Params.ParamValues['letterId_']:=Integer(cbLetters.Items.Objects[cbLetters.ItemIndex]);
+    Params.ParamValues['orderNumber_']:=order;
+    Params.ParamValues['Date_']:=Now;
     ExecSQL;
     end;
  gridLetters.RowCount:=gridLetters.RowCount+1;
@@ -112,9 +113,9 @@ end;
 
 procedure TZubForm.btnDelClick(Sender: TObject);
 begin
-with mainDataModule.queryZubCardDelete do
+with mainDataModule.queryZubCardDelete1 do
   begin
-  Parameters.ParamValues['zubCardId_']:=Integer(gridLetters.Objects[0,gridLetters.Row]);
+  Params.ParamValues['zubCardId_']:=Integer(gridLetters.Objects[0,gridLetters.Row]);
   ExecSQL;
   end;
 gridLetters.Rows[gridLetters.Row].Clear;

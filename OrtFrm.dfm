@@ -1,20 +1,18 @@
 object OrtForm: TOrtForm
   Left = 194
   Top = 128
-  Width = 565
-  Height = 292
   Caption = #1057#1092#1086#1088#1084#1080#1088#1091#1081#1090#1077' '#1089#1093#1077#1084#1091
+  ClientHeight = 282
+  ClientWidth = 569
   Color = clBtnFace
   Font.Charset = RUSSIAN_CHARSET
   Font.Color = clWindowText
   Font.Height = -16
   Font.Name = 'Times New Roman'
   Font.Style = [fsBold]
-  OldCreateOrder = False
   OnClose = FormClose
   OnPaint = FormPaint
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 19
   object tvl8: TButton
     Left = 16
@@ -437,7 +435,7 @@ object OrtForm: TOrtForm
     OnClick = btnClick
   end
   object tnr7: TButton
-    Left = 480
+    Left = 481
     Top = 136
     Width = 25
     Height = 25

@@ -86,6 +86,7 @@ for i:=0 to OpenDialog.Files.Count-1 do
       ParamValues['FileDate_']:= fileDt;
       ParamValues['FileName_']:=cuttedFolderName+FloatToStr(id)+fileName;
       ParamValues['cardId_']:=PacientId;
+      ParamValues['desc_']:=memDesc.Text;
       ExecSQL;
       lbFiles.AddItem(fileName,TObject(id));
       CopyFile(PChar(OpenDialog.Files[i]), PChar(folderName+FloatToStr(id)+fileName),true);
