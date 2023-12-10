@@ -193,7 +193,7 @@ end;
 function THistForm.saveToDir:widestring;
 var dirName:WideString;
 begin
-dirName:=Functions.getConectStr+'\veda_hist';
+dirName:=Functions.getConectStr+'veda_hist';
 if(not(DirectoryExists(dirName))) then
   begin
   CreateDir(dirName);
@@ -369,11 +369,11 @@ var Shablon,FileName,oldStr,newStr,cell,replace,ext,row,forw:OleVariant;i:intege
     findRSnimok:boolean; sdoctor, desc:string;datePriem:TDateTime; WordApp: OleVariant;
 begin
 forw:=true;
-FileName:=ExtractFilePath(Application.ExeName)+'\Priem.doc';
+FileName:=ExtractFilePath(Application.ExeName)+'Priem.doc';
 WordApp := CreateOleObject('Word.Application');
 if(index=2) then
   begin
-  shablon:=ExtractFilePath(Application.ExeName)+'\CardAll.doc';
+  shablon:=ExtractFilePath(Application.ExeName)+'CardAll.doc';
   WordApp.Documents.Open(Shablon,EmptyParam, EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
   // WordDoc := WordApp.ActiveDocument;
   with mainDataModule.dsPacientQuery1 do
@@ -462,7 +462,7 @@ if(index=2) then
       oldStr:='$$Rsnimok';  newStr:=' ';
       Functions.ReplaceInWord(wordApp,oldStr,newStr);
       end;
-    WordApp.Tables.Item(3).Rows.Item(3).Cells.Item(2).Select;
+    WordApp.ActiveDocument.Tables.Item(3).Rows.Item(3).Cells.Item(2).Select;
     row:=1;
     with mainDataModule.dataSetPriemsByDates1 do
       begin
@@ -497,19 +497,19 @@ if(index=2) then
     Functions.ReplaceInWord(WordApp, '$$FIO', FieldByName('Surname').AsString+' '+FieldByName('Name').AsString+' '+FieldByName('Sec_name').AsString);
 
     end;
-    WordApp.SaveAs(FileName,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-    wordApp.Close(true,EmptyParam,EmptyParam);
+    WordApp.ActiveDocument.SaveAs(FileName);
+    WordApp.ActiveDocument.Close(true,EmptyParam,EmptyParam);
     wordApp.Visible:=true;
     WordApp.Documents.Open(FileName,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,
     EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
-    wordApp.Quit(true,EmptyParam,EmptyParam);   //Disconnect;
+ //   wordApp.Quit(true,EmptyParam,EmptyParam);   //Disconnect;
   end
 else if((index=3)or(index=1)) then
   begin
-  if (index=3) then shablon:=ExtractFilePath(Application.ExeName)+'\withSecond.doc';
-  if (index=1) then shablon:=ExtractFilePath(Application.ExeName)+'\withoutSecond.doc';
+  if (index=3) then shablon:=ExtractFilePath(Application.ExeName)+'withSecond.doc';
+  if (index=1) then shablon:=ExtractFilePath(Application.ExeName)+'withoutSecond.doc';
   WordApp.Documents.Open(Shablon,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
 
   with mainDataModule.dataSetPriemsByDates1 do
@@ -572,8 +572,8 @@ var Shablon,FileName,oldStr,newStr,cell,replace,ext,row, forw:OleVariant;i:integ
 begin
 forw:=true;
 WordApp := CreateOleObject('Word.Application');
-shablon:=ExtractFilePath(Application.ExeName)+'\CardAll.doc';
-FileName:=ExtractFilePath(Application.ExeName)+'\Priem.doc';
+shablon:=ExtractFilePath(Application.ExeName)+'CardAll.doc';
+FileName:=ExtractFilePath(Application.ExeName)+'Priem.doc';
   WordApp.Documents.Open(Shablon,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam,EmptyParam);
  // WordDoc := WordApp.ActiveDocument;
   with mainDataModule.dsPacientQuery1 do

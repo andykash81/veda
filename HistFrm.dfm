@@ -1,8 +1,8 @@
 object HistForm: THistForm
   Left = -89
   Top = 33
-  ClientHeight = 603
-  ClientWidth = 1012
+  ClientHeight = 602
+  ClientWidth = 1008
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,10 +14,11 @@ object HistForm: THistForm
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1012
+    Width = 1008
     Height = 73
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 1004
     object btnPrint: TBitBtn
       Left = 8
       Top = 4
@@ -247,7 +248,7 @@ object HistForm: THistForm
     end
     object btnWizard: TBitBtn
       Left = 96
-      Top = 4
+      Top = 3
       Width = 65
       Height = 65
       Glyph.Data = {
@@ -575,30 +576,36 @@ object HistForm: THistForm
   object Panel2: TPanel
     Left = 0
     Top = 73
-    Width = 1012
-    Height = 530
+    Width = 1008
+    Height = 529
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 1004
+    ExplicitHeight = 528
     object lbPriems: TListBox
       Left = 1
       Top = 1
-      Width = 431
-      Height = 529
+      Width = 423
+      Height = 527
       Align = alClient
       ItemHeight = 20
       TabOrder = 0
       OnClick = lbPriemsClick
+      ExplicitWidth = 419
+      ExplicitHeight = 526
     end
     object Panel3: TPanel
-      Left = 428
+      Left = 424
       Top = 1
       Width = 583
-      Height = 528
+      Height = 527
       Align = alRight
       TabOrder = 1
+      ExplicitLeft = 420
+      ExplicitHeight = 526
       DesignSize = (
         583
-        528)
+        527)
       object Label1: TLabel
         Left = 16
         Top = 16

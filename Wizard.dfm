@@ -28,7 +28,7 @@ object WizardForm: TWizardForm
       Top = 1
       Width = 967
       Height = 588
-      ActivePage = sheetCorrect
+      ActivePage = sheetZubCard
       Align = alClient
       TabOrder = 0
       ExplicitWidth = 963
@@ -230,7 +230,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 10
+          TabOrder = 11
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -246,7 +246,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 11
+          TabOrder = 12
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -262,7 +262,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 12
+          TabOrder = 13
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -278,7 +278,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 13
+          TabOrder = 14
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -294,7 +294,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 14
+          TabOrder = 15
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -310,7 +310,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 15
+          TabOrder = 16
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -326,7 +326,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 16
+          TabOrder = 17
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -342,7 +342,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 17
+          TabOrder = 18
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -358,7 +358,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 18
+          TabOrder = 19
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -374,7 +374,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 19
+          TabOrder = 20
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -390,7 +390,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 20
+          TabOrder = 21
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -400,7 +400,7 @@ object WizardForm: TWizardForm
           Width = 25
           Height = 25
           Caption = '26'
-          TabOrder = 21
+          TabOrder = 22
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -416,7 +416,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 22
+          TabOrder = 23
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -432,7 +432,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 23
+          TabOrder = 24
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -448,7 +448,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 24
+          TabOrder = 25
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -464,7 +464,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 25
+          TabOrder = 26
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -480,7 +480,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 26
+          TabOrder = 27
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -496,7 +496,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 27
+          TabOrder = 28
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -512,7 +512,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 28
+          TabOrder = 29
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -528,7 +528,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 29
+          TabOrder = 30
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -544,7 +544,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 30
+          TabOrder = 31
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -560,7 +560,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 31
+          TabOrder = 32
           OnClick = zubClick
           OnDragOver = tDragOver
         end
@@ -577,7 +577,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 32
+          TabOrder = 33
           OnEndDrag = ButtonEndDrag
         end
         object btnR: TButton
@@ -593,7 +593,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 33
+          TabOrder = 34
           OnEndDrag = ButtonEndDrag
         end
         object btnC: TButton
@@ -609,7 +609,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 34
+          TabOrder = 35
           OnEndDrag = ButtonEndDrag
         end
         object btnP: TButton
@@ -625,7 +625,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 35
+          TabOrder = 36
           OnEndDrag = ButtonEndDrag
         end
         object btnA: TButton
@@ -641,7 +641,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 36
+          TabOrder = 37
           OnEndDrag = ButtonEndDrag
         end
         object btnI: TButton
@@ -657,7 +657,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 37
+          TabOrder = 38
           OnEndDrag = ButtonEndDrag
         end
         object btnPl: TButton
@@ -673,7 +673,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 38
+          TabOrder = 39
           OnEndDrag = ButtonEndDrag
         end
         object btnPt: TButton
@@ -689,7 +689,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 39
+          TabOrder = 40
           OnEndDrag = ButtonEndDrag
         end
         object btnK: TButton
@@ -705,7 +705,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 40
+          TabOrder = 41
           OnEndDrag = ButtonEndDrag
         end
         object btnIs: TButton
@@ -721,7 +721,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 41
+          TabOrder = 42
           OnEndDrag = ButtonEndDrag
         end
         object btnIII: TButton
@@ -737,7 +737,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 42
+          TabOrder = 43
           OnEndDrag = ButtonEndDrag
         end
         object btnII: TButton
@@ -753,7 +753,7 @@ object WizardForm: TWizardForm
           Font.Name = 'Times New Roman'
           Font.Style = [fsBold]
           ParentFont = False
-          TabOrder = 43
+          TabOrder = 44
           OnEndDrag = ButtonEndDrag
         end
         object memPrikus: TMemo
@@ -762,7 +762,7 @@ object WizardForm: TWizardForm
           Width = 273
           Height = 97
           ScrollBars = ssVertical
-          TabOrder = 44
+          TabOrder = 45
         end
         object memPsz: TMemo
           Left = 400
@@ -770,7 +770,7 @@ object WizardForm: TWizardForm
           Width = 265
           Height = 97
           ScrollBars = ssVertical
-          TabOrder = 45
+          TabOrder = 46
         end
         object cbPrikus: TComboBox
           Left = 40
@@ -778,7 +778,7 @@ object WizardForm: TWizardForm
           Width = 273
           Height = 25
           Style = csDropDownList
-          TabOrder = 46
+          TabOrder = 47
         end
         object cbPsz: TComboBox
           Left = 400
@@ -786,7 +786,7 @@ object WizardForm: TWizardForm
           Width = 265
           Height = 25
           Style = csDropDownList
-          TabOrder = 47
+          TabOrder = 48
         end
         object btnAddPrikus: TButton
           Left = 320
@@ -794,7 +794,7 @@ object WizardForm: TWizardForm
           Width = 25
           Height = 25
           Caption = '+'
-          TabOrder = 48
+          TabOrder = 49
           OnClick = btnAddPrikusClick
         end
         object btnAddPsz: TButton
@@ -803,7 +803,7 @@ object WizardForm: TWizardForm
           Width = 25
           Height = 25
           Caption = '+'
-          TabOrder = 49
+          TabOrder = 50
           OnClick = btnAddPszClick
         end
         object Button33: TButton
@@ -812,18 +812,359 @@ object WizardForm: TWizardForm
           Width = 147
           Height = 33
           Caption = #1047#1072#1087#1086#1083#1085#1080#1090#1100' '#1082#1072#1088#1090#1091
-          TabOrder = 50
+          TabOrder = 51
           OnClick = Button33Click
         end
         object btnLoadFiles: TButton
           Left = 800
           Top = 64
-          Width = 145
+          Width = 147
           Height = 49
           Caption = #1055#1088#1080#1083#1086#1078#1080#1090#1100' '#1092#1072#1081#1083#1099'...'
-          TabOrder = 51
+          TabOrder = 52
           WordWrap = True
           OnClick = btnLoadFilesClick
+        end
+        object RadioGroup1: TRadioGroup
+          Left = 800
+          Top = 176
+          Width = 147
+          Height = 80
+          Caption = #1055#1088#1080#1082#1091#1089
+          Items.Strings = (
+            #1054#1073#1099#1095#1085#1099#1081
+            #1052#1086#1083#1086#1095#1085#1099#1081)
+          TabOrder = 10
+          OnClick = RadioGroup1Click
+        end
+        object Panel4: TPanel
+          Left = 40
+          Top = 25
+          Width = 625
+          Height = 273
+          ParentBackground = False
+          TabOrder = 53
+          Visible = False
+          object tvml1: TButton
+            Left = 263
+            Top = 101
+            Width = 25
+            Height = 25
+            Caption = '51'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 0
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tvml2: TButton
+            Left = 231
+            Top = 101
+            Width = 25
+            Height = 25
+            Caption = '52'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 1
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tvml3: TButton
+            Left = 199
+            Top = 101
+            Width = 25
+            Height = 25
+            Caption = '53'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 2
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tvml4: TButton
+            Left = 167
+            Top = 101
+            Width = 25
+            Height = 25
+            Caption = '54'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 3
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tvml5: TButton
+            Left = 136
+            Top = 102
+            Width = 25
+            Height = 25
+            Caption = '55'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 4
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnml1: TButton
+            Left = 263
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '81'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 5
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnml2: TButton
+            Left = 231
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '82'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 6
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnml3: TButton
+            Left = 199
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '83'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 7
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnml4: TButton
+            Left = 167
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '84'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 8
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnml5: TButton
+            Left = 135
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '85'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 9
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tvmr1: TButton
+            Left = 311
+            Top = 101
+            Width = 25
+            Height = 25
+            Caption = '61'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 10
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tvmr2: TButton
+            Left = 343
+            Top = 101
+            Width = 25
+            Height = 25
+            Caption = '62'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 11
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tvmr3: TButton
+            Left = 375
+            Top = 101
+            Width = 25
+            Height = 25
+            Caption = '63'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 12
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tvmr4: TButton
+            Left = 407
+            Top = 101
+            Width = 25
+            Height = 25
+            Caption = '64'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 13
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tvmr5: TButton
+            Left = 439
+            Top = 101
+            Width = 25
+            Height = 25
+            Caption = '65'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 14
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnmr1: TButton
+            Left = 311
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '71'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 15
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnmr2: TButton
+            Left = 343
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '72'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 16
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnmr3: TButton
+            Left = 376
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '73'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 17
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnmr4: TButton
+            Left = 407
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '74'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 18
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
+          object tnmr5: TButton
+            Left = 438
+            Top = 149
+            Width = 25
+            Height = 25
+            Caption = '75'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 19
+            OnClick = zubClick
+            OnDragOver = tDragOver
+          end
         end
       end
       object sheetDoctor: TTabSheet
@@ -879,13 +1220,14 @@ object WizardForm: TWizardForm
           Left = 0
           Top = 0
           Width = 959
-          Height = 97
+          Height = 169
           Align = alTop
           Caption = #1047#1091#1073
           TabOrder = 0
+          ExplicitWidth = 955
           object Button1: TButton
-            Left = 88
-            Top = 16
+            Left = 89
+            Top = 56
             Width = 25
             Height = 25
             Caption = '18'
@@ -900,7 +1242,7 @@ object WizardForm: TWizardForm
           end
           object Button2: TButton
             Left = 120
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '17'
@@ -915,7 +1257,7 @@ object WizardForm: TWizardForm
           end
           object Button3: TButton
             Left = 152
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '16'
@@ -930,7 +1272,7 @@ object WizardForm: TWizardForm
           end
           object Button4: TButton
             Left = 184
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '15'
@@ -945,7 +1287,7 @@ object WizardForm: TWizardForm
           end
           object Button5: TButton
             Left = 216
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '14'
@@ -960,7 +1302,7 @@ object WizardForm: TWizardForm
           end
           object Button6: TButton
             Left = 248
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '13'
@@ -975,7 +1317,7 @@ object WizardForm: TWizardForm
           end
           object Button7: TButton
             Left = 280
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '12'
@@ -990,7 +1332,7 @@ object WizardForm: TWizardForm
           end
           object Button8: TButton
             Left = 312
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '11'
@@ -1005,7 +1347,7 @@ object WizardForm: TWizardForm
           end
           object Button9: TButton
             Left = 360
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '21'
@@ -1020,7 +1362,7 @@ object WizardForm: TWizardForm
           end
           object Button10: TButton
             Left = 392
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '22'
@@ -1035,7 +1377,7 @@ object WizardForm: TWizardForm
           end
           object Button11: TButton
             Left = 424
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '23'
@@ -1050,7 +1392,7 @@ object WizardForm: TWizardForm
           end
           object Button12: TButton
             Left = 456
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '24'
@@ -1065,7 +1407,7 @@ object WizardForm: TWizardForm
           end
           object Button13: TButton
             Left = 488
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '25'
@@ -1079,17 +1421,23 @@ object WizardForm: TWizardForm
             OnClick = Button1Click
           end
           object Button14: TButton
-            Left = 520
-            Top = 16
+            Left = 521
+            Top = 56
             Width = 25
             Height = 25
             Caption = '26'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
             TabOrder = 13
             OnClick = Button1Click
           end
           object Button15: TButton
             Left = 552
-            Top = 16
+            Top = 56
             Width = 25
             Height = 25
             Caption = '27'
@@ -1103,8 +1451,8 @@ object WizardForm: TWizardForm
             OnClick = Button1Click
           end
           object Button16: TButton
-            Left = 584
-            Top = 16
+            Left = 583
+            Top = 56
             Width = 25
             Height = 25
             Caption = '28'
@@ -1119,7 +1467,7 @@ object WizardForm: TWizardForm
           end
           object Button17: TButton
             Left = 584
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '38'
@@ -1134,7 +1482,7 @@ object WizardForm: TWizardForm
           end
           object Button18: TButton
             Left = 552
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '37'
@@ -1149,7 +1497,7 @@ object WizardForm: TWizardForm
           end
           object Button19: TButton
             Left = 520
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '36'
@@ -1164,7 +1512,7 @@ object WizardForm: TWizardForm
           end
           object Button20: TButton
             Left = 488
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '35'
@@ -1179,7 +1527,7 @@ object WizardForm: TWizardForm
           end
           object Button21: TButton
             Left = 456
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '34'
@@ -1194,7 +1542,7 @@ object WizardForm: TWizardForm
           end
           object Button22: TButton
             Left = 424
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '33'
@@ -1209,7 +1557,7 @@ object WizardForm: TWizardForm
           end
           object Button23: TButton
             Left = 392
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '32'
@@ -1224,7 +1572,7 @@ object WizardForm: TWizardForm
           end
           object Button24: TButton
             Left = 360
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '31'
@@ -1239,7 +1587,7 @@ object WizardForm: TWizardForm
           end
           object Button25: TButton
             Left = 312
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '41'
@@ -1254,7 +1602,7 @@ object WizardForm: TWizardForm
           end
           object Button26: TButton
             Left = 280
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '42'
@@ -1269,7 +1617,7 @@ object WizardForm: TWizardForm
           end
           object Button27: TButton
             Left = 248
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '43'
@@ -1284,7 +1632,7 @@ object WizardForm: TWizardForm
           end
           object Button28: TButton
             Left = 216
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '44'
@@ -1299,7 +1647,7 @@ object WizardForm: TWizardForm
           end
           object Button29: TButton
             Left = 184
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '45'
@@ -1314,7 +1662,7 @@ object WizardForm: TWizardForm
           end
           object Button30: TButton
             Left = 152
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '46'
@@ -1329,7 +1677,7 @@ object WizardForm: TWizardForm
           end
           object Button31: TButton
             Left = 120
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '47'
@@ -1344,7 +1692,7 @@ object WizardForm: TWizardForm
           end
           object Button32: TButton
             Left = 88
-            Top = 56
+            Top = 96
             Width = 25
             Height = 25
             Caption = '48'
@@ -1357,33 +1705,336 @@ object WizardForm: TWizardForm
             TabOrder = 31
             OnClick = Button1Click
           end
+          object Button34: TButton
+            Left = 312
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '51'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 32
+            OnClick = Button1Click
+          end
+          object Button35: TButton
+            Left = 280
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '52'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 33
+            OnClick = Button1Click
+          end
+          object Button36: TButton
+            Left = 248
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '53'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 34
+            OnClick = Button1Click
+          end
+          object Button37: TButton
+            Left = 216
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '54'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 35
+            OnClick = Button1Click
+          end
+          object Button38: TButton
+            Left = 184
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '55'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 36
+            OnClick = Button1Click
+          end
+          object Button39: TButton
+            Left = 360
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '61'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 37
+            OnClick = Button1Click
+          end
+          object Button40: TButton
+            Left = 392
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '62'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 38
+            OnClick = Button1Click
+          end
+          object Button41: TButton
+            Left = 424
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '63'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 39
+            OnClick = Button1Click
+          end
+          object Button42: TButton
+            Left = 456
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '64'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 40
+            OnClick = Button1Click
+          end
+          object Button43: TButton
+            Left = 488
+            Top = 17
+            Width = 25
+            Height = 25
+            Caption = '65'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 41
+            OnClick = Button1Click
+          end
+          object Button44: TButton
+            Left = 360
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '71'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 42
+            OnClick = Button1Click
+          end
+          object Button45: TButton
+            Left = 392
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '72'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 43
+            OnClick = Button1Click
+          end
+          object Button46: TButton
+            Left = 424
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '73'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 44
+            OnClick = Button1Click
+          end
+          object Button47: TButton
+            Left = 456
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '74'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 45
+            OnClick = Button1Click
+          end
+          object Button48: TButton
+            Left = 488
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '75'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 46
+            OnClick = Button1Click
+          end
+          object Button49: TButton
+            Left = 312
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '81'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 47
+            OnClick = Button1Click
+          end
+          object Button50: TButton
+            Left = 280
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '82'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 48
+            OnClick = Button1Click
+          end
+          object Button51: TButton
+            Left = 248
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '83'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 49
+            OnClick = Button1Click
+          end
+          object Button52: TButton
+            Left = 216
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '84'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 50
+            OnClick = Button1Click
+          end
+          object Button53: TButton
+            Left = 184
+            Top = 132
+            Width = 25
+            Height = 25
+            Caption = '85'
+            Font.Charset = RUSSIAN_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -16
+            Font.Name = 'Times New Roman'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 51
+            OnClick = Button1Click
+          end
         end
         object GroupBox2: TGroupBox
           Left = 0
-          Top = 97
+          Top = 169
           Width = 457
-          Height = 456
+          Height = 384
           Align = alLeft
           Caption = #1044#1080#1072#1075#1085#1086#1079
           TabOrder = 1
+          ExplicitHeight = 383
           object diagnozesTree: TTreeView
             Left = 2
             Top = 22
             Width = 453
-            Height = 373
+            Height = 301
             Align = alClient
             Indent = 19
             ReadOnly = True
             TabOrder = 0
             OnDblClick = diagnozesTreeDblClick
+            ExplicitHeight = 300
           end
           object Panel1: TPanel
             Left = 2
-            Top = 395
+            Top = 323
             Width = 453
             Height = 59
             Align = alBottom
             TabOrder = 1
+            ExplicitTop = 322
             DesignSize = (
               453
               59)
@@ -1561,12 +2212,14 @@ object WizardForm: TWizardForm
         end
         object GroupBox3: TGroupBox
           Left = 457
-          Top = 97
+          Top = 169
           Width = 502
-          Height = 456
+          Height = 384
           Align = alClient
           Caption = #1059#1078#1077' '#1076#1086#1073#1072#1074#1083#1077#1085#1099
           TabOrder = 2
+          ExplicitWidth = 498
+          ExplicitHeight = 383
           object Panel2: TPanel
             Left = 2
             Top = 22
@@ -1574,6 +2227,7 @@ object WizardForm: TWizardForm
             Height = 59
             Align = alTop
             TabOrder = 0
+            ExplicitWidth = 494
             object btnDelRecord: TBitBtn
               Left = 13
               Top = 5
@@ -1737,7 +2391,7 @@ object WizardForm: TWizardForm
             Left = 2
             Top = 81
             Width = 498
-            Height = 373
+            Height = 301
             Align = alClient
             Columns = <>
             GridLines = True
@@ -1748,6 +2402,8 @@ object WizardForm: TWizardForm
             ViewStyle = vsSmallIcon
             OnDblClick = lwAddedTeethDblClick
             OnInfoTip = lwAddedTeethInfoTip
+            ExplicitWidth = 494
+            ExplicitHeight = 300
           end
         end
       end
@@ -1762,14 +2418,13 @@ object WizardForm: TWizardForm
           Align = alTop
           Caption = #1054#1087#1080#1089#1072#1085#1080#1077' '#1087#1088#1080#1077#1084#1072':'
           TabOrder = 0
-          ExplicitWidth = 955
           DesignSize = (
             959
             473)
           object memPriemDesc: TMemo
             Left = 2
             Top = 22
-            Width = 919
+            Width = 863
             Height = 419
             Anchors = [akLeft, akTop, akRight]
             Font.Charset = DEFAULT_CHARSET
@@ -1780,7 +2435,7 @@ object WizardForm: TWizardForm
             ParentFont = False
             ScrollBars = ssVertical
             TabOrder = 0
-            ExplicitWidth = 915
+            ExplicitWidth = 867
           end
           object chkSanus: TCheckBox
             Left = 16
@@ -1798,8 +2453,6 @@ object WizardForm: TWizardForm
           Height = 80
           Align = alClient
           TabOrder = 1
-          ExplicitWidth = 955
-          ExplicitHeight = 79
           object Label3: TLabel
             Left = 8
             Top = 15
@@ -1841,7 +2494,7 @@ object WizardForm: TWizardForm
       969
       38)
     object btnNext: TButton
-      Left = 715
+      Left = 659
       Top = 5
       Width = 110
       Height = 25
@@ -1849,10 +2502,10 @@ object WizardForm: TWizardForm
       Caption = #1044#1072#1083#1077#1077' >>'
       TabOrder = 0
       OnClick = btnNextClick
-      ExplicitLeft = 711
+      ExplicitLeft = 655
     end
     object btnClose: TButton
-      Left = 844
+      Left = 788
       Top = 5
       Width = 75
       Height = 25
@@ -1860,10 +2513,10 @@ object WizardForm: TWizardForm
       Caption = #1042#1099#1093#1086#1076
       TabOrder = 1
       OnClick = btnCloseClick
-      ExplicitLeft = 840
+      ExplicitLeft = 784
     end
     object btnPrev: TButton
-      Left = 587
+      Left = 531
       Top = 5
       Width = 116
       Height = 25
@@ -1871,7 +2524,7 @@ object WizardForm: TWizardForm
       Caption = '<< '#1053#1072#1079#1072#1076
       TabOrder = 2
       OnClick = btnPrevClick
-      ExplicitLeft = 583
+      ExplicitLeft = 527
     end
   end
 end
